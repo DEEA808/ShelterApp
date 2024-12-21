@@ -1,9 +1,13 @@
 package com.example.demo.services;
 
+import com.example.demo.dto.UserDTO;
+import com.example.demo.model.Shelter;
 import com.example.demo.model.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.util.MapperUtil;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +20,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
-        return users;
+    @Transactional(readOnly = true)
+    public List<UserDTO> allUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(MapperUtil::userDTO).toList();
     }
 
     public boolean findByEmail(String email){

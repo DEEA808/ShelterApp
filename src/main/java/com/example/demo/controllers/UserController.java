@@ -1,15 +1,16 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.ResetPasswordDTO;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.model.User;
 import com.example.demo.services.PasswordService;
 import com.example.demo.services.UserService;
+import com.example.demo.util.MapperUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,18 +25,18 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<UserDTO> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         User currentUser = (User) authentication.getPrincipal();
+        UserDTO userDTO= MapperUtil.userDTO(currentUser);
 
-        return ResponseEntity.ok(currentUser);
+        return ResponseEntity.ok(userDTO);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> allUsers() {
-        System.out.println("LLLLL");
-        List<User> users = userService.allUsers();
+    public ResponseEntity<List<UserDTO>> allUsers() {
+        List<UserDTO> users = userService.allUsers();
 
         return ResponseEntity.ok(users);
     }
@@ -47,7 +48,8 @@ public class UserController {
                     + "one lowercase letter, one number, one special character");
         }
         try {
-            User user = userService.findUserByEmail(resetPasswordDTO.getEmail());
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userService.findUserByEmail(email);
             user.setNew(false);
             user.setPassword(resetPasswordDTO.getPassword());
             userService.updateUser(user);

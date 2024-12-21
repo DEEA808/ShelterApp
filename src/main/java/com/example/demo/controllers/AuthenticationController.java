@@ -33,21 +33,30 @@ public class AuthenticationController {
         return ResponseEntity.ok(registeredUser);
     }
 
+    @PostMapping("/signupAdmin")
+    public ResponseEntity<Object> registerAdmin(@RequestBody RegisterDTO registerUserDto) {
+        if(!PasswordService.isPasswordValid(registerUserDto.getPassword()))
+            return ResponseEntity.badRequest().body("Invalid password! Password must contain at least one uppercase letter, "
+                    + "one lowercase letter, one number, one special character");
+        User registeredUser = authenticationService.signupAdmin(registerUserDto);
+
+        return ResponseEntity.ok(registeredUser);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Object> authenticate(@RequestBody LoginDTO loginUserDto) {
-        User authenticatedUser;
         try {
-            authenticatedUser = authenticationService.authenticate(loginUserDto);
+            User authenticatedUser = authenticationService.authenticate(loginUserDto);
+            String jwtToken = jwtService.generateToken(authenticatedUser);
+
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setToken(jwtToken);
+            loginResponse.setExpriresIn(jwtService.getExpirationTime());
+
+            return ResponseEntity.ok(loginResponse);
         }catch(BadCredentialsException exception){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Forgotten password?");
         }
-        String jwtToken = jwtService.generateToken(authenticatedUser);
-
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setToken(jwtToken);
-        loginResponse.setExpriresIn(jwtService.getExpirationTime());
-
-        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/change")
