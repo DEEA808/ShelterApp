@@ -38,9 +38,13 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/shelters/all").permitAll()
+                        .requestMatchers("/dogs/all").permitAll()
+                        .requestMatchers("dogs/myDogs/{id}").permitAll()
                         .requestMatchers(("/shelters/add")).hasRole("ADMIN")
                         .requestMatchers(("/shelters/delete/{id}")).hasRole("ADMIN")
                         .requestMatchers(("/shelters/update/{id}")).hasRole("ADMIN")
+                        .requestMatchers("/dogs/myDogs/{id}").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

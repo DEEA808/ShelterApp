@@ -8,7 +8,6 @@ import com.example.demo.services.ShelterService;
 import com.example.demo.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +29,21 @@ public class ShelterController {
     public ResponseEntity<List<ShelterDTO>> getShelters() {
         try {
             List<ShelterDTO> shelters = shelterService.getAllShelters();
+            if (shelters.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(shelters);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
+    @GetMapping("/mine")
+    public ResponseEntity<List<ShelterDTO>> getUsersShelters() {
+        try {
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            User admin = userService.findUserByEmail(email);
+            List<ShelterDTO> shelters = shelterService.getUserShelters(admin);
             if (shelters.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
             }

@@ -1,12 +1,12 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "shelters")
@@ -49,6 +49,9 @@ public class Shelter {
     @Column(name = "image", nullable = true)
     @Basic(fetch = FetchType.EAGER)
     private byte[] image;
+
+    @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Dog> dogs;
 
 
    /* @OneToOne(fetch = FetchType.LAZY)

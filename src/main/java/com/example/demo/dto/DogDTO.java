@@ -5,21 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShelterDTO {
+public class DogDTO {
     private Long id;
     private String name;
+    private String breed;
     private String description;
-    private String address;
-    private int totalNumberOfDogs;
-    private int availableDogs;
-    private String phoneNumber;
-    private String email;
+    private int age;
+    private String story;
+    private String gender;
     private String image;
-    private List<DogDTO> dogs;
 }
