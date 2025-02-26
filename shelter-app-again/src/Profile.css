@@ -1,0 +1,69 @@
+.profile-page {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    background-color: #c9a782;
+    overflow: hidden; /* Prevents scrolling issues */
+}
+
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+.image-container {
+    position: absolute;
+    margin-left: 40%;
+    margin-top: 40px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    overflow: hidden;
+    
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.profile-title {
+    position: absolute;
+    margin-left: 1250px;
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.profile-info-list {
+    position: relative;
+    margin-top: 360px;
+    list-style: inside;
+    font-size: 20px;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column; /* ✅ Ensures items stack vertically */
+    gap: 20px; /* ✅ Adds space between list items */
+}
+
+
+.paw-icon {
+    width: 24px; /* Adjust as needed */
+    height: 24px;
+    margin-left: 10px;
+    vertical-align: middle; /* Ensures proper alignment */
+  }
+  
+
+.profile-info-list li {
+    margin-bottom: 8px;
+}
