@@ -1,0 +1,76 @@
+/* Blur background when modal is open */
+.profile-page.blurred {
+    filter: blur();
+    pointer-events: auto;
+  }
+  
+  /* Prevent interactions only on background */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Prevent clicks on background */
+  }
+  
+  /* Ensure modal remains interactive */
+  .modal {
+    background: #f5efe4;
+    padding: 20px;
+    border-radius: 15px;
+    width: 400px;
+    text-align: center;
+    pointer-events: auto; /* Allow clicks inside */
+  }
+  
+  
+  /* Inputs */
+  .modal input {
+    width: 95%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* Save button */
+  .save-button {
+    background: #6e4b37;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .save-button:hover {
+    background: #5a3e2a;
+  }
+  
+  /* Close button */
+  .close-button {
+    position: absolute;
+    margin-top: 0px;
+    margin-left: 145px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* Error message */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  

@@ -30,6 +30,10 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
 
     try{
         const token = localStorage.getItem("token");
+        if (!token) {
+            setStatus("Authentication error: Please log in.");
+            return;
+        }
 
         if (!selectedShelterId) {
           navigate("/shelters");
@@ -37,6 +41,7 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
         }
         const response=await axios.post(`http://localhost:8005/dogs/upload/${selectedShelterId}`,formData,{
             headers:{
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
             },
         });

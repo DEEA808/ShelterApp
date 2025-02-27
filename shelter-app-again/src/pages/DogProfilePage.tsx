@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 import { Dog } from "../models/Dog";
 import axios from "axios";
-import "../Profile.css"
+import "../Profile.css";
 import { addDataUrlPrefix } from "../utils/ImageUtils";
+import { getRolesFromToken } from "../utils/Auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import EditWindow from "./EditWindow"; // Import the EditWindow modal
 
 const DogProfilePage: React.FC = () => {
     const { dogId } = useParams<{ dogId: string }>();
@@ -11,21 +15,35 @@ const DogProfilePage: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const userRoles = getRolesFromToken();
+    const [isEditing, setIsEditing] = useState(false); // Controls the edit modal visibility
 
-    useEffect(() => {
         const fetchDog = async () => {
+            const token = localStorage.getItem("token");
+
+        if (!token) {
+            setError("Authentication error: Please log in.");
+            return;
+        }
             try {
-                const response = await axios.get(`http://localhost:8005/dogs/getById/${dogId}`)
+                const response = await axios.get(`http://localhost:8005/dogs/getById/${dogId}`,
+                    {headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+            });
+                
                 setDog(response.data);
             } catch (err) {
                 setError("Failed to fetch dog");
             } finally {
                 setLoading(false);
             }
-        }
-        fetchDog();
-    }, [dogId]);
-
+        };
+   useEffect(() => {
+       fetchDog();
+     }, [dogId, navigate]);
+   
 
     const imageType: "png" | "jpeg" = dog?.image?.includes("/9j/") ? "jpeg" : "png";
     const imageSrc = dog?.image ? addDataUrlPrefix(dog.image, imageType) : null;
@@ -35,16 +53,32 @@ const DogProfilePage: React.FC = () => {
     if (!dog) return <p>No dog found.</p>;
 
     return (
-        <div className="profile-page">
+        <div className={`profile-page ${isEditing ? "blurred" : ""}`}>
+            {isEditing && dog && <EditWindow dog={dog} onClose={() => {setIsEditing(false),fetchDog()}} />} {/* Show edit modal */}
+
             <button onClick={() => navigate(-1)} className="back-button">←</button>
-           <div> <h2 className="profile-title">Meet {dog.name}!  <img src="/assets/paw.png"  className="paw-icon" /></h2> </div>
-            <div className="image-container">
+            
+            <div>
+                {userRoles.includes("ROLE_USER") && (
+                    <h2 className="profile-title">Meet {dog.name}!  
+                        <img src="/assets/paw.png" className="paw-icon" />
+                    </h2>
+                )}
+
+                {userRoles.includes("ROLE_ADMIN") && (
+                    <button className="edit-button" onClick={() => setIsEditing(true)}>
+                        <FontAwesomeIcon icon={faEdit} className="edit-icon" />
+                    </button>
+                )}
+            </div>
+
+            {!isEditing && <div className="image-container">
                 {imageSrc ? (
                     <img src={imageSrc} alt={dog.name} className="profile-image" />
                 ) : (
                     <p>No image available</p>
                 )}
-            </div>
+            </div>}
 
             <ul className="profile-info-list">
                 <li><strong>Breed:</strong> {dog.breed}</li>
@@ -55,5 +89,6 @@ const DogProfilePage: React.FC = () => {
             </ul>
         </div>
     );
-}
+};
+
 export default DogProfilePage;

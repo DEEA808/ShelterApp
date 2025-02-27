@@ -20,8 +20,8 @@
 
 .image-container {
     position: absolute;
-    margin-left: 40%;
-    margin-top: 40px;
+    margin-left: 42%;
+    margin-top: 20px;
     width: 250px;
     height: 250px;
     border-radius: 50%;
@@ -43,6 +43,19 @@
     font-size: 22px;
     font-weight: bold;
 }
+
+.edit-button {
+    position: absolute;
+    margin-left: 1350px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-color: white;
+}
+
+.edit-button:hover {
+    background-color: #e0c9a6; /* Lighter hover effect */
+  }
 
 .profile-info-list {
     position: relative;

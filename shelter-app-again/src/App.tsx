@@ -3,7 +3,6 @@ import Login from "../src/pages/LoginPage";
 import Signup from "../src/pages/RegisterPage";
 import SheltersPage from "./pages/SheltersPage";
 import DogsPage from "./pages/DogsPage";
-import { ShelterProvider } from "../src/utils/ShelterContext";
 import DogProfilePage from "./pages/DogProfilePage";
 
 function App() {

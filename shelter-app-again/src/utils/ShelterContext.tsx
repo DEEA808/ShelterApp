@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 // Define the context type
 interface ShelterContextType {
@@ -11,7 +11,17 @@ const ShelterContext = createContext<ShelterContextType | undefined>(undefined);
 
 // Create provider component
 export const ShelterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedShelterId, setSelectedShelterId] = useState<number | null>(null);
+  // Load shelter ID from localStorage if available
+  const [selectedShelterId, setSelectedShelterIdState] = useState<number | null>(() => {
+    const storedId = localStorage.getItem("selectedShelterId");
+    return storedId ? parseInt(storedId, 10) : null;
+  });
+
+  // Update localStorage when selectedShelterId changes
+  const setSelectedShelterId = (id: number) => {
+    setSelectedShelterIdState(id);
+    localStorage.setItem("selectedShelterId", id.toString());
+  };
 
   return (
     <ShelterContext.Provider value={{ selectedShelterId, setSelectedShelterId }}>

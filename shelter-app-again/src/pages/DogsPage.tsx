@@ -127,9 +127,9 @@ const DogsPage: React.FC = () => {
               : null;
 
             return (
-              <div key={dog.id} className="shelter-card" onClick={()=>handleDogClick(dog.id)}>
+              <div key={dog.id} className="shelter-card" >
                 {imageSrc && (
-                  <img src={imageSrc} alt={dog.name} className="shelter-image" />
+                  <img  key={dog.id}  src={imageSrc} alt={dog.name} className="shelter-image" onClick={()=>handleDogClick(dog.id)}/>
                 )}
                 <h3>{dog.name}</h3>
                 <p>Breed: {dog.breed}</p>
