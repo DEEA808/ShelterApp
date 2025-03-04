@@ -1,28 +1,36 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.DogDTO;
-import com.example.demo.dto.ShelterDTO;
+import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
 import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
+import com.example.demo.observers.DogObserver;
 import com.example.demo.repositories.DogRepository;
 import com.example.demo.util.MapperUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class DogService {
     private final DogRepository dogRepository;
+    private final DogObserver observer;
 
-    public DogService(DogRepository dogRepository) {
+
+    public DogService(DogRepository dogRepository, DogObserver observer) {
         this.dogRepository = dogRepository;
+        this.observer = observer;
     }
+
+    /*private void notifyObserver(Long shelterId, OperationType operationType) {
+        if (observer != null) {
+            observer.onDogUpdated(shelterId, operationType);
+        }
+    }*/
+
 
     public DogDTO getDogById(Long id) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
@@ -40,15 +48,21 @@ public class DogService {
 
     @Transactional(readOnly = true)
     public List<DogDTO> getSheltersDogs(Shelter shelter) {
-        List<Dog> dogs=shelter.getDogs();
+        List<Dog> dogs = shelter.getDogs();
         return dogs.stream().map(MapperUtil::toDogDTO).toList();
     }
 
+    @Transactional(readOnly = true)
+    public Dog findDogById(Long id) {
+        return dogRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dog with id " + id + " not found"));
+    }
+
     public DogDTO addDog(DogDTO dogDTO, Shelter shelter) {
-       Dog dog = MapperUtil.toDog(dogDTO, shelter);
-       shelter.getDogs().add(dog);
         try {
-            return MapperUtil.toDogDTO(dogRepository.save(dog));
+            Dog dog = dogRepository.save(MapperUtil.toDog(dogDTO, shelter));
+           // notifyObserver(dog.getId(), OperationType.ADD);
+            return MapperUtil.toDogDTO(dog);
         } catch (IllegalArgumentException e) {
             throw new SaveInfoException("Error saving dog");
         } catch (RuntimeException e) {
@@ -79,11 +93,12 @@ public class DogService {
         return MapperUtil.toDogDTO(dogRepository.save(dog));
     }
 
-    public void deleteDog(Long id) {
+    public void deleteDog(Long id,Long shelterId) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
         if (optionalDog.isEmpty()) {
             throw new ResourceNotFoundException("Dog with id " + id + " not found");
         }
         dogRepository.deleteById(id);
+        //notifyObserver(shelterId, OperationType.DELETE);
     }
 }

@@ -53,9 +53,4 @@ public class Shelter {
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Dog> dogs;
 
-
-   /* @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id")
-    private User admin;*/
-
 }

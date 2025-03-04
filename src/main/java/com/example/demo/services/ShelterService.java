@@ -2,13 +2,16 @@ package com.example.demo.services;
 
 import com.example.demo.dto.DogDTO;
 import com.example.demo.dto.ShelterDTO;
+import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
 import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
 import com.example.demo.model.User;
+import com.example.demo.observers.DogObserver;
 import com.example.demo.repositories.ShelterRepository;
 import com.example.demo.util.MapperUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +20,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
-public class ShelterService {
+public class ShelterService  {
+
     private final ShelterRepository shelterRepository;
 
     public ShelterService(ShelterRepository shelterRepository) {
         this.shelterRepository = shelterRepository;
     }
 
+    @Transactional(readOnly = true)
     public ShelterDTO getShelterById(Long id) {
         Optional<Shelter> optionalShelter = shelterRepository.findById(id);
         if (optionalShelter.isEmpty()) {
@@ -32,13 +37,12 @@ public class ShelterService {
         return MapperUtil.toShelterDTO(optionalShelter.get());
     }
 
+    @Transactional(readOnly = true)
     public Shelter findShelterById(Long id) {
-        Optional<Shelter> optionalShelter = shelterRepository.findById(id);
-        if (optionalShelter.isEmpty()) {
-            throw new ResourceNotFoundException("Shelter with id " + id + " not found");
-        }
-        return optionalShelter.get();
+        return shelterRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Shelter with id " + id + " not found"));
     }
+
 
     /*public ShelterDTO getShelterByAdmin() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -48,18 +52,26 @@ public class ShelterService {
 
     }*/
 
+    @Transactional(readOnly = true)
     public List<ShelterDTO> getAllShelters() {
         List<Shelter> shelters = shelterRepository.findAll();
+
+        // ✅ Ensure all dogs are loaded before the session closes
+        shelters.forEach(shelter -> shelter.getDogs().size());
+
         return shelters.stream().map(MapperUtil::toShelterDTO).toList();
     }
 
+
     @Transactional(readOnly = true)
-    public List<ShelterDTO> getUserShelters(User admin) {
-        List<Shelter> shelters = Collections.singletonList(admin.getShelter());
-        return shelters.stream().map(MapperUtil::toShelterDTO).toList();
+    public ShelterDTO getUserShelter(User admin) {
+        Shelter shelter = admin.getShelter();
+        return MapperUtil.toShelterDTO(shelter);
     }
 
     public ShelterDTO addShelter(ShelterDTO shelterDTO, User user) {
+        shelterDTO.setAvailableDogs(shelterDTO.getDogs().size());
+        shelterDTO.setTotalNumberOfDogs(shelterDTO.getDogs().size());
         Shelter shelter = MapperUtil.toShelter(shelterDTO, user);
         try {
             return MapperUtil.toShelterDTO(shelterRepository.save(shelter));
@@ -71,6 +83,7 @@ public class ShelterService {
     }
 
 
+    @Transactional
     public ShelterDTO updateShelter(Long id, ShelterDTO shelterDTO, User admin) {
         Optional<Shelter> optionalShelter = shelterRepository.findById(id);
         if (optionalShelter.isEmpty()) {
@@ -93,16 +106,11 @@ public class ShelterService {
             shelter.setImage(decodedImage);
         }
 
-        // ✅ Fix: Only set shelter if the admin doesn't already have one assigned
-        if (admin.getShelter() == null || !admin.getShelter().getId().equals(shelter.getId())) {
-            admin.setShelter(shelter);
-        }
-
         return MapperUtil.toShelterDTO(shelterRepository.save(shelter));
     }
 
 
-    public void deleteShelter(Long id,User user) {
+    public void deleteShelter(Long id, User user) {
         Optional<Shelter> optionalShelter = shelterRepository.findById(id);
         if (optionalShelter.isEmpty()) {
             throw new ResourceNotFoundException("Shelter with id " + id + " not found");
@@ -111,4 +119,17 @@ public class ShelterService {
         shelterRepository.deleteById(id);
     }
 
+    /*@Transactional
+    @Override
+    public void onDogUpdated(Long shelterId, OperationType operation) {
+        if (shelterRepository == null) {
+            throw new IllegalStateException("❌ ShelterRepository is NULL when updating shelter!");
+        }
+        Shelter shelter = findShelterById(shelterId);
+        if (!(operation == OperationType.DELETE && shelter.getDogs().isEmpty())) {
+            shelter.setAvailableDogs(shelter.getAvailableDogs() + operation.getValue());
+            shelter.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs() + operation.getValue());
+        }
+        shelterRepository.save(shelter);
+    }*/
 }

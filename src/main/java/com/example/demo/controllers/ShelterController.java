@@ -39,17 +39,17 @@ public class ShelterController {
     }
 
     @GetMapping("/mine")
-    public ResponseEntity<List<ShelterDTO>> getUsersShelters() {
+    public ResponseEntity<ShelterDTO> getUsersShelters() {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
             User admin = userService.findUserByEmail(email);
-            List<ShelterDTO> shelters = shelterService.getUserShelters(admin);
-            if (shelters.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            ShelterDTO shelter = shelterService.getUserShelter(admin);
+            if (shelter==null) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             }
-            return ResponseEntity.status(HttpStatus.OK).body(shelters);
+            return ResponseEntity.status(HttpStatus.OK).body(shelter);
         } catch (RuntimeException ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -64,15 +64,6 @@ public class ShelterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-    /*@GetMapping("/getByAdmin")
-    public ResponseEntity<ShelterDTO> getSheltersByAdmin() {
-        ShelterDTO shelter = shelterService.getShelterByAdmin();
-        if (shelter == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(shelter);
-    }*/
 
     @PostMapping("/add")
     public ResponseEntity<String> addShelter(@RequestBody ShelterDTO shelterDTO) {

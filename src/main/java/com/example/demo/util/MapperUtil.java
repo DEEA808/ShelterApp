@@ -1,14 +1,16 @@
 package com.example.demo.util;
 
+import com.example.demo.dto.AppointmentDTO;
 import com.example.demo.dto.DogDTO;
 import com.example.demo.dto.ShelterDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.model.Appointment;
 import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
 import com.example.demo.model.User;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
+import java.util.List;
 
 public class MapperUtil {
 
@@ -28,11 +30,15 @@ public class MapperUtil {
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
             shelter.setImage(decodedImage);
         }
+        List<Dog> shelters = shelterDTO.getDogs().stream()
+                .map(d->MapperUtil.toDog(d,shelter))
+                .toList();
+        shelter.setDogs(shelters);
         admin.setShelter(shelter);
         return shelter;
     }
 
-    public static DogDTO toDogDTO(Dog dog){
+    public static DogDTO toDogDTO(Dog dog) {
         DogDTO dogDTO = new DogDTO();
 
         String base64Image = "";
@@ -52,8 +58,8 @@ public class MapperUtil {
         return dogDTO;
     }
 
-    public static Dog toDog(DogDTO dogDTO,Shelter shelter){
-        Dog dog=new Dog();
+    public static Dog toDog(DogDTO dogDTO, Shelter shelter) {
+        Dog dog = new Dog();
         dog.setId(dogDTO.getId());
         dog.setName(dogDTO.getName());
         dog.setDescription(dogDTO.getDescription());
@@ -68,7 +74,6 @@ public class MapperUtil {
             dog.setImage(decodedImage);
         }
         dog.setShelter(shelter);
-        shelter.getDogs().add(dog);
         return dog;
     }
 
@@ -89,9 +94,39 @@ public class MapperUtil {
         shelterDTO.setAvailableDogs(shelter.getAvailableDogs());
         shelterDTO.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs());
         shelterDTO.setPhoneNumber(shelter.getPhoneNumber());
+        shelterDTO.setDogs(shelter.getDogs().stream().map(MapperUtil::toDogDTO).toList());
         shelterDTO.setImage(base64Image);
-
+        List<DogDTO> dogsDTO = shelter.getDogs().stream()
+                .map(MapperUtil::toDogDTO)
+                .toList();
+        shelterDTO.setDogs(dogsDTO);
         return shelterDTO;
+    }
+
+    public static AppointmentDTO toAppointmentDTO(Appointment appointment) {
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setId(appointment.getId());
+        appointmentDTO.setUserName(appointment.getUserName());
+        appointmentDTO.setDateTime(appointment.getDateTime());
+        appointmentDTO.setPrice(appointment.getCost());
+        appointmentDTO.setDogId(appointment.getDog().getId());
+        appointmentDTO.setShelterId(appointment.getShelter().getId());
+        appointmentDTO.setUserId(appointment.getUser().getId());
+        appointmentDTO.setDogName(appointment.getDogName());
+        return appointmentDTO;
+    }
+
+    public static Appointment toAppointment(AppointmentDTO appointmentDTO, Dog dog, Shelter shelter, User user) {
+        Appointment appointment = new Appointment();
+        appointment.setId(appointmentDTO.getId());
+        appointment.setUserName(appointmentDTO.getUserName());
+        appointment.setDateTime(appointmentDTO.getDateTime());
+        appointment.setCost(100.0);
+        appointment.setDog(dog);
+        appointment.setShelter(shelter);
+        appointment.setUser(user);
+        appointment.setDogName(appointmentDTO.getDogName());
+        return appointment;
     }
 
     public static UserDTO userDTO(User user) {

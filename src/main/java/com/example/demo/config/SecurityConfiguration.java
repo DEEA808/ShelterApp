@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/appointments/**").permitAll()
                         .requestMatchers("/shelters/all").permitAll()
                         .requestMatchers("/dogs/all").permitAll()
                         .requestMatchers("dogs/myDogs/{id}").permitAll()
@@ -54,7 +55,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource(){
+    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.addAllowedOriginPattern("*");
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));

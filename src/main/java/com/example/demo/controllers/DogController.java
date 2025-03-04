@@ -1,14 +1,22 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.DogDTO;
+import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
 import com.example.demo.model.Shelter;
+import com.example.demo.model.User;
+import com.example.demo.services.CsvService;
 import com.example.demo.services.DogService;
 import com.example.demo.services.ShelterService;
+import com.example.demo.services.UserService;
+import com.example.demo.util.MapperUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,10 +26,12 @@ import java.util.List;
 public class DogController {
     private final DogService dogService;
     private final ShelterService shelterService;
+    private final CsvService csvService;
 
-    public DogController(DogService dogService, ShelterService shelterService) {
+    public DogController(DogService dogService,ShelterService shelterService,CsvService csvService) {
         this.dogService = dogService;
         this.shelterService = shelterService;
+        this.csvService = csvService;
     }
 
     @GetMapping("/all")
@@ -79,22 +89,48 @@ public class DogController {
         }
     }
 
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<String> uploadDog(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        List<DogDTO> dogs = csvService.parseCsv(file).stream().map(MapperUtil::toDogDTO).toList();
+        try {
+            Shelter shelter = shelterService.findShelterById(id);
+            int count = 0;
+            for (DogDTO dogDTO : dogs) {
+                dogService.addDog(dogDTO, shelter);
+                count++;
+            }
+            return ResponseEntity.status(HttpStatus.CREATED).body(count + " dogs added successfully");
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (SaveInfoException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+
+    }
+
     @PutMapping("update/{id}/{idS}")
     public ResponseEntity<String> updateDog(@RequestBody DogDTO dogDTO, @PathVariable Long id, @PathVariable Long idS) {
         try {
-            Shelter shelter = shelterService.findShelterById(id);
+            Shelter shelter = shelterService.findShelterById(idS);
             return ResponseEntity.status(HttpStatus.OK).body("Dog with id " + dogService.updateDog(id, dogDTO, shelter).getId().toString() + "was updated successfully");
         } catch (ResourceNotFoundException ex) {
+            System.out.println("1");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         } catch (RuntimeException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteDog(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}/{idS}")
+    public ResponseEntity<String> deleteDog(@PathVariable Long id,@PathVariable Long idS) {
         try {
-            dogService.deleteDog(id);
+            dogService.deleteDog(id,idS);
+            //shelterService.updateAvailableAndTotalNumberOfDogs(idS, OperationType.DELETE);
             return ResponseEntity.status(HttpStatus.OK).body("Dog with id " + id + " was deleted successfully");
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
