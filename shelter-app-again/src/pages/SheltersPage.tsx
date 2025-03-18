@@ -5,8 +5,8 @@ import { addDataUrlPrefix } from "../utils/ImageUtils";
 import "../GetAllPage.css";
 import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
-import { useShelter } from "../utils/ShelterContext"; // ✅ Import useShelter
-import { MoveRight } from "lucide-react";
+import { useShelter } from "../utils/ShelterContext";
+import { getRolesFromToken } from "../utils/Auth";
 
 const SheltersPage: React.FC = () => {
   const [shelters, setShelters] = useState<Shelter[]>([]);
@@ -14,8 +14,10 @@ const SheltersPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
-  
-  const { selectedShelterId, setSelectedShelterId } = useShelter(); // ✅ Get functions from context
+  const userRoles = getRolesFromToken();
+  const [myShelter, setMyShelter] = useState<Shelter | null>(null);
+
+  const { selectedShelterId, setSelectedShelterId } = useShelter();
 
   useEffect(() => {
     axios
@@ -35,9 +37,38 @@ const SheltersPage: React.FC = () => {
     shelter.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        setError("Authentication error: Please log in.");
+        return;
+    }
+
+    axios
+      .get("http://localhost:8005/shelters/mine", { headers: { Authorization: `Bearer ${token}` } }) // Added token in headers
+      .then((response) => {
+          setMyShelter(response.data);
+      })
+      .catch((error) => {
+          console.error("Error checking your shelter: ", error);
+          setError("Checking your shelter failed");
+      });
+}, []); 
+
+
   const handleShelterClick = (shelterId: number) => {
-    setSelectedShelterId(shelterId); // ✅ Save shelter ID globally
-    navigate("/dogs"); // ✅ Redirect to /dogs
+    setSelectedShelterId(shelterId);
+    navigate(`/shelterDetails/${shelterId}`);
+  };
+
+  const handleShelterImageClick = (shelterId: number) => {
+    setSelectedShelterId(shelterId);
+    navigate("/dogs");
+  };
+
+  const handleAddButtonClick = () => {
+    navigate("/addShelter");
   };
 
   if (loading) return <p>Loading shelters...</p>;
@@ -47,6 +78,7 @@ const SheltersPage: React.FC = () => {
     <div className="shelter-page">
       <div className="sidebar">
         <button className="back-button" onClick={() => navigate("/login")}>←</button>
+        {(userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length === 0)) && (<button className="add-button" onClick={handleAddButtonClick}>Add your shelter</button>)}
       </div>
 
       {/* Search Bar */}
@@ -71,11 +103,10 @@ const SheltersPage: React.FC = () => {
               <div
                 key={shelter.id}
                 className="shelter-card"
-                onClick={() => handleShelterClick(shelter.id)} // ✅ Handle click
-                style={{ cursor: "pointer" }} // Add cursor pointer for UX
+                style={{ cursor: "pointer" }}
               >
-                {imageSrc && <img src={imageSrc} alt={shelter.name} className="shelter-image" />}
-                <h3>{shelter.name}</h3>
+                {imageSrc && <img key={shelter.id} src={imageSrc} alt={shelter.name} className="shelter-image" onClick={() => handleShelterImageClick(shelter.id)} />}
+                <h3 onClick={() => handleShelterClick(shelter.id)}>{shelter.name}</h3>
                 <p>Available Dogs: {shelter.availableDogs}</p>
               </div>
             );
@@ -84,7 +115,7 @@ const SheltersPage: React.FC = () => {
           <p>No shelters found</p>
         )}
       </div>
-      <div style={{marginRight:"10px",marginTop:"20px",position:"relative", textAlign: "center", padding: "20px" }}><Logout /></div>
+      <div style={{ marginRight: "10px", marginTop: "20px", position: "relative", textAlign: "center", padding: "20px" }}><Logout /></div>
     </div>
   );
 };

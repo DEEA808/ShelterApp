@@ -1,3 +1,5 @@
+import { Dog } from "./Dog";
+
 export interface Shelter {
     id:number,
     name:string,
@@ -5,7 +7,8 @@ export interface Shelter {
     address:string,
     totalNbOfDogs:number,
     availableDogs:number,
-    phone:string,
+    phoneNumber:string,
     email:string,
-    image:string
+    image:string,
+    dogs:Dog[]
 }

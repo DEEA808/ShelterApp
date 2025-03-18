@@ -8,6 +8,7 @@ import { useShelter } from "../utils/ShelterContext";
 import CsvUploader from "../utils/CSVUploader";
 import { getRolesFromToken } from "../utils/Auth";
 import { Trash2 } from "lucide-react";
+import { fetchShelterDetails } from "../utils/ShelterUtils";
 
 const DogsPage: React.FC = () => {
   const [dogs, setDogs] = useState<Dog[]>([]); // ✅ Ensure `dogs` is an array
@@ -18,6 +19,7 @@ const DogsPage: React.FC = () => {
   const navigate = useNavigate();
   const userRoles = getRolesFromToken();
   const token = localStorage.getItem("token");
+  const [userShelterId, setUserShelterId] = useState<number | null>(null);
 
   const fetchDogs = () => {
     if (!selectedShelterId) {
@@ -30,12 +32,17 @@ const DogsPage: React.FC = () => {
           Authorization: `Bearer ${token}`, // ✅ Include authentication token
         },
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log("API Response:", response.data); // ✅ Debugging log
         setDogs(Array.isArray(response.data) ? response.data : []); // ✅ Ensure `dogs` is always an array
         setLoading(false);
+        const shelterData = await fetchShelterDetails(token);
+        if (shelterData) {
+          setUserShelterId(shelterData.id);
+        }
+        console.log(userShelterId);
       })
-      .catch((error) => {
+      .catch(async (error) => {
         console.error("Error fetching dogs:", error);
         if (error.response && error.response.status === 403) {
           setError("Access denied: You do not have permission.");
@@ -61,7 +68,7 @@ const DogsPage: React.FC = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:8005/dogs/delete/${dogId}`, {
+      await axios.delete(`http://localhost:8005/dogs/delete/${dogId}/${selectedShelterId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -81,9 +88,9 @@ const DogsPage: React.FC = () => {
     )
     : [];
 
-    const handleDogClick = (dogId:number) => {
-      navigate(`/dogProfile/${dogId}`); 
-    };
+  const handleDogClick = (dogId: number) => {
+    navigate(`/dogProfile/${dogId}`);
+  };
 
   if (loading) return <p>Loading dogs...</p>;
   if (error) return <p>{error}</p>;
@@ -108,7 +115,7 @@ const DogsPage: React.FC = () => {
           />
         </div>
         {/* ✅ CSV Upload Section */}
-        {userRoles.includes("ROLE_ADMIN") && (
+        {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
           <div className="upload">
             <CsvUploader onSuccessUpl={fetchDogs} />
           </div>
@@ -129,11 +136,11 @@ const DogsPage: React.FC = () => {
             return (
               <div key={dog.id} className="shelter-card" >
                 {imageSrc && (
-                  <img  key={dog.id}  src={imageSrc} alt={dog.name} className="shelter-image" onClick={()=>handleDogClick(dog.id)}/>
+                  <img key={dog.id} src={imageSrc} alt={dog.name} className="shelter-image" onClick={() => handleDogClick(dog.id)} />
                 )}
                 <h3>{dog.name}</h3>
                 <p>Breed: {dog.breed}</p>
-                {userRoles.includes("ROLE_ADMIN") && (
+                {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
                   <button
                     onClick={() => handleDelete(dog.id)}
                     style={{
@@ -142,7 +149,7 @@ const DogsPage: React.FC = () => {
                       cursor: "pointer",
                       padding: "3px",
                       display: "flex",
-                      marginLeft:"110px"
+                      marginLeft: "110px"
                     }}
                   >
                     <Trash2 size={18} color="#C59E7B" /> {/* ✅ Mini Trash Bin Icon */}

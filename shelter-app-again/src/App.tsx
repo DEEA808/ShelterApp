@@ -4,6 +4,9 @@ import Signup from "../src/pages/RegisterPage";
 import SheltersPage from "./pages/SheltersPage";
 import DogsPage from "./pages/DogsPage";
 import DogProfilePage from "./pages/DogProfilePage";
+import ShelterDetails from "./pages/ShelterDetails";
+import SignupAdmin from "./pages/RegisterAdmin";
+import AddShelterPage from "./pages/AddShelterPage";
 
 function App() {
   return (
@@ -11,10 +14,13 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/signupAdmin" element={<SignupAdmin/>}/>
         <Route path="/" element={<Login />} /> {/* Default to Login */}
         <Route path="/shelters" element={<SheltersPage />}/>
         <Route path="/dogs" element={<DogsPage/>}/>
         <Route path="/dogProfile/:dogId" element={<DogProfilePage/>}/>
+        <Route path="/shelterDetails/:shelterId" element={<ShelterDetails/>}/>
+        <Route path="/addShelter" element={<AddShelterPage/>}/>
       </Routes>
     </Router>
   );

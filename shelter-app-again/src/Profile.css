@@ -65,9 +65,25 @@
     margin-left: 5%;
     display: flex;
     flex-direction: column; /* ✅ Ensures items stack vertically */
-    gap: 20px; /* ✅ Adds space between list items */
+    gap: 30px; /* ✅ Adds space between list items */
 }
 
+.delete-button {
+    position: absolute;
+    display: flex;
+    margin-right: 10px;
+    margin-left: 850px;
+    margin-top: 700px;
+    width: 90px;
+    height: 40px;
+    background-color: #d52d2d; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
 
 .paw-icon {
     width: 24px; /* Adjust as needed */

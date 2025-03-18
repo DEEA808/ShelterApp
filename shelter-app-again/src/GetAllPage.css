@@ -85,12 +85,13 @@
 
   .logout-button {
     position: absolute;
-    margin-right: 5px;
-    margin-left: 650px;
+    display: flex;
+    margin-right: 10px;
+    margin-left: 300px;
     margin-top: 15px;
     width: 90px;
     height: 40px;
-    background-color: #e0c9a6; 
+    background-color: #C59E7B; 
     color: white;
     border: none;
     border-radius: 5px;
@@ -98,10 +99,24 @@
     font-size: 16px;
     font-weight: bold;
   }
+
+  .add-button {
+    position: fixed;
+    background-color: #C59E7B;
+    cursor: pointer;
+    margin-top: 350px;
+    width: 165px;
+    height: 40px;
+    margin-left: 18px;
+    border:none;
+  }
  
+  .add-button:hover {
+    background-color:rgb(223, 191, 151);
+  }
   
   .logout-button:hover {
-    background-color: #C59E7B;
+    background-color: rgb(223, 191, 151);
   }
   
   

@@ -12,32 +12,31 @@ const Login: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-  
+
     try {
       const response = await axios.post("http://localhost:8005/auth/login", {
         email,
         password,
       });
-  
+
       const token = response.data.token;
-      const roles = response.data.roles; // Get roles from backend
-  
+
       localStorage.setItem("token", token);
-  
+
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // Set token globally
-  
+
       navigate("/shelters"); // Redirect after login
     } catch (err) {
       setError("Invalid email or password. Please try again.");
     }
   };
-  
+
 
   return (
     <div className="auth-page">
       <div className="auth-container">
         <h1>Hello!</h1>
-        
+
         {error && <p className="error-message">{error}</p>}
 
         <form onSubmit={handleLogin}>
@@ -65,7 +64,10 @@ const Login: React.FC = () => {
           </div>
 
           <div className="signup-nav">
-            <Link to="/signup">Don't have an account? Sign up!</Link>
+            <Link to="/signup">Don't have an account? Sign up here as a user!</Link>
+          </div>
+          <div className="signup-nav">
+            <Link to="/signupAdmin">Sign up here if you are a shelter owner!</Link>
           </div>
 
           {/* Login Button */}

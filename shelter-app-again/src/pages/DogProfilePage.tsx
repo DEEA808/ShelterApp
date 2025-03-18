@@ -7,7 +7,11 @@ import { addDataUrlPrefix } from "../utils/ImageUtils";
 import { getRolesFromToken } from "../utils/Auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import EditWindow from "./EditWindow"; // Import the EditWindow modal
+import EditWindowDog from "./EditWindowDog"; // Import the EditWindow modal
+import AppointmentWindow from "./AppointmentWindow";
+import pawIcon from "../assets/paw.png"
+import { fetchShelterDetails } from "../utils/ShelterUtils";
+import { useShelter } from "../utils/ShelterContext";
 
 const DogProfilePage: React.FC = () => {
     const { dogId } = useParams<{ dogId: string }>();
@@ -16,7 +20,10 @@ const DogProfilePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const userRoles = getRolesFromToken();
-    const [isEditing, setIsEditing] = useState(false); // Controls the edit modal visibility
+    const [isEditing, setIsEditing] = useState(false);
+    const [gettingAppointment, setGettingAppointment] = useState(false);
+    const [userShelterId, setUserShelterId] = useState<number | null>(null);
+    const { selectedShelterId, setSelectedShelterId } = useShelter(); 
 
         const fetchDog = async () => {
             const token = localStorage.getItem("token");
@@ -34,6 +41,11 @@ const DogProfilePage: React.FC = () => {
             });
                 
                 setDog(response.data);
+
+                const shelterData = await fetchShelterDetails(token); 
+                if (shelterData) {
+                    setUserShelterId(shelterData.id);
+                }
             } catch (err) {
                 setError("Failed to fetch dog");
             } finally {
@@ -54,25 +66,27 @@ const DogProfilePage: React.FC = () => {
 
     return (
         <div className={`profile-page ${isEditing ? "blurred" : ""}`}>
-            {isEditing && dog && <EditWindow dog={dog} onClose={() => {setIsEditing(false),fetchDog()}} />} {/* Show edit modal */}
+            {isEditing  && dog && <EditWindowDog dog={dog} onClose={() => {setIsEditing(false),fetchDog()}} />} 
+            {gettingAppointment && dog && <AppointmentWindow dog={dog} onClose={() => {setGettingAppointment(false),fetchDog()}} />} 
 
             <button onClick={() => navigate(-1)} className="back-button">←</button>
             
             <div>
-                {userRoles.includes("ROLE_USER") && (
-                    <h2 className="profile-title">Meet {dog.name}!  
-                        <img src="/assets/paw.png" className="paw-icon" />
+                {(userRoles.includes("ROLE_USER") || userRoles.includes("ROLE_ADMIN") && (userShelterId != selectedShelterId)) && (
+                    <h2 className="profile-title" onClick={() => setGettingAppointment(true)}>Meet {dog.name}!  
+                        <img src={pawIcon} className="paw-icon" alt="Paw Icon" />
+
                     </h2>
                 )}
 
-                {userRoles.includes("ROLE_ADMIN") && (
+                {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
                     <button className="edit-button" onClick={() => setIsEditing(true)}>
                         <FontAwesomeIcon icon={faEdit} className="edit-icon" />
                     </button>
                 )}
             </div>
 
-            {!isEditing && <div className="image-container">
+            {!(isEditing || gettingAppointment) && <div className="image-container">
                 {imageSrc ? (
                     <img src={imageSrc} alt={dog.name} className="profile-image" />
                 ) : (
