@@ -7,6 +7,7 @@ import DogProfilePage from "./pages/DogProfilePage";
 import ShelterDetails from "./pages/ShelterDetails";
 import SignupAdmin from "./pages/RegisterAdmin";
 import AddShelterPage from "./pages/AddShelterPage";
+import AppointmentPage from "./pages/AppointmentPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dogProfile/:dogId" element={<DogProfilePage/>}/>
         <Route path="/shelterDetails/:shelterId" element={<ShelterDetails/>}/>
         <Route path="/addShelter" element={<AddShelterPage/>}/>
+        <Route path="/appointments" element={<AppointmentPage/>}/>
       </Routes>
     </Router>
   );

@@ -27,6 +27,7 @@ const AppointmentWindow: React.FC<AppointmentWindowProps> = ({ dog, onClose }) =
                 dogName,
                 dateTime,
                 price:0.0,
+                status:"",
                 dogId,
                 shelterId:selectedShelterId,
                 userId:1

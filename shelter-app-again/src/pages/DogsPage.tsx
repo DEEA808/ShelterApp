@@ -81,6 +81,9 @@ const DogsPage: React.FC = () => {
     }
   };
 
+  const handleForwardClick = () => {
+    navigate("/appointments");
+  }
 
   const filterDogs = Array.isArray(dogs)
     ? dogs.filter((dog) =>
@@ -161,7 +164,13 @@ const DogsPage: React.FC = () => {
           <p>No dogs found</p>
         )}
       </div>
-
+      <div className="header-container">
+          <h1>
+            <span className="word">My</span>
+            <span className="word">Appointments</span>
+          </h1>
+          <button className="forward-button" onClick={handleForwardClick}>→</button>
+        </div>
     </div>
   );
 };

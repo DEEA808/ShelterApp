@@ -41,20 +41,20 @@ const SheltersPage: React.FC = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-        setError("Authentication error: Please log in.");
-        return;
+      setError("Authentication error: Please log in.");
+      return;
     }
 
     axios
       .get("http://localhost:8005/shelters/mine", { headers: { Authorization: `Bearer ${token}` } }) // Added token in headers
       .then((response) => {
-          setMyShelter(response.data);
+        setMyShelter(response.data);
       })
       .catch((error) => {
-          console.error("Error checking your shelter: ", error);
-          setError("Checking your shelter failed");
+        console.error("Error checking your shelter: ", error);
+        setError("Checking your shelter failed");
       });
-}, []); 
+  }, []);
 
 
   const handleShelterClick = (shelterId: number) => {
@@ -71,6 +71,10 @@ const SheltersPage: React.FC = () => {
     navigate("/addShelter");
   };
 
+  const handleForwardClick = () => {
+    navigate("/appointments");
+  }
+
   if (loading) return <p>Loading shelters...</p>;
   if (error) return <p>{error}</p>;
 
@@ -78,6 +82,7 @@ const SheltersPage: React.FC = () => {
     <div className="shelter-page">
       <div className="sidebar">
         <button className="back-button" onClick={() => navigate("/login")}>←</button>
+        <div className="logout-button"><Logout /></div>
         {(userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length === 0)) && (<button className="add-button" onClick={handleAddButtonClick}>Add your shelter</button>)}
       </div>
 
@@ -115,7 +120,13 @@ const SheltersPage: React.FC = () => {
           <p>No shelters found</p>
         )}
       </div>
-      <div style={{ marginRight: "10px", marginTop: "20px", position: "relative", textAlign: "center", padding: "20px" }}><Logout /></div>
+      <div className="header-container">
+        <h1>
+          <span className="word">My</span>
+          <span className="word">Appointments</span>
+        </h1>
+        <button className="forward-button" onClick={handleForwardClick}>→</button>
+      </div>
     </div>
   );
 };
