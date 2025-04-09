@@ -92,6 +92,13 @@
 			<version>42.5.4</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.9.0</version>  <!-- Use latest version -->
+		</dependency>
+
+
 	</dependencies>
 
 	<build>

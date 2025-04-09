@@ -37,7 +37,7 @@ public class Dog {
     private String gender;
 
     @Lob
-    @Column(name = "image", nullable = true)
+    @Column(name = "image")
     @Basic(fetch = FetchType.EAGER)
     private byte[] image;
 

@@ -14,6 +14,7 @@ import java.util.List;
 public class ShelterDTO {
     private Long id;
     private String name;
+    private String type;
     private String description;
     private String address;
     private int totalNumberOfDogs;

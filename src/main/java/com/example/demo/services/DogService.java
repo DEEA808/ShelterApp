@@ -9,6 +9,7 @@ import com.example.demo.model.Shelter;
 import com.example.demo.observers.DogObserver;
 import com.example.demo.repositories.DogRepository;
 import com.example.demo.util.MapperUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,20 +18,23 @@ import java.util.*;
 @Service
 public class DogService {
     private final DogRepository dogRepository;
-    private final DogObserver observer;
+    private final List<DogObserver> observers = new ArrayList<>();
 
 
-    public DogService(DogRepository dogRepository, DogObserver observer) {
+    @Autowired
+    public DogService(DogRepository dogRepository) {
         this.dogRepository = dogRepository;
-        this.observer = observer;
     }
 
-    /*private void notifyObserver(Long shelterId, OperationType operationType) {
-        if (observer != null) {
+    private void notifyObserver(Long shelterId, OperationType operationType) {
+        for (DogObserver observer : observers) {
             observer.onDogUpdated(shelterId, operationType);
         }
-    }*/
+    }
 
+    public void addObserver(DogObserver observer) {
+        observers.add(observer);
+    }
 
     public DogDTO getDogById(Long id) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
@@ -61,7 +65,7 @@ public class DogService {
     public DogDTO addDog(DogDTO dogDTO, Shelter shelter) {
         try {
             Dog dog = dogRepository.save(MapperUtil.toDog(dogDTO, shelter));
-           // notifyObserver(dog.getId(), OperationType.ADD);
+            notifyObserver(shelter.getId(), OperationType.ADD);
             return MapperUtil.toDogDTO(dog);
         } catch (IllegalArgumentException e) {
             throw new SaveInfoException("Error saving dog");
@@ -93,12 +97,12 @@ public class DogService {
         return MapperUtil.toDogDTO(dogRepository.save(dog));
     }
 
-    public void deleteDog(Long id,Long shelterId) {
+    public void deleteDog(Long id, Long shelterId) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
         if (optionalDog.isEmpty()) {
             throw new ResourceNotFoundException("Dog with id " + id + " not found");
         }
         dogRepository.deleteById(id);
-        //notifyObserver(shelterId, OperationType.DELETE);
+        notifyObserver(shelterId, OperationType.DELETE);
     }
 }

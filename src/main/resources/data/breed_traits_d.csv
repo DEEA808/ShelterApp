@@ -1,0 +1,196 @@
+Breed,Affectionate With Family,Good With Children,Good With Other ,Shedding Level,Drooling Level,Openness To Strangers,Playfulness Level,Trainability Level,Energy Level,Barking Level,Mental Stimulation Needs,Longevity,Popularity,Food Cost
+Labrador,3,3,3,3,1,3,3,3,3,2,3,0,3,0
+French Bulldog,3,3,3,2,2,3,3,3,2,1,2,0,3,0
+German Shepherd ,3,3,2,3,1,2,3,3,3,2,3,0,3,0
+Golden Retriever,3,3,3,3,1,3,3,3,2,1,3,0,3,0
+Bull,3,2,2,2,2,3,3,3,2,1,2,0,3,0
+Poodles,3,3,2,1,1,3,3,3,3,3,3,0,3,0
+Beagles,2,3,3,2,1,2,3,2,3,3,3,0,3,0
+Rottweiler,3,2,2,2,2,2,3,3,2,1,3,0,3,0
+Pointers (German Shorthaired),3,3,3,2,1,3,3,3,3,2,3,0,3,0
+Dachshunds,3,2,3,1,1,3,3,3,2,3,2,0,3,0
+Pembroke Welsh Corgi,3,2,3,3,1,3,3,3,3,3,3,0,3,0
+Australian Shepherds,2,3,2,2,1,2,3,3,3,2,3,0,3,0
+Yorkshire Terrier,3,3,2,1,1,3,3,3,3,3,3,0,3,0
+Boxers,3,3,2,1,2,3,3,3,3,2,3,0,3,0
+Great Danes,3,2,2,2,3,2,3,2,3,2,3,0,3,0
+Siberian Huskies,3,3,3,3,1,3,3,2,3,3,3,0,3,0
+Cavalier King Charles Spaniel,3,3,3,1,1,3,2,3,2,2,2,0,3,0
+Doberman Pinschers,3,3,2,3,1,3,3,3,3,2,3,0,3,0
+Miniature Schnauzers,3,3,2,2,1,2,3,3,2,3,3,0,3,0
+Shih Tzu,3,3,3,1,1,2,2,3,2,2,2,0,3,0
+Boston Terriers,3,3,3,1,1,3,3,3,3,1,2,0,3,0
+Bernese Mountain ,3,3,3,3,2,3,3,3,3,2,2,0,2,0
+Pomeranians,3,2,2,1,1,2,2,2,2,3,2,0,3,0
+Havanese,3,3,3,1,1,3,3,3,2,3,2,0,3,0
+Cane Corso,3,2,2,1,2,2,2,3,3,2,2,0,2,0
+Spaniels (English Springer),3,2,3,2,2,3,3,3,3,2,3,0,2,0
+Shetland Sheep,3,3,3,2,1,1,3,3,3,3,3,0,3,0
+Brittanys,2,3,3,2,1,2,3,3,3,2,3,0,2,0
+Pugs,3,3,3,3,1,3,3,3,2,1,2,0,2,0
+Spaniels (Cocker),3,3,3,2,1,3,2,3,3,2,2,0,2,0
+Miniature American Shepherds,3,3,3,2,1,2,3,3,3,2,3,0,3,0
+Border Collies,3,2,2,2,1,3,3,3,3,3,3,0,2,0
+Mastiffs,3,3,2,2,3,2,2,2,2,1,2,0,2,0
+Chihuahuas,3,1,2,1,1,1,3,2,3,3,2,0,3,0
+Vizslas,3,3,3,2,1,3,3,3,3,2,3,0,2,0
+Basset Hounds,2,3,3,1,3,2,2,2,1,3,2,0,2,0
+Belgian Malinois,2,2,2,2,1,2,2,3,3,2,3,0,3,0
+Maltese,3,2,2,1,1,2,2,2,2,2,2,0,3,0
+Weimaraners,3,3,2,2,1,2,3,3,3,2,3,0,3,0
+Collies,3,3,2,2,1,2,3,3,2,3,2,0,2,0
+Newfoundlands,3,3,3,2,3,3,2,2,2,1,2,0,2,0
+Rhodesian Ridgebacks,3,3,2,2,1,2,2,3,2,1,3,0,2,0
+Shiba Inu,3,2,2,2,1,2,2,1,2,2,3,0,2,0
+West Highland White Terriers,3,3,2,2,1,3,3,2,3,3,3,0,2,0
+Bichons Frises,3,3,3,1,1,3,3,3,3,2,2,0,2,0
+Bloodhounds,3,2,2,2,3,2,2,3,2,3,2,0,2,0
+Spaniels (English Cocker),3,3,3,2,1,3,2,3,2,2,3,0,2,0
+Akitas,2,2,1,2,1,1,2,2,3,1,2,0,2,0
+Portuguese Water ,3,3,3,1,1,3,3,3,3,2,3,0,3,0
+Retrievers (Chesapeake Bay),3,2,2,2,1,2,2,3,3,2,3,0,2,0
+Dalmatians,3,2,2,3,1,3,3,3,3,2,3,0,2,0
+St. Bernards,3,3,2,2,3,2,2,2,2,1,2,0,2,0
+Papillons,3,3,2,2,1,3,3,3,3,3,3,0,2,0
+Australian Cattle ,2,2,2,2,1,2,2,3,3,1,3,0,2,0
+Bullmastiffs,3,2,2,2,2,2,2,3,3,1,3,0,2,0
+Samoyeds,3,3,2,2,1,3,3,3,3,3,3,0,2,0
+Scottish Terriers,3,2,1,1,1,2,3,2,2,3,3,0,2,0
+Soft Coated Wheaten Terriers,3,3,2,1,1,2,2,2,3,2,2,0,2,0
+Whippets,3,3,3,1,1,2,3,2,3,1,3,0,2,0
+Pointers (German Wirehaired),3,2,2,1,1,3,3,3,3,2,3,0,2,0
+Chinese Shar-Pei,3,2,2,2,2,2,2,2,2,2,2,0,3,0
+Airedale Terriers,2,2,2,1,1,2,2,2,2,2,2,0,1,0
+Wirehaired Pointing Griffons,3,3,2,2,2,3,3,3,3,2,3,0,2,0
+Bull Terriers,3,2,1,2,1,3,3,2,3,2,3,0,2,0
+Alaskan Malamutes,2,2,2,2,1,2,2,3,3,2,2,0,2,0
+Cardigan Welsh Corgis,3,3,2,2,1,3,3,3,3,3,3,0,1,0
+Giant Schnauzers,3,2,2,2,1,2,3,3,3,2,3,0,2,0
+Old English Sheep,3,3,2,2,2,2,3,3,2,2,3,0,2,0
+Italian Greyhounds,3,2,3,2,1,3,3,3,2,2,2,0,2,0
+Great Pyrenees,3,2,2,2,2,2,2,2,2,2,2,0,2,0
+Dogues de Bordeaux,3,2,2,3,3,2,2,3,2,2,3,0,1,0
+Russell Terriers,3,2,3,2,1,3,3,2,3,3,3,0,3,0
+Cairn Terriers,3,2,2,1,1,2,3,2,2,3,2,0,3,0
+Irish Wolfhounds,3,2,3,2,1,2,2,2,2,1,2,0,2,0
+Setters (Irish),3,3,3,2,1,3,3,3,3,2,3,0,2,0
+Greater Swiss Mountain ,3,3,2,2,2,3,3,3,3,2,3,0,2,0
+Miniature Pinschers,3,2,3,2,1,2,3,2,3,3,3,0,2,0
+Lhasa Apsos,3,2,2,1,1,2,2,2,2,2,2,0,2,0
+Chinese Crested,3,2,2,1,1,3,2,3,2,2,2,0,1,0
+Coton de Tulear,3,3,3,1,1,3,3,3,2,1,2,0,3,0
+Staffordshire Bull Terriers,3,3,2,1,2,3,3,3,3,2,3,0,2,0
+American Staffordshire Terriers,3,2,2,1,1,3,2,2,2,2,2,0,2,0
+Rat Terriers,3,3,2,2,1,3,3,3,3,2,3,0,2,0
+Chow Chows,3,2,1,2,2,1,2,2,2,1,2,0,2,0
+Anatolian Shepherd ,1,2,2,2,1,1,2,1,2,2,2,0,1,0
+Basenjis,2,2,2,1,1,2,2,1,3,1,3,0,2,0
+Spaniels (Boykin),2,3,3,2,1,2,3,3,3,2,2,0,1,0
+Lagotti Romagnoli,3,2,3,1,1,3,3,3,3,1,3,0,2,0
+Brussels Griffons,3,2,2,2,1,3,3,3,2,3,2,0,2,0
+Retrievers (Nova Scotia Duck Tolling),3,3,3,2,1,2,3,3,3,1,3,0,2,0
+Norwegian Elkhounds,3,2,2,2,1,3,3,3,3,3,3,0,1,0
+Standard Schnauzers,3,3,2,1,2,2,3,3,2,2,3,0,2,0
+Dogo Argentinos,3,2,2,3,2,3,3,3,3,2,3,0,2,0
+Bouviers des Flandres,2,2,2,2,1,2,2,3,3,2,2,0,2,0
+Pekingese,3,2,2,2,1,2,3,2,2,1,2,0,2,0
+Keeshonden,3,3,3,2,1,3,3,3,3,3,3,0,2,0
+Border Terriers,3,3,2,1,1,3,3,3,2,2,2,0,2,0
+Leonbergers,3,3,2,3,2,3,2,3,2,2,3,0,1,0
+Tibetan Terriers,3,2,2,2,1,2,2,2,3,2,3,0,2,0
+Neapolitan Mastiffs,2,2,2,2,3,2,1,2,1,1,2,0,1,0
+Setters (English),3,3,3,2,2,3,3,3,2,2,3,0,2,0
+Retrievers (Flat-Coated),3,3,3,2,1,3,3,3,3,2,3,0,2,0
+Borzois,2,2,2,2,1,2,2,1,3,1,3,0,2,0
+Fox Terriers (Wire),3,3,2,1,1,3,3,3,3,3,3,0,2,0
+Miniature Bull Terriers,3,2,2,1,1,2,3,2,3,3,3,0,2,0
+Belgian Tervuren,2,2,2,2,1,2,2,3,3,2,3,0,2,0
+Setters (Gordon),3,2,2,2,3,2,2,3,3,2,3,0,2,0
+Silky Terriers,3,2,2,1,1,3,3,3,2,3,2,0,1,0
+Norwich Terriers,3,3,2,2,1,3,3,2,3,3,3,0,2,0
+Spinoni Italiani,3,2,3,2,2,2,2,3,2,1,2,0,2,0
+Japanese Chin,3,2,3,2,1,2,2,2,2,1,2,0,1,0
+Welsh Terriers,3,3,2,1,1,3,3,3,3,3,3,0,1,0
+Toy Fox Terriers,3,2,2,2,1,3,3,3,3,3,3,0,2,0
+Schipperkes,3,2,2,2,1,2,3,3,2,3,2,0,2,0
+Parson Russell Terriers,3,2,3,1,1,2,3,3,3,2,3,0,2,0
+Pointers,3,2,3,2,1,3,3,3,3,2,3,0,3,0
+Belgian Sheep,2,2,2,2,1,2,2,3,3,2,3,0,2,0
+Tibetan Spaniels,3,3,2,2,1,3,3,2,2,2,2,0,2,0
+American Eskimo ,3,3,2,2,1,3,2,3,3,2,2,0,1,0
+Irish Terriers,3,3,1,1,1,2,2,2,2,2,3,0,1,0
+Beaucerons,2,2,2,3,1,1,2,2,3,2,2,0,2,0
+Afghan Hounds,2,2,2,1,1,2,2,1,3,2,2,0,1,0
+Boerboels,3,3,1,2,2,2,2,3,2,2,3,0,2,0
+Fox Terriers (Smooth),3,2,2,2,1,2,3,2,3,3,2,0,2,0
+Bearded Collies,3,3,3,2,1,3,3,2,3,3,2,0,1,0
+Black Russian Terriers,2,2,2,2,2,1,2,3,3,2,3,0,1,0
+Black and Tan Coonhounds,3,3,3,2,2,2,2,2,2,3,2,0,2,0
+Spaniels (Welsh Springer),3,3,3,2,1,1,2,3,3,2,3,0,1,0
+American Hairless Terriers,3,3,2,1,1,2,2,3,2,2,2,0,1,0
+Norfolk Terriers,3,3,2,2,1,3,3,2,3,3,3,0,2,0
+Xoloitzcuintli,3,2,2,1,1,2,3,3,3,2,3,0,1,0
+Manchester Terriers,3,3,2,1,1,2,3,3,3,3,2,0,1,0
+Kerry Blue Terriers,3,3,1,1,1,2,2,2,3,3,3,0,1,0
+Australian Terriers,2,3,2,1,1,2,3,3,3,3,3,0,1,0
+Spaniels (Clumber),3,2,2,2,3,3,2,3,2,1,2,0,2,0
+Lakeland Terriers,3,2,2,1,1,2,3,2,2,2,3,0,1,0
+Bluetick Coonhounds,2,2,3,2,1,2,2,3,3,3,2,0,2,0
+English Toy Spaniels,3,3,3,2,1,2,3,2,2,1,2,0,1,0
+German Pinschers,3,2,2,2,1,2,3,3,3,2,3,0,1,0
+Tibetan Mastiffs,3,2,2,3,2,1,2,2,2,2,3,0,2,0
+Bedlington Terriers,2,2,2,1,1,2,2,2,3,2,2,0,1,0
+Greyhounds,3,2,3,1,1,2,2,2,3,2,2,0,1,0
+Pulik,3,2,2,1,1,2,2,3,2,2,3,0,1,0
+Salukis,3,2,2,1,1,2,2,2,3,2,3,0,2,0
+Barbets,3,3,3,1,1,2,2,3,2,2,2,0,1,0
+Redbone Coonhounds,3,3,3,2,2,2,2,2,2,3,3,0,1,0
+Swedish Vallhunds,3,3,2,3,1,2,3,3,3,2,3,0,1,0
+Sealyham Terriers,3,2,2,2,1,3,2,3,2,3,3,0,2,0
+Spanish Water ,3,3,2,1,1,2,3,3,3,2,3,0,3,0
+Briards,2,2,2,1,1,2,2,2,2,1,2,0,2,0
+Berger Picards,2,2,2,2,1,2,2,3,3,1,3,0,3,0
+Entlebucher Mountain ,3,2,3,2,1,2,2,2,3,2,3,0,3,0
+Treeing Walker Coonhounds,3,3,3,2,2,2,3,3,3,3,3,0,2,0
+Icelandic Sheep,3,3,3,2,1,2,2,3,3,3,3,0,1,0
+Wirehaired Vizslas,3,3,2,2,1,3,3,3,3,2,3,0,3,0
+Pumik,3,2,2,1,1,2,3,3,3,2,3,0,2,0
+Portuguese Podengo Pequenos,3,3,3,2,1,2,3,2,3,2,3,0,2,0
+Spaniels (American Water),2,2,2,1,1,2,2,3,2,2,2,0,1,0
+Retrievers (Curly-Coated),3,3,2,1,1,2,3,3,3,2,2,0,1,0
+Spaniels (Field),3,3,3,2,1,3,2,3,2,2,2,0,1,0
+Lowchen,3,3,2,1,1,2,3,3,2,2,2,0,1,0
+Nederlandse Kooikerhondjes,3,2,2,2,1,3,2,3,3,2,3,0,2,0
+Affenpinschers,2,2,2,2,1,3,2,2,2,2,2,0,2,0
+Petits Bassets Griffons Vendeens,3,3,3,1,1,3,3,2,3,3,3,0,1,0
+Finnish Lapphunds,3,3,2,3,1,3,2,3,2,3,2,0,2,0
+Scottish Deerhounds,3,2,3,2,1,2,2,2,2,1,2,0,1,0
+Plott Hounds,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+Norwegian Buhunds,3,2,2,2,1,2,2,2,3,3,3,0,1,0
+Glen of Imaal Terriers,3,2,2,1,1,2,2,2,2,1,2,0,1,0
+Setters (Irish Red and White),3,3,3,1,1,3,2,3,3,2,2,0,1,0
+Ibizan Hounds,3,2,3,1,1,2,3,2,3,2,3,0,1,0
+Spaniels (Sussex),3,2,2,2,2,2,3,3,2,2,2,0,1,0
+Bergamasco Sheep,2,2,2,1,1,2,2,2,2,1,2,0,1,0
+Spaniels (Irish Water),3,2,2,1,1,2,3,3,2,1,3,0,1,0
+Polish Lowland Sheep,3,2,2,1,1,2,3,3,2,3,3,0,1,0
+Otterhounds,3,2,2,1,2,3,2,3,2,3,2,0,1,0
+Kuvaszok,3,2,2,2,1,2,2,3,2,2,2,0,3,0
+Komondorok,3,2,1,1,1,2,2,3,2,2,2,0,1,0
+Cirnechi dell Etna,3,2,3,1,1,2,3,3,2,1,2,0,2,0
+Pharaoh Hounds,3,2,3,2,1,2,2,3,3,2,3,0,1,0
+Dandie Dinmont Terriers,3,2,2,1,1,3,2,3,2,2,2,0,2,0
+Pyrenean Shepherds,3,2,2,2,1,2,3,3,3,3,3,0,1,0
+Skye Terriers,3,2,2,2,1,2,2,2,2,2,2,0,1,0
+Canaan ,2,2,2,3,1,2,2,3,2,3,2,0,1,0
+American English Coonhounds,2,2,3,1,1,2,2,2,3,3,2,0,1,0
+Chinooks,3,3,3,2,1,2,2,3,2,3,2,0,2,0
+Finnish Spitz,3,3,3,2,1,2,2,2,3,3,3,0,2,0
+Grand Basset Griffon Vendeens,3,2,3,2,1,3,3,2,3,3,3,0,1,0
+Sloughis,3,2,2,2,1,1,2,2,3,1,2,0,1,0
+Harriers,3,3,3,2,1,3,3,3,3,3,3,0,2,0
+Cesky Terriers,3,3,2,1,1,3,2,2,2,2,2,0,1,0
+American Foxhounds,2,3,3,2,1,2,2,2,3,3,2,0,1,0
+Azawakhs,2,2,2,1,1,1,2,1,2,1,2,0,3,0
+English Foxhounds,3,3,3,2,1,3,3,3,3,3,3,0,1,0
+Norwegian Lundehunds,2,2,2,2,1,2,2,2,2,2,2,0,1,0

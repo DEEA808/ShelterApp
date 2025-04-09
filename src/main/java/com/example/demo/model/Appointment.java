@@ -26,6 +26,9 @@ public class Appointment {
     @Column(name = "dog_name")
     private String dogName;
 
+    @Column(name = "shelter_name")
+    private String shelterName;
+
     @Column(name = "dateTime")
     private LocalDateTime dateTime;
 

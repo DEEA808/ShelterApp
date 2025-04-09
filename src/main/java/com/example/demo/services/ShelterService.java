@@ -20,11 +20,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
-public class ShelterService  {
+public class ShelterService implements DogObserver  {
 
     private final ShelterRepository shelterRepository;
 
+    @Autowired
     public ShelterService(ShelterRepository shelterRepository) {
+
         this.shelterRepository = shelterRepository;
     }
 
@@ -56,7 +58,6 @@ public class ShelterService  {
     public List<ShelterDTO> getAllShelters() {
         List<Shelter> shelters = shelterRepository.findAll();
 
-        // ✅ Ensure all dogs are loaded before the session closes
         shelters.forEach(shelter -> shelter.getDogs().size());
 
         return shelters.stream().map(MapperUtil::toShelterDTO).toList();
@@ -66,6 +67,9 @@ public class ShelterService  {
     @Transactional(readOnly = true)
     public ShelterDTO getUserShelter(User admin) {
         Shelter shelter = admin.getShelter();
+        if(shelter==null) {
+            return null;
+        }
         return MapperUtil.toShelterDTO(shelter);
     }
 
@@ -92,6 +96,7 @@ public class ShelterService  {
 
         Shelter shelter = optionalShelter.get();
         shelter.setName(shelterDTO.getName());
+        shelter.setType(shelterDTO.getType());
         shelter.setEmail(shelterDTO.getEmail());
         shelter.setAddress(shelterDTO.getAddress());
         shelter.setDescription(shelterDTO.getDescription());
@@ -119,7 +124,7 @@ public class ShelterService  {
         shelterRepository.deleteById(id);
     }
 
-    /*@Transactional
+    @Transactional
     @Override
     public void onDogUpdated(Long shelterId, OperationType operation) {
         if (shelterRepository == null) {
@@ -129,7 +134,10 @@ public class ShelterService  {
         if (!(operation == OperationType.DELETE && shelter.getDogs().isEmpty())) {
             shelter.setAvailableDogs(shelter.getAvailableDogs() + operation.getValue());
             shelter.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs() + operation.getValue());
+        }else{
+            shelter.setAvailableDogs(0);
+            shelter.setTotalNumberOfDogs(0);
         }
         shelterRepository.save(shelter);
-    }*/
+    }
 }

@@ -1,11 +1,14 @@
 package com.example.demo.services;
 
+import com.example.demo.model.BreedProfile;
 import com.example.demo.model.Dog;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -17,7 +20,39 @@ import org.apache.commons.csv.CSVParser;
 
 @Service
 public class CsvService {
-    public List<Dog> parseCsv(MultipartFile file) {
+
+    public static List<BreedProfile> parseCsvBreedProfile(InputStream inputStream) {
+        List<BreedProfile> breedProfiles = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            CSVParser csvParser = new CSVParser(br, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+
+            for (CSVRecord csvRecord : csvParser) {
+                BreedProfile breedProfile = new BreedProfile();
+                breedProfile.setName(csvRecord.get(0));
+                breedProfile.setAffectionateWithFamily(Integer.parseInt(csvRecord.get(1)));
+                breedProfile.setGoodWithChildren(Integer.parseInt(csvRecord.get(2)));
+                breedProfile.setGoodWithOtherDogs(Integer.parseInt(csvRecord.get(3)));
+                breedProfile.setSheddingLevel(Integer.parseInt(csvRecord.get(4)));
+                breedProfile.setDroolingLevel(Integer.parseInt(csvRecord.get(5)));
+                breedProfile.setOpennessToStrangers(Integer.parseInt(csvRecord.get(6)));
+                breedProfile.setPlayfulnessLevel(Integer.parseInt(csvRecord.get(7)));
+                breedProfile.setTrainabilityLevel(Integer.parseInt(csvRecord.get(8)));
+                breedProfile.setEnergyLevel(Integer.parseInt(csvRecord.get(9)));
+                breedProfile.setBarkingLevel(Integer.parseInt(csvRecord.get(10)));
+                breedProfile.setMentalSimulationNeeds(Integer.parseInt(csvRecord.get(11)));
+                breedProfile.setLongevity(Integer.parseInt(csvRecord.get(12)));
+                breedProfile.setPopularity(Integer.parseInt(csvRecord.get(13)));
+                breedProfile.setFoodCost(Long.parseLong(csvRecord.get(14)));
+                breedProfiles.add(breedProfile);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse csv file: " + e.getMessage());
+        }
+        return breedProfiles;
+    }
+
+    public List<Dog> parseCsvDogs(MultipartFile file) {
         List<Dog> dogs = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(),

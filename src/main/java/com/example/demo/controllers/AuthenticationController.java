@@ -5,7 +5,6 @@ import com.example.demo.model.User;
 import com.example.demo.services.AuthenticationService;
 import com.example.demo.services.JwtService;
 import com.example.demo.services.PasswordService;
-import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

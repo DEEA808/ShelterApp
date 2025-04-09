@@ -15,8 +15,10 @@ public class AppointmentDTO {
     private Long id;
     private String userName;
     private String dogName;
+    private String shelterName;
     private LocalDateTime dateTime;
     private Double price;
+    private String status;
     private Long dogId;
     private Long shelterId;
     private Long userId;

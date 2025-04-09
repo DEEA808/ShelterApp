@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,16 +47,24 @@ public class AppointmentService {
         return MapperUtil.toAppointmentDTO(appointment.get());
     }
 
-    /*public List<AppointmentDTO> getAppointmentsByUserId(Long userId) {
-
-    }*/
+    public List<AppointmentDTO> getAppointmentsByUserId(Long userId) {
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getUser().getId().equals(userId)) {
+                appointmentDTOS.add(MapperUtil.toAppointmentDTO(appointment));
+            }
+        }
+        return appointmentDTOS;
+    }
 
     @Transactional
     public AppointmentDTO createAppointment(AppointmentDTO appointmentDTO, Dog dog, Shelter shelter, User user) throws MessagingException {
         Appointment appointment = MapperUtil.toAppointment(appointmentDTO, dog, shelter, user);
-        appointment.setStatus("schedueled");
+        appointment.setStatus("confirmed");
+        appointment.setShelterName(shelter.getName());
         appointmentRepository.save(appointment);
-        sendAppointmentEmail(user.getEmail(),appointment);
+        sendAppointmentEmail(user.getEmail(), appointment);
         try {
             return MapperUtil.toAppointmentDTO(appointment);
         } catch (IllegalArgumentException ex) {
@@ -65,7 +74,7 @@ public class AppointmentService {
         }
     }
 
-    private  void sendAppointmentEmail(String email, Appointment appointment) throws MessagingException {
+    private void sendAppointmentEmail(String email, Appointment appointment) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -86,5 +95,13 @@ public class AppointmentService {
 
 
         mailSender.send(message);
+    }
+
+    public void cancelAppointment(Long id) {
+        Optional<Appointment> appointment = appointmentRepository.findById(id);
+        if (appointment.isEmpty()) {
+            throw new ResourceNotFoundException("Appointment with id " + id + " not found");
+        }
+        appointmentRepository.deleteById(id);
     }
 }

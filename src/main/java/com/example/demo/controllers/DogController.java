@@ -1,20 +1,15 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.DogDTO;
-import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
 import com.example.demo.model.Shelter;
-import com.example.demo.model.User;
 import com.example.demo.services.CsvService;
 import com.example.demo.services.DogService;
 import com.example.demo.services.ShelterService;
-import com.example.demo.services.UserService;
 import com.example.demo.util.MapperUtil;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +27,7 @@ public class DogController {
         this.dogService = dogService;
         this.shelterService = shelterService;
         this.csvService = csvService;
+
     }
 
     @GetMapping("/all")
@@ -94,7 +90,7 @@ public class DogController {
         if (file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        List<DogDTO> dogs = csvService.parseCsv(file).stream().map(MapperUtil::toDogDTO).toList();
+        List<DogDTO> dogs = csvService.parseCsvDogs(file).stream().map(MapperUtil::toDogDTO).toList();
         try {
             Shelter shelter = shelterService.findShelterById(id);
             int count = 0;

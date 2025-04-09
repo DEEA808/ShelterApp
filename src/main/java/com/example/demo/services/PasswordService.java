@@ -48,18 +48,14 @@ public class PasswordService {
     }
 
     public  void resetPassword(String email) throws MessagingException {
-        // Generate a new password
         String newPassword = generateRandomPassword();
 
-        // Find the user by email
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Update the password in the database (hashed)
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
-        // Send the new password via email
         sendPasswordResetEmail(email, newPassword);
     }
 
@@ -69,18 +65,15 @@ public class PasswordService {
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder();
 
-        // Ensure at least one of each type
         password.append(UPPERCASE.charAt(random.nextInt(UPPERCASE.length())));
         password.append(LOWERCASE.charAt(random.nextInt(LOWERCASE.length())));
         password.append(DIGITS.charAt(random.nextInt(DIGITS.length())));
         password.append(SPECIAL_CHARACTERS.charAt(random.nextInt(SPECIAL_CHARACTERS.length())));
 
-        // Fill the rest with random characters
         for (int i = 4; i < 12; i++) { // Assuming password length = 12
             password.append(all.charAt(random.nextInt(all.length())));
         }
 
-        // Shuffle the characters
         return password.chars()
                 .mapToObj(c -> (char) c)
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)

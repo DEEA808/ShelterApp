@@ -11,7 +11,6 @@ import com.example.demo.services.DogService;
 import com.example.demo.services.ShelterService;
 import com.example.demo.services.UserService;
 import jakarta.mail.MessagingException;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +27,7 @@ public class AppointmentController {
     private final DogService dogService;
     private final UserService userService;
 
-    public AppointmentController( AppointmentService appointmentService, ShelterService shelterService, DogService dogService, UserService userService) {
+    public AppointmentController(AppointmentService appointmentService, ShelterService shelterService, DogService dogService, UserService userService) {
         this.appointmentService = appointmentService;
         this.shelterService = shelterService;
         this.dogService = dogService;
@@ -43,6 +42,22 @@ public class AppointmentController {
             if (appointments.isEmpty())
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
             return ResponseEntity.status(HttpStatus.OK).body(appointments);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
+    @GetMapping("/mine")
+    public ResponseEntity<List<AppointmentDTO>> getMyAppointments() {
+        try {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            List<AppointmentDTO> appointmentDTOS = appointmentService.getAppointmentsByUserId(user.getId());
+            if (appointmentDTOS.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentDTOS);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
@@ -74,6 +89,18 @@ public class AppointmentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<String> cancelAppointment(@PathVariable Long id) {
+        try {
+            appointmentService.cancelAppointment(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Appointment with id " + id + " was canceled");
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
     }
 }

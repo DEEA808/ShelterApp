@@ -9,6 +9,7 @@ import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
 import com.example.demo.model.User;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class MapperUtil {
         Shelter shelter = new Shelter();
         shelter.setId(shelterDTO.getId());
         shelter.setName(shelterDTO.getName());
+        shelter.setType(shelterDTO.getType());
         shelter.setEmail(shelterDTO.getEmail());
         shelter.setAddress(shelterDTO.getAddress());
         shelter.setDescription(shelterDTO.getDescription());
@@ -88,6 +90,7 @@ public class MapperUtil {
 
         shelterDTO.setId(shelter.getId());
         shelterDTO.setName(shelter.getName());
+        shelterDTO.setType(shelter.getType());
         shelterDTO.setEmail(shelter.getEmail());
         shelterDTO.setAddress(shelter.getAddress());
         shelterDTO.setDescription(shelter.getDescription());
@@ -107,12 +110,16 @@ public class MapperUtil {
         AppointmentDTO appointmentDTO = new AppointmentDTO();
         appointmentDTO.setId(appointment.getId());
         appointmentDTO.setUserName(appointment.getUserName());
+        appointmentDTO.setShelterName(appointment.getShelterName());
         appointmentDTO.setDateTime(appointment.getDateTime());
         appointmentDTO.setPrice(appointment.getCost());
+        appointmentDTO.setStatus(appointment.getStatus());
         appointmentDTO.setDogId(appointment.getDog().getId());
         appointmentDTO.setShelterId(appointment.getShelter().getId());
         appointmentDTO.setUserId(appointment.getUser().getId());
         appointmentDTO.setDogName(appointment.getDogName());
+        List<Character> list=new ArrayList<>();
+        
         return appointmentDTO;
     }
 
@@ -126,6 +133,7 @@ public class MapperUtil {
         appointment.setShelter(shelter);
         appointment.setUser(user);
         appointment.setDogName(appointmentDTO.getDogName());
+        appointment.setShelterName(appointmentDTO.getShelterName());
         return appointment;
     }
 
