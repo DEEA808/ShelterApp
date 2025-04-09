@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const AddShelterPage: React.FC = () => {
     const [name, setName] = useState<string | null>(null);
+    const [type, setType] = useState<string | null>(null);
     const [description, setDescription] = useState<string | null>(null);
     const [address, setAddress] = useState<string | null>(null);
     const [phoneNumber, setPhone] = useState<string | null>(null);
@@ -56,6 +57,7 @@ const AddShelterPage: React.FC = () => {
         try {
             await axios.post(`http://localhost:8005/shelters/add`, {
                 name,
+                type,
                 description,
                 address,
                 totalNumberOfDogs:0,
@@ -84,6 +86,7 @@ const AddShelterPage: React.FC = () => {
                 <h2>Add your shelter</h2>
                 {error && <p className="error-message">{error}</p>}
                 <input type="text" onChange={(e) => setName(e.target.value)} placeholder="Enter name..." />
+                <input type="text" onChange={(e) => setType(e.target.value)} placeholder="Enter type..." />
                 <input type="text" onChange={(e) => setDescription(e.target.value)} placeholder="Enter description..." />
                 <input type="text" onChange={(e) => setAddress(e.target.value)} placeholder="Enter an address..." />
                 <input type="text" onChange={(e) => setPhone(e.target.value)} placeholder="Enter a phone number..." />

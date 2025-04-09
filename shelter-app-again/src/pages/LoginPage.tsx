@@ -1,13 +1,31 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../Auth.css"; // Styling for login and signup pages
+import "../Auth.css";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const [showForgotDialog, setShowForgotDialog] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleSendResetEmail = async () => {
+    try {
+      await axios.post("http://localhost:8005/auth/change", { email });
+      setSuccessMessage("An email with your new password has been sent.");
+    } catch (err) {
+      setError("Failed to send reset email. Please try again.");
+    } finally {
+      setShowForgotDialog(false);
+    }
+  };
+
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,9 +53,11 @@ const Login: React.FC = () => {
   return (
     <div className="auth-page">
       <div className="auth-container">
-        <h1>Hello!</h1>
+        <h2>Hello!</h2>
 
         {error && <p className="error-message">{error}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+
 
         <form onSubmit={handleLogin}>
           <label>Email</label>
@@ -58,9 +78,13 @@ const Login: React.FC = () => {
             required
           />
 
-          {/* Forgot Password Link */}
           <div className="forgot-password">
-            <a href="/forgot-password">Forgotten password?</a>
+            <Button variant="text" onClick={() => setShowForgotDialog(true)}
+              sx={{
+                textTransform: "none", fontSize: "14px", color: "black", textDecoration: null, fontWeight: "bold"
+              }}>
+              Forgotten password?
+            </Button>
           </div>
 
           <div className="signup-nav">
@@ -74,6 +98,26 @@ const Login: React.FC = () => {
           <button className="auth-button" type="submit">Login</button>
         </form>
       </div>
+      <Dialog
+        open={showForgotDialog}
+        onClose={() => setShowForgotDialog(false)}
+      >
+        <DialogTitle>Reset Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Send an email with a new password to <strong>{email || "your email"}</strong>?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowForgotDialog(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleSendResetEmail} color="primary" variant="contained">
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };

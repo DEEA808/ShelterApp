@@ -10,6 +10,7 @@ import { fetchShelterDetails } from "../utils/ShelterUtils";
 import { useShelter } from "../utils/ShelterContext";
 import { Shelter } from "../models/Shelter";
 import EditWindowShelter from "./EditWindowShelter";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 
 const ShelterDetails: React.FC = () => {
     const { shelterId } = useParams<{ shelterId: string }>();
@@ -21,6 +22,8 @@ const ShelterDetails: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [userShelterId, setUserShelterId] = useState<number | null>(null);
     const { selectedShelterId, setSelectedShelterId } = useShelter();
+    const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
 
     const fetchShelter = async () => {
         const token = localStorage.getItem("token");
@@ -106,6 +109,7 @@ const ShelterDetails: React.FC = () => {
 
             <ul className="profile-info-list">
                 <li><strong>Name:</strong> {shelter.name}</li>
+                <li><strong>Type:</strong> {shelter.type}</li>
                 <li><strong>Description:</strong> {shelter.description}</li>
                 <li><strong>Address:</strong> {shelter.address}</li>
                 <li><strong>The total number of dogs:</strong> {shelter.totalNbOfDogs}</li>
@@ -115,8 +119,59 @@ const ShelterDetails: React.FC = () => {
             </ul>
 
             <div>
-                {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<button className="delete-button" onClick={handleDelete}>Delete</button>)}
+                {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<Button 
+                    variant="contained"
+                    color="error"
+                    onClick={() => setShowDeleteDialog(true)}
+                    sx={{
+                        position: "absolute",
+                        display: "flex",
+                        marginRight: "10px",
+                        marginLeft: "850px",
+                        marginTop: "700px",
+                        width: "90px",
+                        height: "40px",
+                        backgroundColor: "#d52d2d",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        textTransform: "none",
+                        '&:hover': {
+                          backgroundColor: "#b22222", 
+                        },
+                      }}
+                    
+                >
+                    Delete
+                </Button>
+                )}
             </div>
+            <Dialog
+                open={showDeleteDialog}
+                onClose={() => setShowDeleteDialog(false)}
+            >
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete this shelter? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setShowDeleteDialog(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => {
+                        setShowDeleteDialog(false);
+                        handleDelete();
+                    }} color="error" variant="contained">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </div>
     );
 };

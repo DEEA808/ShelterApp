@@ -73,10 +73,10 @@ const DogProfilePage: React.FC = () => {
             
             <div>
                 {(userRoles.includes("ROLE_USER") || userRoles.includes("ROLE_ADMIN") && (userShelterId != selectedShelterId)) && (
-                    <h2 className="profile-title" onClick={() => setGettingAppointment(true)}>Meet {dog.name}!  
+                    <h4 className="profile-title" onClick={() => setGettingAppointment(true)}>Meet {dog.name}!  
                         <img src={pawIcon} className="paw-icon" alt="Paw Icon" />
 
-                    </h2>
+                    </h4>
                 )}
 
                 {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (

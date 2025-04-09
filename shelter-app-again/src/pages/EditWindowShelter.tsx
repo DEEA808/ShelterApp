@@ -8,6 +8,7 @@ interface EditWindowPropsShelter {
     shelter: {
         id: number,
         name: string,
+        type:string,
         description: string,
         address: string,
         totalNbOfDogs: number,
@@ -22,6 +23,7 @@ interface EditWindowPropsShelter {
 
 const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter, onClose }) => {
     const [name, setName] = useState(shelter.name);
+    const [type, setType] = useState(shelter.type);
     const [description, setDescription] = useState(shelter.description);
     const [address, setAddress] = useState(shelter.address);
     const [totalNbOfDogs, setTotalNbOfDogs] = useState(shelter.totalNbOfDogs);
@@ -79,6 +81,7 @@ const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter,
             console.log(shelter.id);
             await axios.put(`http://localhost:8005/shelters/update/${shelter.id}`, {
                 name,
+                type,
                 description,
                 address,
                 totalNbOfDogs,
@@ -108,6 +111,7 @@ const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter,
                 <h2>Edit Shelter Information</h2>
                 {error && <p className="error-message">{error}</p>}
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter shelter's name..." />
+                <input type="text" value={type} onChange={(e) => setType(e.target.value)} placeholder="Enter shelter's type..." />
                 <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Enter description..." />
                 <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter the adress..." />
                 <input type="text" value={phoneNumber} onChange={(e) => setPhone(e.target.value)} placeholder="Enter the phone number..." />

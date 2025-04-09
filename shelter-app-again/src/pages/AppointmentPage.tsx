@@ -21,6 +21,7 @@ interface Appointment {
     id: number;
     userName: string;
     dogName: string;
+    shelterName:string;
     dateTime: string;
     price: number;
     status: string;
@@ -99,6 +100,7 @@ const AppointmentPage: React.FC = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Dog’s Name</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Shelter’s Name</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Date</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Time</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Price</TableCell>
@@ -110,6 +112,7 @@ const AppointmentPage: React.FC = () => {
                         {appointments.map((appointment) => (
                             <TableRow key={appointment.id}>
                                 <TableCell>{appointment.dogName}</TableCell>
+                                <TableCell>{appointment.shelterName}</TableCell>
                                 <TableCell>{appointment.date}</TableCell>
                                 <TableCell>{appointment.time}</TableCell>
                                 <TableCell>{appointment.price} RON</TableCell>

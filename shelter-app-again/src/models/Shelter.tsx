@@ -3,6 +3,7 @@ import { Dog } from "./Dog";
 export interface Shelter {
     id:number,
     name:string,
+    type:string,
     description:string,
     address:string,
     totalNbOfDogs:number,

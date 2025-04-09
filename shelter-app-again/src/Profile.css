@@ -1,9 +1,12 @@
 .profile-page {
     display: flex;
-    height: 100vh; /* Full viewport height */
-    width: 100vw;  /* Full viewport width */
+    height: 100vh;
+    /* Full viewport height */
+    width: 100vw;
+    /* Full viewport width */
     background-color: #c9a782;
-    overflow: hidden; /* Prevents scrolling issues */
+    overflow: hidden;
+    /* Prevents scrolling issues */
 }
 
 
@@ -26,7 +29,7 @@
     height: 250px;
     border-radius: 50%;
     overflow: hidden;
-    
+
 }
 
 .profile-image {
@@ -54,20 +57,25 @@
 }
 
 .edit-button:hover {
-    background-color: #e0c9a6; /* Lighter hover effect */
-  }
+    background-color: #e0c9a6;
+    /* Lighter hover effect */
+}
 
 .profile-info-list {
     position: relative;
-    margin-top: 360px;
+    margin-top: 240px;
     list-style: inside;
     font-size: 20px;
     margin-left: 5%;
     display: flex;
-    flex-direction: column; /* ✅ Ensures items stack vertically */
-    gap: 30px; /* ✅ Adds space between list items */
+    flex-direction: column;
+    gap: 30px;
 }
 
+/*.profile-info-list li::marker {
+    font-size: 1.5em; 
+    color: #333; 
+  }*/
 .delete-button {
     position: absolute;
     display: flex;
@@ -76,7 +84,7 @@
     margin-top: 700px;
     width: 90px;
     height: 40px;
-    background-color: #d52d2d; 
+    background-color: #d52d2d;
     color: white;
     border: none;
     border-radius: 5px;
@@ -86,12 +94,14 @@
 }
 
 .paw-icon {
-    width: 24px; /* Adjust as needed */
+    width: 24px;
+    /* Adjust as needed */
     height: 24px;
     margin-left: 10px;
-    vertical-align: middle; /* Ensures proper alignment */
-  }
-  
+    vertical-align: middle;
+    /* Ensures proper alignment */
+}
+
 
 .profile-info-list li {
     margin-bottom: 8px;

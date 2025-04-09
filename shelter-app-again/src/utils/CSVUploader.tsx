@@ -19,43 +19,58 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
         }
     }
 
-    const handleUpload=async()=>{
-        if(!file){
-            setStatus("Please select a csv file")
-            return;
-        }
-
-    const formData=new FormData();
-    formData.append("file",file);
-
-    try{
-        const token = localStorage.getItem("token");
-        if (!token) {
-            setStatus("Authentication error: Please log in.");
-            return;
-        }
-
-        if (!selectedShelterId) {
-          navigate("/shelters");
+    const handleUpload = async () => {
+        if (!file) {
+          setStatus("Please select a csv file");
           return;
         }
-        const response=await axios.post(`http://localhost:8005/dogs/upload/${selectedShelterId}`,formData,{
-            headers:{
+      
+        const formData = new FormData();
+        formData.append("file", file);
+      
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            setStatus("Authentication error: Please log in.");
+            return;
+          }
+      
+          if (!selectedShelterId) {
+            navigate("/shelters");
+            return;
+          }
+      
+          const response = await axios.post(
+            `http://localhost:8005/dogs/upload/${selectedShelterId}`,
+            formData,
+            {
+              headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
-            },
-        });
-        setStatus(response.data);
-        onSuccessUpl();
-    }catch(error){
-        console.error("Upload error",error);
-        setStatus("Upload failed,try again!");
-    }
-    }
+              },
+            }
+          );
+      
+          setStatus(response.data);
+      
+          // ✅ BLUR after update
+          setTimeout(() => {
+            if (document.activeElement instanceof HTMLElement) {
+              document.activeElement.blur();
+            }
+          }, 50); // Give React time to render new cards
+      
+          onSuccessUpl();
+        } catch (error) {
+          console.error("Upload error", error);
+          setStatus("Upload failed, try again!");
+        }
+      };
+      
 
     return (
         <div>
-        <div style={{marginLeft:"850px",marginTop:"30px",position:"absolute", textAlign: "center", padding: "20px" }}>
+        <div style={{marginLeft:"850px",marginTop:"40px",position:"absolute", textAlign: "center", padding: "20px" }}>
           
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px" }}>
             {/* File Input */}

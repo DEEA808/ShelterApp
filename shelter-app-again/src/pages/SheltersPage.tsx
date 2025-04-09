@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 import { useShelter } from "../utils/ShelterContext";
 import { getRolesFromToken } from "../utils/Auth";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+
 
 const SheltersPage: React.FC = () => {
   const [shelters, setShelters] = useState<Shelter[]>([]);
@@ -16,6 +18,8 @@ const SheltersPage: React.FC = () => {
   const navigate = useNavigate();
   const userRoles = getRolesFromToken();
   const [myShelter, setMyShelter] = useState<Shelter | null>(null);
+  const [filterType, setFilterType] = useState<string>("All");
+
 
   const { selectedShelterId, setSelectedShelterId } = useShelter();
 
@@ -36,6 +40,11 @@ const SheltersPage: React.FC = () => {
   const filteredShelters = shelters.filter((shelter) =>
     shelter.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const filteredByType = filteredShelters.filter((shelter) =>
+    filterType === "All" || shelter.type.toLowerCase() === filterType.toLowerCase()
+  );
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -75,6 +84,11 @@ const SheltersPage: React.FC = () => {
     navigate("/appointments");
   }
 
+  const handleFilterChange = (event: SelectChangeEvent) => {
+    setFilterType(event.target.value);
+  };
+
+
   if (loading) return <p>Loading shelters...</p>;
   if (error) return <p>{error}</p>;
 
@@ -95,12 +109,37 @@ const SheltersPage: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <FormControl sx={{ width: 110, marginLeft: 10 }} size="small">
+          <Select
+             sx={{
+              height:30,
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#ccc", // default border
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "gray", // border on hover
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "orange", // border when clicked/focused
+              },
+            }}
+            labelId="filter-label"
+            id="filter"
+            value={filterType}
+            label="Filter"
+            onChange={handleFilterChange}
+          >
+            <MenuItem value="All">All</MenuItem>
+            <MenuItem value="Shelter">Shelter</MenuItem>
+            <MenuItem value="Kennel">Kennel</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       {/* Shelter Grid */}
       <div className="shelter-grid">
-        {filteredShelters.length > 0 ? (
-          filteredShelters.map((shelter) => {
+        {filteredByType.length > 0 ? (
+          filteredByType.map((shelter) => {
             const imageType: "png" | "jpeg" = shelter.image.includes("/9j/") ? "jpeg" : "png";
             const imageSrc = shelter.image ? addDataUrlPrefix(shelter.image, imageType) : null;
 
@@ -112,6 +151,7 @@ const SheltersPage: React.FC = () => {
               >
                 {imageSrc && <img key={shelter.id} src={imageSrc} alt={shelter.name} className="shelter-image" onClick={() => handleShelterImageClick(shelter.id)} />}
                 <h3 onClick={() => handleShelterClick(shelter.id)}>{shelter.name}</h3>
+                <h5>{shelter.type}</h5>
                 <p>Available Dogs: {shelter.availableDogs}</p>
               </div>
             );
@@ -120,6 +160,7 @@ const SheltersPage: React.FC = () => {
           <p>No shelters found</p>
         )}
       </div>
+
       <div className="header-container">
         <h1>
           <span className="word">My</span>

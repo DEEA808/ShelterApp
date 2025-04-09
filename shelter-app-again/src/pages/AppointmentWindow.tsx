@@ -15,17 +15,24 @@ const AppointmentWindow: React.FC<AppointmentWindowProps> = ({ dog, onClose }) =
     const [dogName, setDogName] = useState(dog.name);
     const[dogId,setDogId]=useState(dog.id)
     const[userName,setUserName]=useState("");
-    const[dateTime,setDateTime]=useState("");
+    const[date,setDate]=useState("");
+    const[time,setTime]=useState("");
     const [error, setError] = useState("");
     const { selectedShelterId } = useShelter();
     
-    const handleEdit = async () => {
+    const makeAnAppointment = async () => {
+        if (!date || !time) {
+            setError("Please provide both date and time.");
+            return;
+          }
+        
+          const combinedDateTime = `${date}T${time}:00`;
 
         try {
             await axios.post("http://localhost:8005/appointments/add", {
                 userName,
                 dogName,
-                dateTime,
+                dateTime:combinedDateTime,
                 price:0.0,
                 status:"",
                 dogId,
@@ -35,8 +42,8 @@ const AppointmentWindow: React.FC<AppointmentWindowProps> = ({ dog, onClose }) =
 
             onClose(); // Close modal after update
         } catch (error) {
-            console.error("Error updating dog:", error);
-            setError("Failed to update dog. Please try again.");
+            console.error("Error making an appointment:", error);
+            setError("Failed to make an appointment. Please try again.");
         }
     };
 
@@ -47,8 +54,9 @@ const AppointmentWindow: React.FC<AppointmentWindowProps> = ({ dog, onClose }) =
                 <h2>Get an appointment</h2>
                 {error && <p className="error-message">{error}</p>}
                 <input type="text"  onChange={(e) => setUserName(e.target.value)} placeholder="Enter your name" />
-                <input type="text"  onChange={(e) => setDateTime(e.target.value)} placeholder="Enter the date and time" />
-                <button className="save-button" onClick={handleEdit}>Save Changes</button>
+                <input type="text"  onChange={(e) => setDate(e.target.value)} placeholder="Enter the date" />
+                <input type="text"  onChange={(e) => setTime(e.target.value)} placeholder="Enter the time" />
+                <button className="save-button" onClick={makeAnAppointment}>Save Changes</button>
             </div>
         </div>
     );

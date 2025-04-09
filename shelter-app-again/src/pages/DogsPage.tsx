@@ -9,6 +9,7 @@ import CsvUploader from "../utils/CSVUploader";
 import { getRolesFromToken } from "../utils/Auth";
 import { Trash2 } from "lucide-react";
 import { fetchShelterDetails } from "../utils/ShelterUtils";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 
 const DogsPage: React.FC = () => {
   const [dogs, setDogs] = useState<Dog[]>([]); // ✅ Ensure `dogs` is an array
@@ -20,6 +21,9 @@ const DogsPage: React.FC = () => {
   const userRoles = getRolesFromToken();
   const token = localStorage.getItem("token");
   const [userShelterId, setUserShelterId] = useState<number | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedDogIdToDelete, setSelectedDogIdToDelete] = useState<number | null>(null);
+
 
   const fetchDogs = () => {
     if (!selectedShelterId) {
@@ -142,21 +146,25 @@ const DogsPage: React.FC = () => {
                   <img key={dog.id} src={imageSrc} alt={dog.name} className="shelter-image" onClick={() => handleDogClick(dog.id)} />
                 )}
                 <h3>{dog.name}</h3>
-                <p>Breed: {dog.breed}</p>
+                <p>{dog.breed}</p>
                 {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
                   <button
-                    onClick={() => handleDelete(dog.id)}
+                    onClick={() => {
+                      setSelectedDogIdToDelete(dog.id);
+                      setDeleteDialogOpen(true);
+                    }}
                     style={{
                       backgroundColor: "transparent",
                       border: "none",
                       cursor: "pointer",
                       padding: "3px",
                       display: "flex",
-                      marginLeft: "110px"
+                      marginLeft: "110px",
                     }}
                   >
-                    <Trash2 size={18} color="#C59E7B" /> {/* ✅ Mini Trash Bin Icon */}
-                  </button>)}
+                    <Trash2 size={18} color="#C59E7B" />
+                  </button>
+                )}
               </div>
             );
           })
@@ -165,12 +173,42 @@ const DogsPage: React.FC = () => {
         )}
       </div>
       <div className="header-container">
-          <h1>
-            <span className="word">My</span>
-            <span className="word">Appointments</span>
-          </h1>
-          <button className="forward-button" onClick={handleForwardClick}>→</button>
-        </div>
+        <h1>
+          <span className="word">My</span>
+          <span className="word">Appointments</span>
+        </h1>
+        <button className="forward-button" onClick={handleForwardClick}>→</button>
+      </div>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this dog? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDeleteDialogOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              if (selectedDogIdToDelete !== null) {
+                handleDelete(selectedDogIdToDelete);
+              }
+              setDeleteDialogOpen(false);
+              setSelectedDogIdToDelete(null);
+            }}
+            color="error"
+            variant="contained"
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </div>
   );
 };
