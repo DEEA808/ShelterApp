@@ -21,6 +21,9 @@ public class BreedProfile {
     @Column(name = "name")
     private String name;
 
+    @Column(name="size")
+    private String size;
+
     @Column(name = "affectionate_with_family")
     private int affectionateWithFamily;
 

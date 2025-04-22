@@ -32,6 +32,9 @@ public class Shelter {
     @Column(name = "address")
     private String address;
 
+    @Column(name="city")
+    private String city;
+
     @Column(name = "total_number_of_dogs")
     private int totalNumberOfDogs;
 

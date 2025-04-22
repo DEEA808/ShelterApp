@@ -17,5 +17,7 @@ public class DogDTO {
     private int age;
     private String story;
     private String gender;
+    private String size;
+    private String color;
     private String image;
 }

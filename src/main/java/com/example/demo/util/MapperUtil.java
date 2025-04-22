@@ -4,6 +4,7 @@ import com.example.demo.dto.AppointmentDTO;
 import com.example.demo.dto.DogDTO;
 import com.example.demo.dto.ShelterDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.enums.DogSize;
 import com.example.demo.model.Appointment;
 import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
@@ -11,6 +12,7 @@ import com.example.demo.model.User;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 public class MapperUtil {
@@ -22,6 +24,7 @@ public class MapperUtil {
         shelter.setType(shelterDTO.getType());
         shelter.setEmail(shelterDTO.getEmail());
         shelter.setAddress(shelterDTO.getAddress());
+        shelter.setCity(shelterDTO.getCity());
         shelter.setDescription(shelterDTO.getDescription());
         shelter.setAvailableDogs(shelterDTO.getAvailableDogs());
         shelter.setTotalNumberOfDogs(shelterDTO.getTotalNumberOfDogs());
@@ -33,7 +36,7 @@ public class MapperUtil {
             shelter.setImage(decodedImage);
         }
         List<Dog> shelters = shelterDTO.getDogs().stream()
-                .map(d->MapperUtil.toDog(d,shelter))
+                .map(d -> MapperUtil.toDog(d, shelter))
                 .toList();
         shelter.setDogs(shelters);
         admin.setShelter(shelter);
@@ -53,6 +56,10 @@ public class MapperUtil {
         dogDTO.setDescription(dog.getDescription());
         dogDTO.setAge(dog.getAge());
         dogDTO.setGender(dog.getGender());
+        if (dog.getSize() != null) {
+            dogDTO.setSize(dog.getSize().getDisplayName());
+        }
+        dogDTO.setColor(dog.getColor());
         dogDTO.setBreed(dog.getBreed());
         dogDTO.setStory(dog.getStory());
         dogDTO.setImage(base64Image);
@@ -67,6 +74,10 @@ public class MapperUtil {
         dog.setDescription(dogDTO.getDescription());
         dog.setAge(dogDTO.getAge());
         dog.setGender(dogDTO.getGender());
+        if (dogDTO.getSize() != null) {
+            dog.setSize(DogSize.valueOf(dogDTO.getSize().toUpperCase()));
+        }
+        dog.setColor(dogDTO.getColor().toLowerCase());
         dog.setBreed(dogDTO.getBreed());
         dog.setStory(dogDTO.getStory());
         if (dogDTO.getImage() != null) {
@@ -93,16 +104,18 @@ public class MapperUtil {
         shelterDTO.setType(shelter.getType());
         shelterDTO.setEmail(shelter.getEmail());
         shelterDTO.setAddress(shelter.getAddress());
+        shelterDTO.setCity(shelter.getCity());
         shelterDTO.setDescription(shelter.getDescription());
         shelterDTO.setAvailableDogs(shelter.getAvailableDogs());
         shelterDTO.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs());
         shelterDTO.setPhoneNumber(shelter.getPhoneNumber());
-        shelterDTO.setDogs(shelter.getDogs().stream().map(MapperUtil::toDogDTO).toList());
+        //shelterDTO.setDogs(shelter.getDogs().stream().map(MapperUtil::toDogDTO).toList());
         shelterDTO.setImage(base64Image);
-        List<DogDTO> dogsDTO = shelter.getDogs().stream()
+        /*List<DogDTO> dogsDTO = shelter.getDogs().stream()
                 .map(MapperUtil::toDogDTO)
                 .toList();
-        shelterDTO.setDogs(dogsDTO);
+        shelterDTO.setDogs(dogsDTO);*/
+        shelterDTO.setDogs(Collections.emptyList());
         return shelterDTO;
     }
 
@@ -118,8 +131,8 @@ public class MapperUtil {
         appointmentDTO.setShelterId(appointment.getShelter().getId());
         appointmentDTO.setUserId(appointment.getUser().getId());
         appointmentDTO.setDogName(appointment.getDogName());
-        List<Character> list=new ArrayList<>();
-        
+        List<Character> list = new ArrayList<>();
+
         return appointmentDTO;
     }
 

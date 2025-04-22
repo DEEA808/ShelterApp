@@ -17,6 +17,7 @@ public class ShelterDTO {
     private String type;
     private String description;
     private String address;
+    private String city;
     private int totalNumberOfDogs;
     private int availableDogs;
     private String phoneNumber;

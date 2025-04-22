@@ -92,6 +92,21 @@ public class AppointmentController {
         }
     }
 
+    @GetMapping("/getByShelterId/{id}")
+    public ResponseEntity<List<AppointmentDTO>> getAppointmentByShelterId(@PathVariable Long id) {
+        try {
+            List<AppointmentDTO> appointmentDTOS = appointmentService.getAppointmentsByShelterId(id);
+            if (appointmentDTOS.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(appointmentDTOS);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
     @DeleteMapping("/cancel/{id}")
     public ResponseEntity<String> cancelAppointment(@PathVariable Long id) {
         try {

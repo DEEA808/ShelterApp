@@ -58,6 +58,17 @@ public class AppointmentService {
         return appointmentDTOS;
     }
 
+    public List<AppointmentDTO> getAppointmentsByShelterId(Long shelterId) {
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getShelter().getId().equals(shelterId)) {
+                appointmentDTOS.add(MapperUtil.toAppointmentDTO(appointment));
+            }
+        }
+        return appointmentDTOS;
+    }
+
     @Transactional
     public AppointmentDTO createAppointment(AppointmentDTO appointmentDTO, Dog dog, Shelter shelter, User user) throws MessagingException {
         Appointment appointment = MapperUtil.toAppointment(appointmentDTO, dog, shelter, user);

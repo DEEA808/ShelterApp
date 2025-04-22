@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
-public class ShelterService implements DogObserver  {
+public class ShelterService implements DogObserver {
 
     private final ShelterRepository shelterRepository;
 
@@ -58,16 +58,15 @@ public class ShelterService implements DogObserver  {
     public List<ShelterDTO> getAllShelters() {
         List<Shelter> shelters = shelterRepository.findAll();
 
-        shelters.forEach(shelter -> shelter.getDogs().size());
+        //shelters.forEach(shelter -> shelter.getDogs().size());
 
         return shelters.stream().map(MapperUtil::toShelterDTO).toList();
     }
 
-
     @Transactional(readOnly = true)
     public ShelterDTO getUserShelter(User admin) {
         Shelter shelter = admin.getShelter();
-        if(shelter==null) {
+        if (shelter == null) {
             return null;
         }
         return MapperUtil.toShelterDTO(shelter);
@@ -99,6 +98,7 @@ public class ShelterService implements DogObserver  {
         shelter.setType(shelterDTO.getType());
         shelter.setEmail(shelterDTO.getEmail());
         shelter.setAddress(shelterDTO.getAddress());
+        shelter.setCity(shelterDTO.getCity());
         shelter.setDescription(shelterDTO.getDescription());
         shelter.setAvailableDogs(shelterDTO.getAvailableDogs());
         shelter.setTotalNumberOfDogs(shelterDTO.getTotalNumberOfDogs());
@@ -134,7 +134,7 @@ public class ShelterService implements DogObserver  {
         if (!(operation == OperationType.DELETE && shelter.getDogs().isEmpty())) {
             shelter.setAvailableDogs(shelter.getAvailableDogs() + operation.getValue());
             shelter.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs() + operation.getValue());
-        }else{
+        } else {
             shelter.setAvailableDogs(0);
             shelter.setTotalNumberOfDogs(0);
         }

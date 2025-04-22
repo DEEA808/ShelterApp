@@ -30,20 +30,21 @@ public class CsvService {
             for (CSVRecord csvRecord : csvParser) {
                 BreedProfile breedProfile = new BreedProfile();
                 breedProfile.setName(csvRecord.get(0));
-                breedProfile.setAffectionateWithFamily(Integer.parseInt(csvRecord.get(1)));
-                breedProfile.setGoodWithChildren(Integer.parseInt(csvRecord.get(2)));
-                breedProfile.setGoodWithOtherDogs(Integer.parseInt(csvRecord.get(3)));
-                breedProfile.setSheddingLevel(Integer.parseInt(csvRecord.get(4)));
-                breedProfile.setDroolingLevel(Integer.parseInt(csvRecord.get(5)));
-                breedProfile.setOpennessToStrangers(Integer.parseInt(csvRecord.get(6)));
-                breedProfile.setPlayfulnessLevel(Integer.parseInt(csvRecord.get(7)));
-                breedProfile.setTrainabilityLevel(Integer.parseInt(csvRecord.get(8)));
-                breedProfile.setEnergyLevel(Integer.parseInt(csvRecord.get(9)));
-                breedProfile.setBarkingLevel(Integer.parseInt(csvRecord.get(10)));
-                breedProfile.setMentalSimulationNeeds(Integer.parseInt(csvRecord.get(11)));
-                breedProfile.setLongevity(Integer.parseInt(csvRecord.get(12)));
-                breedProfile.setPopularity(Integer.parseInt(csvRecord.get(13)));
-                breedProfile.setFoodCost(Long.parseLong(csvRecord.get(14)));
+                breedProfile.setSize(csvRecord.get(1));
+                breedProfile.setLongevity(Integer.parseInt(csvRecord.get(2)));
+                breedProfile.setAffectionateWithFamily(Integer.parseInt(csvRecord.get(3)));
+                breedProfile.setGoodWithChildren(Integer.parseInt(csvRecord.get(4)));
+                breedProfile.setGoodWithOtherDogs(Integer.parseInt(csvRecord.get(5)));
+                breedProfile.setSheddingLevel(Integer.parseInt(csvRecord.get(6)));
+                breedProfile.setDroolingLevel(Integer.parseInt(csvRecord.get(7)));
+                breedProfile.setOpennessToStrangers(Integer.parseInt(csvRecord.get(8)));
+                breedProfile.setPlayfulnessLevel(Integer.parseInt(csvRecord.get(9)));
+                breedProfile.setTrainabilityLevel(Integer.parseInt(csvRecord.get(10)));
+                breedProfile.setEnergyLevel(Integer.parseInt(csvRecord.get(11)));
+                breedProfile.setBarkingLevel(Integer.parseInt(csvRecord.get(12)));
+                breedProfile.setMentalSimulationNeeds(Integer.parseInt(csvRecord.get(13)));
+                breedProfile.setPopularity(Integer.parseInt(csvRecord.get(14)));
+                breedProfile.setFoodCost(Integer.parseInt(csvRecord.get(15)));
                 breedProfiles.add(breedProfile);
             }
         } catch (IOException e) {

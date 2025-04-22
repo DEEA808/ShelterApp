@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.DogDTO;
+import com.example.demo.dto.UserPreferencesDTO;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
+import com.example.demo.model.BreedScoreResult;
 import com.example.demo.model.Shelter;
 import com.example.demo.services.CsvService;
 import com.example.demo.services.DogService;
@@ -39,6 +41,19 @@ public class DogController {
             }
             return ResponseEntity.status(HttpStatus.OK).body(dogs);
         } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
+    @GetMapping("/byBreed/{breed}")
+    public ResponseEntity<List<DogDTO>> getDogsByBreed(@PathVariable String breed) {
+        try{
+            List<DogDTO> dogs=dogService.findDogByBreed(breed);
+            if(dogs.isEmpty()){
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(dogs);
+        }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
@@ -132,6 +147,19 @@ public class DogController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         } catch (RuntimeException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/perfectMatch")
+    public ResponseEntity<List<BreedScoreResult>> getTop3BreedScoreResults(@RequestBody UserPreferencesDTO userPreferencesDTO) {
+        try {
+            List<BreedScoreResult> dogs = dogService.findBestMatchingDogs(userPreferencesDTO);
+            if (dogs.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(dogs);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
 }

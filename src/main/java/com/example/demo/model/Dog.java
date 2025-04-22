@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.enums.DogSize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +36,12 @@ public class Dog {
 
     @Column(name="gender")
     private String gender;
+
+    @Column(name="size")
+    private DogSize size;
+
+    @Column(name="color")
+    private String color;
 
     @Lob
     @Column(name = "image")
