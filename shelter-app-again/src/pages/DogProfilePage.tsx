@@ -12,6 +12,7 @@ import AppointmentWindow from "./AppointmentWindow";
 import pawIcon from "../assets/paw.png"
 import { fetchShelterDetails } from "../utils/ShelterUtils";
 import { useShelter } from "../utils/ShelterContext";
+import { Button, Typography } from "@mui/material";
 
 const DogProfilePage: React.FC = () => {
     const { dogId } = useParams<{ dogId: string }>();
@@ -23,39 +24,43 @@ const DogProfilePage: React.FC = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [gettingAppointment, setGettingAppointment] = useState(false);
     const [userShelterId, setUserShelterId] = useState<number | null>(null);
-    const { selectedShelterId, setSelectedShelterId } = useShelter(); 
+    const { selectedShelterId, setSelectedShelterId } = useShelter();
 
-        const fetchDog = async () => {
-            const token = localStorage.getItem("token");
+    const fetchDog = async () => {
+        const token = localStorage.getItem("token");
 
         if (!token) {
             setError("Authentication error: Please log in.");
             return;
         }
-            try {
-                const response = await axios.get(`http://localhost:8005/dogs/getById/${dogId}`,
-                    {headers: {
+        try {
+            const response = await axios.get(`http://localhost:8005/dogs/getById/${dogId}`,
+                {
+                    headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
-            });
-                
-                setDog(response.data);
+                });
 
-                const shelterData = await fetchShelterDetails(token); 
-                if (shelterData) {
-                    setUserShelterId(shelterData.id);
-                }
-            } catch (err) {
-                setError("Failed to fetch dog");
-            } finally {
-                setLoading(false);
+            setDog(response.data);
+
+            const shelterData = await fetchShelterDetails(token);
+            if (shelterData) {
+                setUserShelterId(shelterData.id);
             }
-        };
-   useEffect(() => {
-       fetchDog();
-     }, [dogId, navigate]);
-   
+        } catch (err) {
+            setError("Failed to fetch dog");
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        fetchDog();
+    }, [dogId, navigate]);
+
+    const handleForwardClickToFiles = () => {
+        navigate(`/files/${dogId}`);
+    }
 
     const imageType: "png" | "jpeg" = dog?.image?.includes("/9j/") ? "jpeg" : "png";
     const imageSrc = dog?.image ? addDataUrlPrefix(dog.image, imageType) : null;
@@ -66,14 +71,14 @@ const DogProfilePage: React.FC = () => {
 
     return (
         <div className={`profile-page ${isEditing ? "blurred" : ""}`}>
-            {isEditing  && dog && <EditWindowDog dog={dog} onClose={() => {setIsEditing(false),fetchDog()}} />} 
-            {gettingAppointment && dog && <AppointmentWindow dog={dog} onClose={() => {setGettingAppointment(false),fetchDog()}} />} 
+            {isEditing && dog && <EditWindowDog dog={dog} onClose={() => { setIsEditing(false), fetchDog() }} />}
+            {gettingAppointment && dog && <AppointmentWindow dog={dog} onClose={() => { setGettingAppointment(false), fetchDog() }} />}
 
             <button onClick={() => navigate(-1)} className="back-button">←</button>
-            
+
             <div>
                 {(userRoles.includes("ROLE_USER") || userRoles.includes("ROLE_ADMIN") && (userShelterId != selectedShelterId)) && (
-                    <h4 className="profile-title" onClick={() => setGettingAppointment(true)}>Meet {dog.name}!  
+                    <h4 className="profile-title" onClick={() => setGettingAppointment(true)}>Meet {dog.name}!
                         <img src={pawIcon} className="paw-icon" alt="Paw Icon" />
 
                     </h4>
@@ -94,13 +99,25 @@ const DogProfilePage: React.FC = () => {
                 )}
             </div>}
 
-            <ul className="profile-info-list">
+            {!(isEditing || gettingAppointment) && <ul className="profile-info-list">
                 <li><strong>Breed:</strong> {dog.breed}</li>
                 <li><strong>Description:</strong> {dog.description}</li>
                 <li><strong>Story:</strong> {dog.story}</li>
                 <li><strong>Gender:</strong> {dog.gender}</li>
                 <li><strong>Age:</strong> {dog.age} years</li>
-            </ul>
+                <li><strong>Size:</strong> {dog.size} (adult size)</li>
+                <li><strong>Color:</strong> {dog.color}</li>
+                <li><strong>Shelter's name:</strong>{dog.shelterName}</li>
+                <li><strong>Shelter's city:</strong>{dog.shelterCity}</li>
+            </ul>}
+           
+           <div className="header-container-f">
+                <h1>
+                    <span className="word">Dog's</span>
+                    <span className="word">medical files</span>
+                </h1>
+                <button className="forward-button-f" onClick={handleForwardClickToFiles}>→</button>
+            </div>
         </div>
     );
 };

@@ -11,6 +11,7 @@ interface EditWindowPropsShelter {
         type:string,
         description: string,
         address: string,
+        city:string,
         totalNbOfDogs: number,
         availableDogs: number,
         phoneNumber: string,
@@ -26,6 +27,7 @@ const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter,
     const [type, setType] = useState(shelter.type);
     const [description, setDescription] = useState(shelter.description);
     const [address, setAddress] = useState(shelter.address);
+    const [city, setCity] = useState(shelter.city);
     const [totalNbOfDogs, setTotalNbOfDogs] = useState(shelter.totalNbOfDogs);
     const [availableDogs, setAvailableDogs] = useState(shelter.availableDogs);
     const [phoneNumber, setPhone] = useState(shelter.phoneNumber);
@@ -84,6 +86,7 @@ const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter,
                 type,
                 description,
                 address,
+                city,
                 totalNbOfDogs,
                 availableDogs,
                 phoneNumber,
@@ -108,12 +111,13 @@ const EditWindowShelter: React.FC<EditWindowPropsShelter> = ({ shelter: shelter,
         <div className="modal-overlay">
             <div className="modal">
                 <button className="close-button" onClick={onClose}>✖</button>
-                <h2>Edit Shelter Information</h2>
+                <h5>Edit Shelter Information</h5>
                 {error && <p className="error-message">{error}</p>}
                 <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter shelter's name..." />
                 <input type="text" value={type} onChange={(e) => setType(e.target.value)} placeholder="Enter shelter's type..." />
                 <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Enter description..." />
                 <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter the adress..." />
+                <input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="Enter the city name..." />
                 <input type="text" value={phoneNumber} onChange={(e) => setPhone(e.target.value)} placeholder="Enter the phone number..." />
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter the email..." />
 

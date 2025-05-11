@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import logo from "../assets/app_logo-removebg.png"
+import { useShelter } from "../utils/ShelterContext";
 import {
     Container,
     Table,
@@ -14,9 +14,9 @@ import {
     Paper,
     Button,
     Typography,
-    IconButton,
-    Box
+    IconButton
 } from "@mui/material";
+
 
 
 interface Appointment {
@@ -34,9 +34,10 @@ interface Appointment {
     time: string;
 }
 
-const AppointmentPage: React.FC = () => {
+const ShelterAppointmentPage: React.FC = () => {
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const { selectedShelterId, setSelectedShelterId } = useShelter();
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -44,7 +45,7 @@ const AppointmentPage: React.FC = () => {
                 const token = localStorage.getItem("token");
                 if (!token) throw new Error("Authentication required");
 
-                const response = await axios.get("http://localhost:8005/appointments/mine", {
+                const response = await axios.get(`http://localhost:8005/appointments/getByShelterId/${selectedShelterId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -86,22 +87,6 @@ const AppointmentPage: React.FC = () => {
                 padding: "20px",
             }}
         >
-            {/* Logo in top-right corner */}
-            <Box onClick={() => navigate("/shelters")}
-                component="img"
-                src={logo}
-                alt="Logo"
-                sx={{
-                    position: "absolute",
-                    top: -5,
-                    right: 20,
-                    width: "100px",
-                    height: "auto",
-                    border: "none",        // explicitly ensures no border
-                    boxShadow: "none",     // no shadow
-                    borderRadius: 0        // no rounding if you want it completely sharp
-                }}
-            />
             {/* Back Button */}
             <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
                 <ArrowBackIcon />
@@ -118,7 +103,7 @@ const AppointmentPage: React.FC = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Dog’s Name</TableCell>
-                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Shelter’s Name</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>User’s Name</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Date</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Time</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Price</TableCell>
@@ -134,7 +119,7 @@ const AppointmentPage: React.FC = () => {
                                         {appointment.dogName}
                                     </Link>
                                 </TableCell>
-                                <TableCell>{appointment.shelterName}</TableCell>
+                                <TableCell>{appointment.userName}</TableCell>
                                 <TableCell>{appointment.date}</TableCell>
                                 <TableCell>{appointment.time}</TableCell>
                                 <TableCell>{appointment.price} RON</TableCell>
@@ -169,4 +154,4 @@ const AppointmentPage: React.FC = () => {
     );
 };
 
-export default AppointmentPage;
+export default ShelterAppointmentPage;

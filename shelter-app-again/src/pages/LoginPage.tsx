@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Auth.css";
+import dogs from "../assets/more_dogs.png"
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@mui/material";
 
 
@@ -52,7 +53,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="auth-page">
-      <div className="auth-container">
+      <div className="auth-container-wrapper">
+        <img src={dogs} className="auth-image" alt="Dogs" />
+        <div className="auth-container">
         <h2>Hello!</h2>
 
         {error && <p className="error-message">{error}</p>}
@@ -118,6 +121,7 @@ const Login: React.FC = () => {
         </DialogActions>
       </Dialog>
 
+    </div>
     </div>
   );
 };

@@ -4,11 +4,11 @@
     /* Full viewport height */
     width: 100vw;
     /* Full viewport width */
-    background-color: #c9a782;
+    background-color: rgb(247, 223, 202);
     overflow: hidden;
+    scroll-behavior: auto;
     /* Prevents scrolling issues */
 }
-
 
 .back-button {
     position: absolute;
@@ -64,13 +64,37 @@
 .profile-info-list {
     position: relative;
     margin-top: 240px;
+    margin-right: 200px;
+    margin-left: 5%;
     list-style: inside;
     font-size: 20px;
-    margin-left: 5%;
     display: flex;
     flex-direction: column;
     gap: 30px;
-}
+  
+    max-height: 400px;
+    overflow-y: auto;
+  
+    direction: rtl; /* scrollbar on the left */
+    padding-left: 10px; /* space for left scrollbar */
+  }
+  
+  .profile-info-list li {
+    direction: ltr; /* flip text direction back */
+    text-align: left;
+  }
+  
+
+  .profile-info-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .profile-info-list::-webkit-scrollbar-thumb {
+    background-color: #fef5eb;
+    border-radius: 4px;
+  }
+  
+  
 
 /*.profile-info-list li::marker {
     font-size: 1.5em; 
@@ -80,7 +104,7 @@
     position: absolute;
     display: flex;
     margin-right: 10px;
-    margin-left: 850px;
+    margin-left: 1050px;
     margin-top: 700px;
     width: 90px;
     height: 40px;
@@ -106,3 +130,53 @@
 .profile-info-list li {
     margin-bottom: 8px;
 }
+
+.header-container-sh {
+    position: absolute;
+    display: flex;
+    /* Keep elements in one line */
+    align-items: center;
+    /* Align items vertically */
+    justify-content: space-between;
+    /* Ensures spacing */
+    margin-top: 60px;
+    margin-right: 40px;
+    margin-left: 1154px;
+  
+  }
+
+  .forward-button-sh {
+    font-size: 20px;
+    font-weight: bolder;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-left: auto;
+    /* Pushes button to the right */
+  }
+
+  .header-container-f {
+    position: absolute;
+    display: flex;
+    /* Keep elements in one line */
+    align-items: center;
+    /* Align items vertically */
+    justify-content: space-between;
+    /* Ensures spacing */
+    margin-top: 680px;
+    margin-right: 30px;
+    margin-left: 1200px;
+  
+  }
+
+  .forward-button-f {
+    font-size: 20px;
+    font-weight: bolder;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-left: auto;
+    /* Pushes button to the right */
+  }
+
+ 

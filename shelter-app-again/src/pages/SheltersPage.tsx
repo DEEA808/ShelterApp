@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 import { useShelter } from "../utils/ShelterContext";
 import { getRolesFromToken } from "../utils/Auth";
+import logo from "../assets/app_logo-removebg.png"
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 
@@ -19,8 +20,7 @@ const SheltersPage: React.FC = () => {
   const userRoles = getRolesFromToken();
   const [myShelter, setMyShelter] = useState<Shelter | null>(null);
   const [filterType, setFilterType] = useState<string>("All");
-
-
+  const [filterLocation, setFilterLocation] = useState<string>("");
   const { selectedShelterId, setSelectedShelterId } = useShelter();
 
   useEffect(() => {
@@ -45,6 +45,9 @@ const SheltersPage: React.FC = () => {
     filterType === "All" || shelter.type.toLowerCase() === filterType.toLowerCase()
   );
 
+  const filterByLocation = filteredByType.filter((shelter) =>
+    (shelter.city ?? "").toLowerCase().includes(filterLocation.toLowerCase())
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -96,6 +99,7 @@ const SheltersPage: React.FC = () => {
     <div className="shelter-page">
       <div className="sidebar">
         <button className="back-button" onClick={() => navigate("/login")}>←</button>
+        <img src={logo} className="logo" alt="Logo" />
         <div className="logout-button"><Logout /></div>
         {(userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length === 0)) && (<button className="add-button" onClick={handleAddButtonClick}>Add your shelter</button>)}
       </div>
@@ -109,37 +113,49 @@ const SheltersPage: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <FormControl sx={{ width: 110, marginLeft: 10 }} size="small">
+
+        <input
+          type="text"
+          className="search-location"
+          placeholder="Filter by location..."
+          value={filterLocation}
+          onChange={(e) => setFilterLocation(e.target.value)}
+          style={{ marginLeft: "10px" }}
+        />
+
+        <FormControl sx={{ width: 180, marginLeft: 5, marginTop: "6px" }} size="small">
           <Select
-             sx={{
-              height:30,
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#ccc", // default border
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "gray", // border on hover
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "orange", // border when clicked/focused
-              },
-            }}
-            labelId="filter-label"
-            id="filter"
+            displayEmpty
             value={filterType}
-            label="Filter"
             onChange={handleFilterChange}
+            inputProps={{ 'aria-label': 'Type' }}
+            sx={{
+              height: 30,
+              "& .MuiOutlinedInput-notchedOutline": { borderColor: "#ccc" },
+              "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "gray" },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "orange" },
+            }}
+            renderValue={(selected) => {
+              if (!selected || selected === "All") {
+                return <span style={{ color: "black" }}>Type</span>; // 👈 custom placeholder color
+              }
+              return selected;
+            }}
           >
             <MenuItem value="All">All</MenuItem>
             <MenuItem value="Shelter">Shelter</MenuItem>
             <MenuItem value="Kennel">Kennel</MenuItem>
           </Select>
         </FormControl>
+
+
+
       </div>
 
       {/* Shelter Grid */}
       <div className="shelter-grid">
-        {filteredByType.length > 0 ? (
-          filteredByType.map((shelter) => {
+        {filterByLocation.length > 0 ? (
+          filterByLocation.map((shelter) => {
             const imageType: "png" | "jpeg" = shelter.image.includes("/9j/") ? "jpeg" : "png";
             const imageSrc = shelter.image ? addDataUrlPrefix(shelter.image, imageType) : null;
 

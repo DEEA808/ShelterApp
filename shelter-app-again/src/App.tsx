@@ -8,6 +8,14 @@ import ShelterDetails from "./pages/ShelterDetails";
 import SignupAdmin from "./pages/RegisterAdmin";
 import AddShelterPage from "./pages/AddShelterPage";
 import AppointmentPage from "./pages/AppointmentPage";
+import UserPreferencesFormPage from "./pages/UserPreferencesFormPage";
+import TopBreedsPage from "./pages/TopBreedsPage";
+import DogsWithSameBreedPage from "./pages/DogsWithSameBreedPage";
+import AddDogPage from "./pages/AddDogPage";
+import ShelterAppointmentPage from "./pages/ShelterAppointmentPage";
+import MedicalFilesPage from "./pages/MedicalFilesPage";
+import NewFormPage from "./pages/NewFormPage";
+import TraitPage from "./pages/TraitPage";
 
 function App() {
   return (
@@ -20,9 +28,16 @@ function App() {
         <Route path="/shelters" element={<SheltersPage />}/>
         <Route path="/dogs" element={<DogsPage/>}/>
         <Route path="/dogProfile/:dogId" element={<DogProfilePage/>}/>
+        <Route path="/files/:dogId" element={<MedicalFilesPage/>}/>
         <Route path="/shelterDetails/:shelterId" element={<ShelterDetails/>}/>
         <Route path="/addShelter" element={<AddShelterPage/>}/>
+        <Route path="/addDog" element={<AddDogPage/>}/>
         <Route path="/appointments" element={<AppointmentPage/>}/>
+        <Route path="/shelterAppointments" element={<ShelterAppointmentPage/>}/>
+        <Route path="/toForm" element={<NewFormPage/>}/>
+        <Route path="/trait-detail/:trait" element={<TraitPage/>}/>
+        <Route path="/topBreeds" element={<TopBreedsPage />} />
+        <Route path="/breeds/:breedName" element={<DogsWithSameBreedPage/>}/>
       </Routes>
     </Router>
   );

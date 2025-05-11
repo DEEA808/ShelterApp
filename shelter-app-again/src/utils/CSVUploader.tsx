@@ -70,7 +70,7 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
 
     return (
         <div>
-        <div style={{marginLeft:"850px",marginTop:"40px",position:"absolute", textAlign: "center", padding: "20px" }}>
+        <div style={{marginLeft:"865px",marginTop:"35px",position:"absolute", textAlign: "center", padding: "20px" }}>
           
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px" }}>
             {/* File Input */}

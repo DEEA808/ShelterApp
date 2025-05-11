@@ -13,3 +13,20 @@ export const fetchShelterDetails = async (token: string | null) => {
         return null; 
     }
 };
+
+export const fetchShelterById = async (id: number, token: string | null) => {
+    if (!token) return null;
+  
+    try {
+      const response = await axios.get(`http://localhost:8005/shelters/getById/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching shelter by ID:", error);
+      return null;
+    }
+  };
+  

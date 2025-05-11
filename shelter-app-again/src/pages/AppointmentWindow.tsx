@@ -51,7 +51,7 @@ const AppointmentWindow: React.FC<AppointmentWindowProps> = ({ dog, onClose }) =
         <div className="modal-overlay">
             <div className="modal">
                 <button className="close-button" onClick={onClose}>✖</button>
-                <h2>Get an appointment</h2>
+                <h6>Get an appointment</h6>
                 {error && <p className="error-message">{error}</p>}
                 <input type="text"  onChange={(e) => setUserName(e.target.value)} placeholder="Enter your name" />
                 <input type="text"  onChange={(e) => setDate(e.target.value)} placeholder="Enter the date" />

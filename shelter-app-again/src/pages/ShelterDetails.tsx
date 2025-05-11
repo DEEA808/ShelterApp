@@ -24,7 +24,6 @@ const ShelterDetails: React.FC = () => {
     const { selectedShelterId, setSelectedShelterId } = useShelter();
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-
     const fetchShelter = async () => {
         const token = localStorage.getItem("token");
 
@@ -48,7 +47,7 @@ const ShelterDetails: React.FC = () => {
                 setUserShelterId(shelterData.id);
             }
         } catch (err) {
-            setError("Failed to fetch dog");
+            setError("Failed to fetch shelter");
         } finally {
             setLoading(false);
         }
@@ -73,10 +72,14 @@ const ShelterDetails: React.FC = () => {
             });
             navigate("/shelters");
         } catch (error) {
-            console.error("Error deleting dog:", error);
-            setError("Failed to delete dog. Please try again.");
+            console.error("Error deleting shelter:", error);
+            setError("Failed to delete shelter. Please try again.");
         }
     };
+
+    const handleForwardClickToShelterApp = () => {
+        navigate("/shelterAppointments");
+    }
 
     const imageType: "png" | "jpeg" = shelter?.image?.includes("/9j/") ? "jpeg" : "png";
     const imageSrc = shelter?.image ? addDataUrlPrefix(shelter.image, imageType) : null;
@@ -107,27 +110,27 @@ const ShelterDetails: React.FC = () => {
                 )}
             </div>}
 
-            <ul className="profile-info-list">
+            {!(isEditing) && <ul className="profile-info-list">
                 <li><strong>Name:</strong> {shelter.name}</li>
                 <li><strong>Type:</strong> {shelter.type}</li>
                 <li><strong>Description:</strong> {shelter.description}</li>
                 <li><strong>Address:</strong> {shelter.address}</li>
-                <li><strong>The total number of dogs:</strong> {shelter.totalNbOfDogs}</li>
+                <li><strong>City:</strong> {shelter.city}</li>
                 <li><strong>The number of available dogs:</strong> {shelter.availableDogs}</li>
                 <li><strong>Phone number:</strong> {shelter.phoneNumber}</li>
                 <li><strong>Email:</strong> {shelter.email}</li>
-            </ul>
+            </ul>}
 
             <div>
-                {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<Button 
+                {(!(isEditing) && userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<Button
                     variant="contained"
                     color="error"
                     onClick={() => setShowDeleteDialog(true)}
                     sx={{
                         position: "absolute",
                         display: "flex",
-                        marginRight: "10px",
-                        marginLeft: "850px",
+                        marginRight: "80px",
+                        marginLeft: "620px",
                         marginTop: "700px",
                         width: "90px",
                         height: "40px",
@@ -140,10 +143,10 @@ const ShelterDetails: React.FC = () => {
                         fontWeight: "bold",
                         textTransform: "none",
                         '&:hover': {
-                          backgroundColor: "#b22222", 
+                            backgroundColor: "#b22222",
                         },
-                      }}
-                    
+                    }}
+
                 >
                     Delete
                 </Button>
@@ -171,6 +174,14 @@ const ShelterDetails: React.FC = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            {(!(isEditing) && userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<div className="header-container-sh">
+                <h1>
+                    <span className="word">Shelter's</span>
+                    <span className="word">Appointments</span>
+                </h1>
+                <button className="forward-button-sh" onClick={handleForwardClickToShelterApp}>→</button>
+            </div>)}
 
         </div>
     );

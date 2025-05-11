@@ -15,7 +15,7 @@
   background-color: #e5ceb0;
   align-items: center;
   justify-content: center;
-
+ position: relative;
 }
 
 .back-button {
@@ -23,9 +23,22 @@
   border: none;
   background: none;
   cursor: pointer;
+  position: relative;
+  margin-bottom: 65%;
+  margin-right: 65%;
+  z-index: 2; 
+}
+
+.back-to-main-page {
+  font-size: 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
   position: absolute;
-  margin-bottom: 45%;
-  margin-right: 10%;
+  margin-top: 67px;
+  margin-right: 800px;
+  margin-left: 40px;
+
 }
 
 
@@ -95,7 +108,18 @@
   top: 10%;
   left: 55%;
   transform: translate(-50%, -50%);
-  width: 30%;
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-container-b {
+  position: absolute;
+  top: 10%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 45%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -103,6 +127,34 @@
 
 .search-bar {
   width: 75%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+}
+
+.search-bar-b {
+  width: 75%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+}
+
+
+.search-color {
+  width: 45%;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+}
+
+.search-location {
+  width: 45%;
   padding: 10px;
   font-size: 15px;
   border: 1px solid #ccc;
@@ -129,6 +181,43 @@
   height: 40px;
   margin-left: 18px;
   border: none;
+}
+
+.add-dog-button {
+  position: absolute;
+  background-color: #C59E7B;
+  cursor: pointer;
+  margin-top: 65px;
+  width: 125px;
+  height: 30px;
+  font-size: 12px;
+  margin-left: 90px;
+  border: none;
+}
+
+.logo {
+  position: absolute;
+  cursor: pointer;
+  margin-top: 17px;
+  width: 195px;
+  height:auto ;
+  font-size: 12px;
+  margin-left: 10px;
+  border: none;
+  z-index: 1; 
+}
+
+.add-button-d {
+
+  position: absolute;
+  background-color: #C59E7B;
+  cursor: pointer;
+  margin-top: 700px;
+  width: 165px;
+  height: 60px;
+  margin-left: 18px;
+  border: none;
+
 }
 
 .add-button:hover {
@@ -196,13 +285,29 @@ h1 {
   background-color: #C59E7B;
   position: absolute;
   margin-top: 350px;
-  margin-left: 5px;
+  margin-left: 28px;
   margin-right: 20px;
   border: none;
 }
 
 p {
-  font-size: 14px;
+  margin-top: 1px;
+  font-size: 13px;
   margin-left: 10px;
   color: #555;
 }
+
+.adopt-banner {
+  margin-top: 5px;
+  background-color: #ff914d;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 14px;
+  border-radius: 5px;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+

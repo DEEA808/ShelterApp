@@ -6,5 +6,9 @@ export interface Dog{
     age:number,
     story:string,
     gender:string,
-    image:string
+    size:string,
+    color:string,
+    image:string,
+    shelterName:string
+    shelterCity:string
 }

@@ -6,6 +6,7 @@ export interface Shelter {
     type:string,
     description:string,
     address:string,
+    city:string,
     totalNbOfDogs:number,
     availableDogs:number,
     phoneNumber:string,
