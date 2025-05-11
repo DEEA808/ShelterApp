@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class BreedScoreResult {
     private BreedProfile breedProfile;
-    private int score;
+    private double compatibiltyPercent;
 }

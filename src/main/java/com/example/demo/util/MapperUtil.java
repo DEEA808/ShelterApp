@@ -1,14 +1,8 @@
 package com.example.demo.util;
 
-import com.example.demo.dto.AppointmentDTO;
-import com.example.demo.dto.DogDTO;
-import com.example.demo.dto.ShelterDTO;
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.*;
 import com.example.demo.enums.DogSize;
-import com.example.demo.model.Appointment;
-import com.example.demo.model.Dog;
-import com.example.demo.model.Shelter;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -63,8 +57,20 @@ public class MapperUtil {
         dogDTO.setBreed(dog.getBreed());
         dogDTO.setStory(dog.getStory());
         dogDTO.setImage(base64Image);
+        dogDTO.setShelterName(dog.getShelter().getName());
+        dogDTO.setShelterCity(dog.getShelter().getCity());
 
         return dogDTO;
+    }
+
+    public static MedicalFileDTO toMedicalFileDTO(MedicalFile medicalFile) {
+        MedicalFileDTO file = new MedicalFileDTO();
+        file.setId(medicalFile.getId());
+        file.setFileName(medicalFile.getFileName());
+        file.setFileType(medicalFile.getFileType());
+        file.setBase64Data(Base64.getEncoder().encodeToString(medicalFile.getData()));
+
+        return file;
     }
 
     public static Dog toDog(DogDTO dogDTO, Shelter shelter) {

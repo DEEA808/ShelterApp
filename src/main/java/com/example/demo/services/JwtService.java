@@ -44,7 +44,7 @@ public class JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList())); // ✅ Add roles to token
+                .collect(Collectors.toList()));
 
         return generateToken(claims, userDetails);
     }

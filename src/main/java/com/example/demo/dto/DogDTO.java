@@ -14,10 +14,12 @@ public class DogDTO {
     private String name;
     private String breed;
     private String description;
-    private int age;
+    private float age;
     private String story;
     private String gender;
     private String size;
     private String color;
     private String image;
+    private String shelterName;
+    private String shelterCity;
 }

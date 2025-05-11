@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.DogDTO;
+import com.example.demo.dto.PreferencesAndResultsDTO;
 import com.example.demo.dto.UserPreferencesDTO;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
@@ -10,6 +11,7 @@ import com.example.demo.services.CsvService;
 import com.example.demo.services.DogService;
 import com.example.demo.services.ShelterService;
 import com.example.demo.util.MapperUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -160,6 +162,18 @@ public class DogController {
             return ResponseEntity.status(HttpStatus.OK).body(dogs);
         } catch (RuntimeException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
+    @PostMapping("/preferencesAndResults/{email}")
+    public ResponseEntity<Object> receivePreferencesAndSendResults(@RequestBody PreferencesAndResultsDTO data, @PathVariable String email) {
+        try {
+            dogService.sendResultToEmail(email,data);
+            return ResponseEntity.ok("Reset password completed");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password reset email sent unsuccessfully.");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
         }
     }
 }

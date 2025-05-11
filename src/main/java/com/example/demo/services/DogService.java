@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.DogDTO;
+import com.example.demo.dto.PreferencesAndResultsDTO;
 import com.example.demo.dto.UserPreferencesDTO;
 import com.example.demo.enums.DogSize;
 import com.example.demo.enums.OperationType;
@@ -14,7 +15,11 @@ import com.example.demo.observers.DogObserver;
 import com.example.demo.repositories.BreedProfileRepository;
 import com.example.demo.repositories.DogRepository;
 import com.example.demo.util.MapperUtil;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +30,9 @@ public class DogService {
     private final DogRepository dogRepository;
     private final List<DogObserver> observers = new ArrayList<>();
     private final BreedProfileRepository breedProfileRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
 
     @Autowired
@@ -71,7 +79,7 @@ public class DogService {
 
     @Transactional(readOnly = true)
     public List<DogDTO> findDogByBreed(String breed) {
-        List<Dog> dogs=dogRepository.findByBreed(breed);
+        List<Dog> dogs = dogRepository.findByBreed(breed);
         return dogs.stream().map(MapperUtil::toDogDTO).toList();
     }
 
@@ -123,7 +131,7 @@ public class DogService {
         notifyObserver(shelterId, OperationType.DELETE);
     }
 
-    public List<BreedScoreResult> findBestMatchingDogs(UserPreferencesDTO userPref) {
+    /*public List<BreedScoreResult> findBestMatchingDogs(UserPreferencesDTO userPref) {
         List<BreedProfile> allBreeds = breedProfileRepository.findAll();
         List<BreedProfile> toSearchInForBreeds = allBreeds;
         String size = userPref.getSize();
@@ -138,23 +146,137 @@ public class DogService {
                     int score = calculateScore(userPref, breed);
                     return new BreedScoreResult(breed, score);
                 })
-                .sorted(Comparator.comparingInt(BreedScoreResult::getScore).reversed())
+                .sorted(Comparator.comparingDouble(BreedScoreResult::getCompatibiltyPercent).reversed())
+                .limit(10)
+                .toList();
+    }*/
+
+    public List<BreedScoreResult> findBestMatchingDogs(UserPreferencesDTO userPref) {
+        List<BreedProfile> allBreeds = breedProfileRepository.findAll();
+        List<BreedProfile> toSearchInForBreeds = breedProfileRepository.findAll();
+        String size = userPref.getSize();
+        if (!size.equalsIgnoreCase("doesn't matter")) {
+            toSearchInForBreeds = allBreeds.stream()
+                    .filter(b -> b.getSize().equalsIgnoreCase(size)).toList();
+        }
+
+        int maxPossibleScore = calculateMaxPossibleScore(userPref);
+
+        return toSearchInForBreeds.stream()
+                .map(breed -> {
+                    int score = calculateScore(userPref, breed);
+                    double compatibilityPercent = maxPossibleScore > 0
+                            ? (double) score / maxPossibleScore * 100
+                            : 0;
+                    return new BreedScoreResult(breed, compatibilityPercent);
+                })
+                .sorted(Comparator.comparingDouble(BreedScoreResult::getCompatibiltyPercent).reversed())
                 .limit(10)
                 .toList();
     }
 
+
+    private int calculateMaxPossibleScore(UserPreferencesDTO pref) {
+        int maxScore = 0;
+
+        maxScore += pref.getIntelligenceWeight() * (2 * 5); // 2 subtraits
+        maxScore += pref.getHygieneWeight() * (2 * 5);
+        maxScore += pref.getAdaptabilityWeight() * (2 * 5);
+        maxScore += pref.getEnergyWeight() * (2 * 5);
+        maxScore += pref.getFriendlinessWeight() * (3 * 5); // 3 subtraits
+        maxScore += pref.getPopularityWeight() * 5;
+        maxScore += pref.getLengevityWeight() * 5;
+        maxScore += pref.getFoodCostWeight() * 5;
+
+        return maxScore;
+    }
+
+
     private int calculateScore(UserPreferencesDTO pref, BreedProfile breed) {
         int score = 0;
 
-        score += pref.getIntelligenceWeight() * ((3 - Math.abs(pref.getTrainabilityLevel() - breed.getTrainabilityLevel())) + (3 - Math.abs(pref.getMentalSimulationNeeds() - breed.getMentalSimulationNeeds())));
-        score += pref.getHygieneWeight() * ((3 - Math.abs(pref.getSheddingLevel() - breed.getSheddingLevel())) + (3 - Math.abs(pref.getDroolingLevel() - breed.getDroolingLevel())));
-        score += pref.getAdaptabilityWeight() * ((3 - Math.abs(pref.getGoodWithOtherDogs() - breed.getGoodWithOtherDogs())) + (3 - Math.abs(pref.getGoodWithChildren() - breed.getGoodWithChildren())));
-        score += pref.getEnergyWeight() * ((3 - Math.abs(pref.getEnergyLevel() - breed.getEnergyLevel())) + (3 - Math.abs(pref.getBarkingLevel() - breed.getBarkingLevel())));
-        score += pref.getFriendlinessWeight() * ((3 - Math.abs(pref.getAffectionateWithFamily() - breed.getAffectionateWithFamily())) + (3 - Math.abs(pref.getOpennessToStrangers() - breed.getOpennessToStrangers())) + (3 - Math.abs(pref.getPlayfulnessLevel() - breed.getPlayfulnessLevel())));
-        score += pref.getPopularityWeight() * (3 - Math.abs(pref.getPopularity()) - breed.getPopularity());
-        score += 0 * (3 - Math.abs(pref.getLongevity() - breed.getLongevity()));
-        score += 0 * (3 - Math.abs(pref.getFoodCost() - breed.getFoodCost()));
+        score += pref.getIntelligenceWeight() * ((5 - Math.abs(pref.getTrainabilityLevel() - breed.getTrainabilityLevel())) +
+                (5 - Math.abs(pref.getMentalSimulationNeeds() - breed.getMentalSimulationNeeds())));
+        score += pref.getHygieneWeight() * ((5 - Math.abs(pref.getSheddingLevel() - breed.getSheddingLevel())) + (5 - Math.abs(pref.getDroolingLevel() - breed.getDroolingLevel())));
+        score += pref.getAdaptabilityWeight() * ((5 - Math.abs(pref.getGoodWithOtherDogs() - breed.getGoodWithOtherDogs())) +
+                (5 - Math.abs(pref.getGoodWithChildren() - breed.getGoodWithChildren())));
+        score += pref.getEnergyWeight() * ((5 - Math.abs(pref.getEnergyLevel() - breed.getEnergyLevel())) + (5 - Math.abs(pref.getBarkingLevel() - breed.getBarkingLevel())));
+        score += pref.getFriendlinessWeight() * ((5 - Math.abs(pref.getAffectionateWithFamily() -
+                breed.getAffectionateWithFamily())) + (5 - Math.abs(pref.getOpennessToStrangers() - breed.getOpennessToStrangers())) +
+                (5 - Math.abs(pref.getPlayfulnessLevel() - breed.getPlayfulnessLevel())));
+        score += pref.getPopularityWeight() * (5 - Math.abs(pref.getPopularity() - breed.getPopularity()));
+        score += pref.getLengevityWeight() * (5 - Math.abs(pref.getLongevity() - breed.getLongevity()));
+        score += (int) (pref.getFoodCostWeight() * (5 - Math.abs(pref.getFoodCost() - breed.getFoodCost())));
 
         return score;
+    }
+
+    public void sendResultToEmail(String email, PreferencesAndResultsDTO data) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(email);
+        helper.setSubject("Your perfect dog results");
+
+        StringBuilder htmlContent = new StringBuilder();
+
+        htmlContent.append("<html><body>");
+        htmlContent.append("<h2 style='color:#D86B5C;'>🐶 Your Top 10 Dog Matches</h2>");
+        htmlContent.append("<p>Based on your preferences, here are the top breeds for you:</p>");
+
+        htmlContent.append("<ul>");
+        for (BreedScoreResult result : data.getResults()) {
+            htmlContent.append("<li><strong>")
+                    .append(result.getBreedProfile().getName())
+                    .append("</strong> - Score: ")
+                    .append(result.getCompatibiltyPercent())
+                    .append("</li>");
+        }
+        htmlContent.append("</ul>");
+
+        htmlContent.append("<hr style='margin: 20px 0;'/>");
+
+        htmlContent.append("<h3 style='color:#D86B5C;'>📋 Your Preferences</h3>");
+        htmlContent.append("<table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>");
+
+        UserPreferencesDTO prefs = data.getPreferences();
+        htmlContent.append("<tr><td><strong>Intelligence Weight</strong></td><td>").append(prefs.getIntelligenceWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Trainability Level</td><td>").append(prefs.getTrainabilityLevel()).append("</td></tr>");
+        htmlContent.append("<tr><td>Mental Simulation Needs</td><td>").append(prefs.getMentalSimulationNeeds()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Hygiene Weight</strong></td><td>").append(prefs.getHygieneWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Shedding Level</td><td>").append(prefs.getSheddingLevel()).append("</td></tr>");
+        htmlContent.append("<tr><td>Drooling Level</td><td>").append(prefs.getDroolingLevel()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Friendliness Weight</strong></td><td>").append(prefs.getFriendlinessWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Affectionate with Family</td><td>").append(prefs.getAffectionateWithFamily()).append("</td></tr>");
+        htmlContent.append("<tr><td>Openness to strangers</td><td>").append(prefs.getOpennessToStrangers()).append("</td></tr>");
+        htmlContent.append("<tr><td>Playfulness Level</td><td>").append(prefs.getPlayfulnessLevel()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Adaptability Weight</strong></td><td>").append(prefs.getAdaptabilityWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Good With Other Dogs</td><td>").append(prefs.getGoodWithOtherDogs()).append("</td></tr>");
+        htmlContent.append("<tr><td>Good With Children</td><td>").append(prefs.getGoodWithChildren()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Energy Weight</strong></td><td>").append(prefs.getEnergyWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Energy Level</td><td>").append(prefs.getEnergyLevel()).append("</td></tr>");
+        htmlContent.append("<tr><td>Barking Level</td><td>").append(prefs.getBarkingLevel()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Popularity Weight</strong></td><td>").append(prefs.getPopularityWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Popularity</td><td>").append(prefs.getPopularity()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Longevity Weight</strong></td><td>").append(prefs.getLengevityWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Longevity</td><td>").append(prefs.getLongevity()).append("</td></tr>");
+
+        htmlContent.append("<tr><td><strong>Food Cost Weight</strong></td><td>").append(prefs.getFoodCostWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Food Cost</td><td>").append(prefs.getFoodCost()).append("</td></tr>");
+
+        htmlContent.append("</table>");
+
+        htmlContent.append("<p style='margin-top:20px;'>🐾 Thank you for using Find Your Perfect Dog!</p>");
+        htmlContent.append("</body></html>");
+
+        helper.setText(htmlContent.toString(), true);
+
+        mailSender.send(message);
     }
 }

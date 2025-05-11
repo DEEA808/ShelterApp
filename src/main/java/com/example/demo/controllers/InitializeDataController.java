@@ -43,7 +43,7 @@ public class InitializeDataController {
 
     @PostConstruct
     public void init() {
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream("data/breed_traits_dd.csv")) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("data/dataset_5scores.csv")) {
             if (is == null) throw new RuntimeException("CSV file not found!");
 
             List<BreedProfile> breeds = CsvService.parseCsvBreedProfile(is);

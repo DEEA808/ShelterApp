@@ -6,9 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Entity
-@Table(name="dogs")
+@Table(name = "dogs")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,25 +23,25 @@ public class Dog {
     @Column(name = "name")
     private String name;
 
-    @Column(name="breed")
+    @Column(name = "breed")
     private String breed;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name="age")
-    private int age;
+    @Column(name = "age")
+    private float age;
 
-    @Column(name="story")
+    @Column(name = "story")
     private String story;
 
-    @Column(name="gender")
+    @Column(name = "gender")
     private String gender;
 
-    @Column(name="size")
+    @Column(name = "size")
     private DogSize size;
 
-    @Column(name="color")
+    @Column(name = "color")
     private String color;
 
     @Lob
@@ -51,5 +52,8 @@ public class Dog {
     @ManyToOne
     @JoinColumn(name = "shelter_id", nullable = false)
     private Shelter shelter;
+
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MedicalFile> medicalFiles;
 
 }

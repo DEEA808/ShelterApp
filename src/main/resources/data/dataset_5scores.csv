@@ -1,0 +1,203 @@
+Breed,size,Lifespan,Popularity,Affectionate With Family,Good With Young Children,Good With Other Dogs,Shedding Level,Drooling Level,Openness To Strangers,Playfulness Level,Trainability Level,Energy Level,Barking Level,Mental Stimulation Needs,Food Cost
+Danish-Swedish Farmdog,small,3,1,5,5,5,4,5,5,4,4,4,3,4,4
+Lancashire Heeler,small,3,1,5,5,5,3,5,4,4,4,4,2,4,4
+Russian Toy,small,3,2,5,3,3,3,5,3,4,4,3,2,3,5
+Mudi,medium,3,2,5,3,3,4,4,3,5,5,5,2,4,4
+Bracco Italiano,large,3,2,3,4,4,4,4,3,3,5,4,4,3,2
+Biewer Terrier,small,3,4,5,3,5,5,5,3,4,3,3,3,3,5
+Belgian Laekenois,medium,2,1,3,3,3,3,5,3,3,5,4,3,4,2
+Labrador,Large,3,5,5,5,5,2,4,5,5,5,5,3,4,2
+French Bulldog,Small,3,5,5,5,4,3,3,5,5,4,3,5,3,4
+German Shepherd,Large,3,5,5,5,3,2,4,3,4,5,5,3,5,2
+Golden Retriever,Large,3,5,5,5,5,2,4,5,4,5,3,5,4,2
+Bulldog,Large,3,5,4,3,3,3,3,4,4,4,3,4,3,3
+Poodle,Medium,3,5,5,5,3,5,5,5,5,5,4,2,5,3
+Beagle,Small,3,5,3,5,5,3,5,3,4,3,4,2,4,4
+Rottweiler,Large,2,5,5,3,3,3,3,3,4,5,3,5,5,1
+German Shorthaired Pointer,Medium,3,5,5,5,4,3,4,4,4,5,5,3,5,3
+Dachshund,Small,3,5,5,3,4,4,4,4,4,4,3,1,3,4
+Pembroke Welsh Corgi,Small,3,5,5,3,4,2,5,4,4,4,4,2,4,4
+Australian Shepherd,Medium,3,5,3,5,3,3,5,3,4,5,5,3,5,3
+Yorkshire Terrier,Small,3,5,5,5,3,5,5,5,4,4,4,2,4,5
+Boxer,Medium,3,5,4,5,3,4,3,4,4,4,4,3,4,2
+Great Dane,Large,2,5,5,3,3,3,2,3,4,3,4,3,4,1
+Siberian Huskie,Medium,3,5,5,5,5,2,5,5,5,3,5,1,4,2
+Cavalier King Charles Spaniel,Medium,3,5,5,5,5,4,4,4,3,4,3,3,3,4
+Doberman Pinscher,Medium,3,5,5,5,3,2,4,4,4,5,5,3,4,2
+Miniature Schnauzer,Small,3,5,5,5,3,3,4,3,4,5,3,1,4,4
+Shih Tzu,Small,3,5,5,5,5,5,5,3,3,4,3,3,3,5
+Boston Terrier,Small,3,5,5,5,4,4,5,5,5,4,4,4,3,4
+Bernese Mountain Dog,Large,2,5,5,5,5,1,3,4,4,4,4,3,3,1
+Pomeranian,Small,3,5,5,3,3,4,5,3,3,3,3,2,3,5
+Havanese,Small,3,5,5,5,5,4,5,5,5,4,3,2,3,5
+Cane Corso,Large,3,5,4,3,3,4,3,3,3,4,4,3,3,1
+English Springer Spaniel,Medium,3,5,5,3,4,3,3,4,4,5,4,3,4,3
+Shetland Sheepdog,Medium,3,5,5,5,5,3,5,2,5,5,4,1,4,3
+Brittany,Medium,3,5,3,4,4,3,5,3,4,5,5,3,4,3
+Pug,Small,3,5,5,5,4,2,5,5,5,4,3,5,3,4
+Cocker Spaniel,Medium,3,5,4,5,5,3,4,4,3,4,4,3,3,3
+Miniature American Shepherd,Small,3,5,5,5,5,3,4,3,4,5,5,3,5,4
+Border Collie,Medium,3,5,5,3,3,3,5,4,5,5,5,2,5,3
+Mastiff,Large,2,5,5,5,3,3,2,3,3,3,3,5,3,1
+Chihuahua,Small,3,5,4,1,3,4,5,2,4,3,4,1,3,5
+Vizsla,Medium,3,5,5,5,4,3,4,4,5,5,5,3,5,3
+Basset Hound,Medium,3,5,3,5,5,4,2,3,3,3,2,2,3,3
+Belgian Malinoi,Medium,3,5,3,3,3,3,5,3,3,5,4,3,4,3
+Maltese,Small,3,5,5,3,3,5,5,3,3,3,3,3,3,5
+Weimaraner,Medium,3,4,5,5,3,3,4,3,5,5,5,3,5,3
+Collie,Medium,3,5,4,5,3,3,4,3,4,4,3,1,3,3
+Newfoundland,Large,2,4,5,5,5,3,1,5,3,3,3,5,3,1
+Rhodesian Ridgeback,Medium,3,4,5,5,3,3,4,3,3,4,3,4,4,1
+Shiba Inu,Medium,3,4,5,3,3,3,5,3,3,2,3,3,4,4
+West Highland White Terrier,Small,3,4,5,5,3,3,5,4,5,3,4,1,4,4
+Bichons Frise,Small,3,4,5,5,5,5,5,5,4,4,4,3,3,4
+Bloodhound,Medium,3,4,4,3,3,3,1,3,3,4,3,1,3,1
+English Cocker Spaniel,Medium,3,5,5,5,5,3,4,4,3,4,3,3,4,3
+Akita,Large,3,4,3,3,1,3,5,2,3,3,4,4,3,1
+Portuguese Water Dog,Medium,3,5,5,5,4,4,4,4,5,5,5,3,5,3
+Chesapeake Bay Retriever,Medium,2,4,4,3,3,3,4,3,3,5,4,3,4,2
+Dalmatian,Medium,3,4,5,3,3,2,4,4,4,4,4,3,4,3
+Saint Bernard,Large,2,4,5,5,3,3,1,3,3,3,3,5,3,1
+Papillon,Small,3,4,5,5,3,3,5,5,5,5,4,1,5,5
+Australian Cattle Dog,Medium,3,4,3,3,3,3,5,3,3,4,5,5,4,3
+Bullmastiffs,Large,2,4,4,3,3,3,3,3,3,4,4,5,4,1
+Samoyed,Medium,3,4,5,5,3,3,5,5,5,4,4,1,4,2
+Scottish Terrier,Small,3,4,5,3,2,4,4,3,4,3,3,2,4,4
+Soft Coated Wheaten Terrier,Small,3,4,5,5,3,5,4,3,3,3,4,3,3,3
+Whippet,Small,3,4,5,5,5,4,5,3,4,3,4,5,4,4
+German Wirehaired Pointer,Medium,3,4,5,3,3,4,4,4,4,5,5,3,4,3
+Chinese Shar-Pei,Small,3,3,4,3,3,3,3,3,3,3,3,3,3,3
+Airedale Terrier,Medium,3,4,3,3,3,5,5,3,3,3,3,3,3,3
+Wirehaired Pointing Griffon,Medium,3,4,5,5,3,3,3,5,4,5,5,3,5,3
+Bull Terrier,Medium,3,4,4,3,1,3,5,4,4,3,4,3,4,3
+Alaskan Malamute,Large,3,4,3,3,3,3,5,3,3,5,4,3,3,1
+Cardigan Welsh Corgi,Small,3,4,4,4,3,3,5,4,4,4,4,1,4,4
+Giant Schnauzer,Large,3,4,5,3,3,3,4,3,4,5,5,3,4,2
+Old English Sheepdog,Large,3,3,5,5,3,3,3,3,4,4,3,3,4,2
+Italian Greyhound,Small,3,4,5,3,5,3,5,5,4,4,3,3,3,5
+Great Pyrenees,Large,3,4,5,3,3,3,3,3,3,3,3,3,3,1
+Dogues de Bordeaux,Large,1,3,5,3,3,2,1,3,3,4,3,3,4,1
+Russell Terrier,Small,3,4,5,3,5,3,5,5,5,3,5,2,5,4
+Cairn Terrier,Small,3,4,4,3,3,4,5,3,4,3,3,2,3,4
+Irish Wolfhound,Large,1,4,5,3,4,3,4,3,3,3,3,5,3,1
+Irish Setter,Medium,3,3,5,5,5,3,4,5,5,4,5,3,4,2
+Greater Swiss Mountain Dog,Large,1,3,5,5,3,3,3,5,4,4,4,3,4,1
+Miniature Pinscher,Small,3,4,5,3,4,3,5,3,4,3,5,1,5,5
+Lhasa Apso,Small,3,3,5,3,3,5,5,3,3,3,3,3,3,5
+Chinese Crested,Small,3,4,4,3,3,5,5,4,3,4,3,3,3,5
+Coton de Tulear,Small,3,3,5,5,5,4,5,5,4,4,3,5,3,5
+Staffordshire Bull Terrier,Small,3,3,5,5,3,4,3,4,4,5,4,3,4,3
+American Staffordshire Terrier,Medium,3,4,5,3,3,4,5,4,3,3,3,3,3,2
+Rat Terrier,Small,3,3,5,5,3,3,5,5,5,5,4,3,5,4
+Chow Chow,Medium,3,3,4,3,2,3,3,2,3,3,3,5,3,3
+Anatolian Shepherd Dog,Large,3,3,1,3,3,3,5,1,3,2,3,3,3,1
+Basenji,Small,3,4,3,3,3,4,5,3,3,2,4,5,4,4
+Boykin Spaniel,Medium,3,4,3,5,5,3,5,3,4,4,4,3,3,3
+Lagotto Romagnolo,Medium,3,4,5,3,5,5,4,4,4,4,4,4,4,3
+Brussels Griffon,Small,3,3,4,3,3,3,5,4,4,4,3,2,3,5
+Nova Scotia Duck Tolling Retriever,Medium,3,4,5,5,4,3,4,3,5,5,5,4,4,3
+Norwegian Elkhound,Medium,3,2,5,3,3,3,4,4,4,4,4,2,4,3
+Standard Schnauzer,Medium,3,3,5,5,3,5,3,3,4,5,3,3,5,3
+Dogo Argentino,Large,3,3,5,3,3,2,3,4,4,5,5,3,4,1
+Bouviers des Flandre,Large,2,3,3,3,3,3,4,3,3,4,4,3,3,1
+Pekingese,Small,3,3,5,3,3,3,5,3,4,3,3,5,3,5
+Keeshond,Medium,3,3,5,5,5,3,4,5,5,5,4,2,4,3
+Border Terrier,Small,3,3,4,5,3,4,5,4,4,4,3,3,3,4
+Leonberger,Large,2,3,5,5,3,2,3,5,3,5,3,3,4,1
+Tibetan Terrier,Small,3,3,5,3,3,3,4,3,3,3,4,3,4,4
+Neopolitan Mastiff,Large,1,2,3,3,3,3,1,3,2,3,2,5,3,1
+English Setter,Medium,3,3,5,4,4,3,3,4,4,4,3,3,4,2
+Flat-Coated Retriever,Large,2,3,5,5,5,3,4,5,5,5,5,3,4,2
+Borzoi,Large,3,3,3,3,3,3,5,3,3,2,4,4,4,2
+Wire Fox Terrier,Small,3,3,5,5,3,4,4,5,4,4,4,2,4,4
+Miniature Bull Terrier,Small,3,3,5,3,3,4,4,3,4,3,4,1,4,4
+Belgian Tervuren,Medium,3,3,3,3,3,3,5,3,3,5,4,3,4,3
+Gordon Setter,Medium,3,3,5,3,3,3,2,3,3,5,5,3,4,2
+Silky Terrier,Small,3,3,5,3,3,4,5,4,4,4,3,2,3,5
+Norwich Terrier,Small,3,3,5,5,3,3,5,5,4,3,4,2,4,4
+Spinone Italiano,Medium,3,3,5,3,4,3,3,3,3,4,3,4,3,3
+Japanese Chin,Small,3,3,5,3,5,3,5,3,3,3,3,4,3,5
+Welsh Terrier,Small,3,2,5,5,3,4,4,5,4,4,4,2,4,4
+Toy Fox Terrier,Small,3,3,5,3,3,3,5,5,4,5,4,2,4,5
+Schipperke,Small,3,3,5,3,3,3,5,3,4,4,3,2,3,4
+Parson Russell Terrier,Small,3,3,5,3,5,4,5,3,4,4,5,3,4,4
+Pointer,Medium,2,2,5,3,5,3,4,4,4,5,4,3,4,3
+Belgian Sheepdog,Medium,3,2,3,3,3,3,5,3,3,5,4,3,4,3
+Tibetan Spaniel,Small,3,2,5,5,3,3,4,4,4,3,3,3,3,5
+American Eskimo Dog,Small,3,3,5,5,3,3,5,5,3,4,4,3,3,4
+Irish Terrier,Medium,3,2,5,5,1,4,5,3,3,3,3,3,4,4
+Beauceron,Large,3,3,3,3,3,2,5,2,3,3,5,3,3,2
+Afghan Hound,Medium,3,3,3,3,3,5,5,3,3,1,4,3,3,2
+Boerboel,Large,2,3,5,4,2,3,3,3,3,4,3,3,4,1
+Smooth Fox Terrier,Small,3,2,5,3,3,3,5,3,4,3,4,1,3,4
+Bearded Collie,Medium,3,2,4,5,5,3,5,4,4,3,4,1,3,3
+"	Black Russian Terrier",Large,2,2,3,3,3,3,3,2,3,4,4,3,4,1
+Black and Tan Coonhound,Medium,2,2,4,5,5,3,3,3,3,3,3,2,3,2
+Welsh Springer Spaniel,Medium,3,2,5,5,4,3,4,1,3,5,4,3,4,3
+American Hairless Terrier,Small,3,2,5,5,3,5,5,3,3,5,3,3,3,4
+Norfolk Terrier,Small,3,2,5,5,3,3,5,5,4,3,4,2,4,4
+Xoloitzcuintli,Small,3,3,5,3,3,5,5,3,4,4,4,3,4,4
+Manchester Terrier,Small,3,3,5,4,3,4,5,3,4,4,4,2,3,4
+Kerry Blue Terrier,Medium,3,2,5,4,2,5,4,3,3,3,4,2,4,4
+Australian Terrier,Small,3,2,3,5,3,5,5,3,4,4,4,1,4,4
+Clumber Spaniel,Medium,2,2,4,3,3,3,2,4,3,4,3,5,3,2
+Lakeland Terrier,Small,3,2,5,3,3,4,5,3,4,3,3,3,4,4
+Bluetick Coonhound,Medium,2,2,3,3,5,3,4,3,3,4,4,2,3,2
+English Toy Spaniel,Small,2,2,5,5,5,3,4,3,4,3,3,4,3,5
+German Pinscher,Medium,3,2,5,3,3,3,5,3,4,5,5,3,4,3
+Tibetan Mastiff,Large,3,2,4,3,3,2,3,1,3,3,3,3,4,1
+Bedlington Terrier,Small,3,2,3,3,3,5,5,3,3,3,4,3,3,4
+Greyhound,Large,3,3,4,3,4,4,5,3,3,3,4,3,3,3
+Puli,Small,3,1,5,3,3,5,4,3,3,5,3,3,5,3
+Saluki,Large,3,2,5,3,3,4,5,3,3,3,4,3,5,2
+Barbet,Medium,3,2,4,5,5,5,5,3,3,4,3,3,3,3
+Redbone Coonhound,Medium,3,2,5,5,5,3,3,3,3,3,3,2,4,2
+Swedish Vallhund,Small,3,2,5,5,3,2,4,3,4,4,4,3,4,4
+Sealyham Terrier,Small,3,1,5,3,3,3,5,4,3,4,3,2,4,4
+Spanish Water Dog,Medium,3,2,5,4,3,5,4,3,4,4,4,3,5,3
+Briard,Medium,2,2,3,3,3,5,4,3,3,3,3,5,3,2
+Berger Picard,Medium,3,1,3,3,3,3,5,3,3,4,4,4,4,3
+Entlebucher Mountain Dog,Medium,3,1,5,3,5,3,4,3,3,3,5,3,4,2
+Treeing Walker Coonhound,Medium,3,2,5,5,5,3,3,3,4,5,5,2,5,2
+Icelandic Sheepdog,Medium,3,2,5,5,4,3,4,3,3,5,4,2,5,3
+Wirehaired Vizsla,Medium,3,2,5,5,3,3,4,5,5,5,5,3,5,3
+Pumi,Small,3,1,5,3,3,5,4,3,4,5,5,3,5,4
+"	Portuguese Podengo Pequeno",Small,3,2,5,5,5,3,5,3,4,3,4,3,4,5
+American Water Spaniel,Medium,2,1,3,3,3,5,5,3,3,5,3,3,3,3
+Curly-Coated Retriever,Large,2,1,5,5,3,4,5,3,4,4,4,3,3,2
+Field Spaniel,Medium,3,2,5,5,4,3,4,4,3,5,3,3,3,3
+Lowchen,Small,3,2,5,5,3,4,5,3,4,4,3,3,3,5
+Nederlandse Kooikerhondje,Small,3,1,5,3,3,3,4,4,3,5,4,3,4,4
+Affenpinscher,Small,3,1,3,3,3,3,5,5,3,3,3,3,3,5
+Petit Basset Griffon Vendéen,Small,3,2,4,5,5,4,4,4,4,3,4,1,4,4
+Finnish Lapphund,Medium,3,2,5,4,3,2,4,4,3,4,3,1,3,3
+Scottish Deerhound,Large,2,1,5,3,5,3,5,3,3,3,3,5,3,2
+Plott Hound,Medium,3,1,5,3,5,4,4,4,3,4,4,2,3,2
+Norwegian Buhund,Medium,3,1,5,3,3,3,5,3,3,3,4,2,4,3
+Glen of Imaal Terrier,Small,3,1,5,3,3,4,4,3,3,3,3,4,3,4
+Irish Red and White Setter,Medium,2,1,5,5,5,4,4,5,3,5,5,3,3,2
+Ibizan Hound,Medium,2,1,5,3,5,4,5,3,4,3,5,3,5,3
+Sussex Spaniel,Medium,3,1,5,3,3,3,3,3,4,4,3,3,3,3
+Bergamasco Sheepdog,Medium,3,1,3,3,3,5,4,3,3,3,3,5,3,3
+Irish Water Spaniel,Medium,3,1,5,3,3,5,4,3,5,5,3,5,4,2
+Polish Lowland Sheepdog,Medium,3,1,5,3,3,4,4,3,4,4,3,2,4,3
+Otterhound,Large,3,1,5,3,3,4,3,4,3,4,3,1,3,2
+Kuvasz,Large,2,1,5,3,3,3,4,3,3,5,3,3,3,1
+Komondor,Large,2,1,5,3,2,5,4,3,3,4,3,3,3,1
+Cirnecho dell’Etna,Small,3,1,4,3,4,5,5,3,4,4,3,4,3,4
+Pharaoh Hound,Medium,3,1,5,3,5,3,5,3,3,4,4,3,4,3
+Dandie Dinmont Terrier,Small,3,1,4,3,3,4,5,4,3,4,3,3,3,4
+Pyrenean Shepherd,Small,3,1,5,3,3,3,4,3,5,5,5,2,5,3
+Skye Terrier,Small,3,1,5,3,3,3,5,3,3,3,3,3,3,4
+Canaan Dog,Medium,3,1,3,3,3,2,5,3,3,4,3,1,3,3
+American English Coonhound,Medium,2,1,3,3,5,4,5,3,3,3,4,2,3,2
+Chinook,Medium,3,1,4,5,5,3,5,3,3,4,3,1,3,3
+Finnish Spitz,Small,3,1,5,5,4,3,4,3,3,3,5,1,4,3
+Grand Basset Griffon Vendeen,Medium,3,1,5,3,4,3,4,5,4,3,5,2,4,3
+Sloughis,Medium,3,1,4,3,3,3,5,2,3,3,4,4,3,3
+Harrier,Medium,3,1,5,5,5,3,4,4,4,4,4,1,4,2
+Cesky Terrier,Small,3,1,4,5,3,4,5,4,3,3,3,3,3,4
+American Foxhound,Medium,3,1,3,5,5,3,5,3,3,3,4,1,3,2
+Azawakh,Medium,3,1,3,3,3,4,5,1,3,2,3,5,3,2
+English Foxhound,Medium,2,1,5,5,5,3,4,4,4,4,4,1,4,2
+Norwegian Lundehund,Small,3,1,3,3,3,3,5,3,3,3,3,3,3,4

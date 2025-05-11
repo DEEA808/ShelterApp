@@ -104,7 +104,6 @@ public class AppointmentService {
                 true
         );
 
-
         mailSender.send(message);
     }
 
