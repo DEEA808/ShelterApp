@@ -54,7 +54,12 @@ public class Shelter {
     @Lob
     @Column(name = "image", nullable = true)
     @Basic(fetch = FetchType.EAGER)
-    private byte[] image;
+    private byte[] image1;
+
+    @Lob
+    @Column(name = "image_2", nullable = true)
+    @Basic(fetch = FetchType.EAGER)
+    private byte[] image2;
 
     @OneToMany(mappedBy = "shelter", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Dog> dogs;

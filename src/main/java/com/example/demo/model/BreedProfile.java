@@ -65,4 +65,15 @@ public class BreedProfile {
 
     @Column(name = "food_cost")
     private long foodCost;
+
+    @Lob
+    @Column(name = "image")
+    @Basic(fetch = FetchType.EAGER)
+    private byte[] imageAdult;
+
+
+    @Lob
+    @Column(name = "image_puppy")
+    @Basic(fetch = FetchType.EAGER)
+    private byte[] imagePuppy;
 }

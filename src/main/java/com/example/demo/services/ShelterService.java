@@ -1,22 +1,18 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.DogDTO;
 import com.example.demo.dto.ShelterDTO;
 import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.exceptions.SaveInfoException;
-import com.example.demo.model.Dog;
 import com.example.demo.model.Shelter;
 import com.example.demo.model.User;
 import com.example.demo.observers.DogObserver;
 import com.example.demo.repositories.ShelterRepository;
 import com.example.demo.util.MapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
@@ -104,11 +100,18 @@ public class ShelterService implements DogObserver {
         shelter.setTotalNumberOfDogs(shelterDTO.getTotalNumberOfDogs());
         shelter.setPhoneNumber(shelterDTO.getPhoneNumber());
 
-        if (shelterDTO.getImage() != null) {
-            String cleanedImage = shelterDTO.getImage().replaceAll("[\\n\\r]", "").trim();
+        if (shelterDTO.getImage1() != null) {
+            String cleanedImage = shelterDTO.getImage1().replaceAll("[\\n\\r]", "").trim();
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
-            shelter.setImage(decodedImage);
+            shelter.setImage1(decodedImage);
+        }
+
+        if (shelterDTO.getImage2() != null) {
+            String cleanedImage = shelterDTO.getImage2().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            shelter.setImage2(decodedImage);
         }
 
         return MapperUtil.toShelterDTO(shelterRepository.save(shelter));

@@ -38,6 +38,9 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("users/favorites/add/{id}").permitAll()
+                        .requestMatchers("users/favorites/delete/{id}").permitAll()
+                        .requestMatchers("users/favorites/all").permitAll()
                         .requestMatchers("/appointments/**").permitAll()
                         .requestMatchers("/shelters/all").permitAll()
                         .requestMatchers("/dogs/all").permitAll()
@@ -51,6 +54,7 @@ public class SecurityConfiguration {
                         .requestMatchers(("/files/allFiles/{id}")).permitAll()
                         .requestMatchers("/files/myFiles/{id}").permitAll()
                         .requestMatchers("files/delete/{id}").hasRole("ADMIN")
+                        .requestMatchers("dogs/preferencesAndResults/{email}").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

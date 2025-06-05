@@ -19,7 +19,9 @@ public class DogDTO {
     private String gender;
     private String size;
     private String color;
-    private String image;
+    private String image1;
+    private String image2;
+    private String image3;
     private String shelterName;
     private String shelterCity;
 }

@@ -25,7 +25,8 @@ public class InitializeDataController {
 }
 */
 
-/*import com.example.demo.model.BreedProfile;
+/*
+import com.example.demo.model.BreedProfile;
 import com.example.demo.repositories.BreedProfileRepository;
 import com.example.demo.services.CsvService;
 import jakarta.annotation.PostConstruct;
@@ -43,7 +44,7 @@ public class InitializeDataController {
 
     @PostConstruct
     public void init() {
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream("data/dataset_5scores.csv")) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("data/breed_profileWithImagesFinal.csv")) {
             if (is == null) throw new RuntimeException("CSV file not found!");
 
             List<BreedProfile> breeds = CsvService.parseCsvBreedProfile(is);
@@ -54,4 +55,5 @@ public class InitializeDataController {
             throw new RuntimeException("Failed to read CSV: " + e.getMessage());
         }
     }
-}*/
+}
+*/

@@ -12,35 +12,53 @@ import lombok.Setter;
 public class UserPreferencesDTO {
     private String size;
 
-    private int intelligenceWeight;
+    // Intelligence
     private int trainabilityLevel;
+    private int trainabilityWeight;
+
     private int mentalSimulationNeeds;
+    private int mentalSimulationNeedsWeight;
 
-    private int hygieneWeight;
+    // Hygiene
     private int sheddingLevel;
+    private int sheddingWeight;
+
     private int droolingLevel;
+    private int droolingWeight;
 
-    private int friendlinessWeight;
+    // Friendliness
     private int affectionateWithFamily;
+    private int affectionateWithFamilyWeight;
+
     private int opennessToStrangers;
+    private int opennessToStrangersWeight;
+
     private int playfulnessLevel;
+    private int playfulnessWeight;
 
-    private int adaptabilityWeight;
+    // Adaptability
     private int goodWithOtherDogs;
+    private int goodWithOtherDogsWeight;
+
     private int goodWithChildren;
+    private int goodWithChildrenWeight;
 
-    private int energyWeight;
+    // Energy
     private int energyLevel;
+    private int energyWeight;
+
     private int barkingLevel;
+    private int barkingWeight;
 
-
-    private int popularityWeight;
-    private int popularity;
-
-    private int lengevityWeight;
+    // Longevity
     private int longevity;
+    private int longevityWeight;
 
-    private int foodCostWeight;
+    // Food Cost
     private int foodCost;
+    private int foodCostWeight;
 
+    // Popularity (optional)
+    private int popularity;
+    private int popularityWeight;
 }

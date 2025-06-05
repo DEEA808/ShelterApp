@@ -9,7 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -40,15 +42,24 @@ public class User implements UserDetails {
     private Role role;
 
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    @JoinColumn(name = "shelter_id",nullable = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "shelter_id", nullable = true)
     private Shelter shelter;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "dog_id")
+    )
+    private Set<Dog> favoriteDogs =new HashSet<>() ;
+
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println("Assigned authority: " + role.getName());
-        return List.of((GrantedAuthority) () ->role.getName());
+        return List.of((GrantedAuthority) () -> role.getName());
     }
 
     @Override

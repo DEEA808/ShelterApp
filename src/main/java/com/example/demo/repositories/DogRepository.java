@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface DogRepository extends JpaRepository<Dog, Long> {
-    List<Dog> findByBreed(String breed);
+    List<Dog> findByBreedContainingIgnoreCase(String breed);
 }

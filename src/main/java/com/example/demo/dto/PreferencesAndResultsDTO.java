@@ -5,22 +5,22 @@ import com.example.demo.model.BreedScoreResult;
 import java.util.List;
 
 public class PreferencesAndResultsDTO {
-    private UserPreferencesDTO preferences;
+    private UserPreferencesForEmailDTO preferences;
     private List<BreedScoreResult> results;
 
     public PreferencesAndResultsDTO() {
     }
 
-    public PreferencesAndResultsDTO(UserPreferencesDTO preferences, List<BreedScoreResult> results) {
+    public PreferencesAndResultsDTO(UserPreferencesForEmailDTO preferences, List<BreedScoreResult> results) {
         this.preferences = preferences;
         this.results = results;
     }
 
-    public UserPreferencesDTO getPreferences() {
+    public UserPreferencesForEmailDTO getPreferences() {
         return preferences;
     }
 
-    public void setPreferences(UserPreferencesDTO preferences) {
+    public void setPreferences(UserPreferencesForEmailDTO preferences) {
         this.preferences = preferences;
     }
 

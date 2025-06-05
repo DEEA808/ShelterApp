@@ -22,6 +22,7 @@ public class ShelterDTO {
     private int availableDogs;
     private String phoneNumber;
     private String email;
-    private String image;
+    private String image1;
+    private String image2;
     private List<DogDTO> dogs;
 }

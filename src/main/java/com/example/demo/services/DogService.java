@@ -1,8 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.DogDTO;
-import com.example.demo.dto.PreferencesAndResultsDTO;
-import com.example.demo.dto.UserPreferencesDTO;
+import com.example.demo.dto.*;
 import com.example.demo.enums.DogSize;
 import com.example.demo.enums.OperationType;
 import com.example.demo.exceptions.ResourceNotFoundException;
@@ -71,7 +69,6 @@ public class DogService {
         return dogs.stream().map(MapperUtil::toDogDTO).toList();
     }
 
-    @Transactional(readOnly = true)
     public Dog findDogById(Long id) {
         return dogRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dog with id " + id + " not found"));
@@ -79,7 +76,7 @@ public class DogService {
 
     @Transactional(readOnly = true)
     public List<DogDTO> findDogByBreed(String breed) {
-        List<Dog> dogs = dogRepository.findByBreed(breed);
+        List<Dog> dogs = dogRepository.findByBreedContainingIgnoreCase(breed);
         return dogs.stream().map(MapperUtil::toDogDTO).toList();
     }
 
@@ -113,11 +110,23 @@ public class DogService {
         dog.setBreed(dogDTO.getBreed());
         dog.setStory(dogDTO.getStory());
         dog.setShelter(shelter);
-        if (dogDTO.getImage() != null) {
-            String cleanedImage = dogDTO.getImage().replaceAll("[\\n\\r]", "").trim();
+        if (dogDTO.getImage1() != null) {
+            String cleanedImage = dogDTO.getImage1().replaceAll("[\\n\\r]", "").trim();
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
-            dog.setImage(decodedImage);
+            dog.setImage1(decodedImage);
+        }
+        if (dogDTO.getImage2() != null) {
+            String cleanedImage = dogDTO.getImage2().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            dog.setImage2(decodedImage);
+        }
+        if (dogDTO.getImage3() != null) {
+            String cleanedImage = dogDTO.getImage3().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            dog.setImage3(decodedImage);
         }
         return MapperUtil.toDogDTO(dogRepository.save(dog));
     }
@@ -168,7 +177,12 @@ public class DogService {
                     double compatibilityPercent = maxPossibleScore > 0
                             ? (double) score / maxPossibleScore * 100
                             : 0;
-                    return new BreedScoreResult(breed, compatibilityPercent);
+                    String base64Image = "";
+                    if (breed.getImageAdult() != null) {
+                        base64Image = Base64.getEncoder().encodeToString(breed.getImageAdult());
+                    }
+                    double roundedPercent = Math.round(compatibilityPercent * 10.0) / 10.0;
+                    return new BreedScoreResult(breed, roundedPercent, base64Image);
                 })
                 .sorted(Comparator.comparingDouble(BreedScoreResult::getCompatibiltyPercent).reversed())
                 .limit(10)
@@ -177,39 +191,63 @@ public class DogService {
 
 
     private int calculateMaxPossibleScore(UserPreferencesDTO pref) {
-        int maxScore = 0;
-
-        maxScore += pref.getIntelligenceWeight() * (2 * 5); // 2 subtraits
-        maxScore += pref.getHygieneWeight() * (2 * 5);
-        maxScore += pref.getAdaptabilityWeight() * (2 * 5);
-        maxScore += pref.getEnergyWeight() * (2 * 5);
-        maxScore += pref.getFriendlinessWeight() * (3 * 5); // 3 subtraits
-        maxScore += pref.getPopularityWeight() * 5;
-        maxScore += pref.getLengevityWeight() * 5;
-        maxScore += pref.getFoodCostWeight() * 5;
-
-        return maxScore;
+        return
+                pref.getTrainabilityWeight() * 5 +
+                        pref.getMentalSimulationNeedsWeight() * 5 +
+                        pref.getSheddingWeight() * 5 +
+                        pref.getDroolingWeight() * 5 +
+                        pref.getAffectionateWithFamilyWeight() * 5 +
+                        pref.getOpennessToStrangersWeight() * 5 +
+                        pref.getPlayfulnessWeight() * 5 +
+                        pref.getGoodWithOtherDogsWeight() * 5 +
+                        pref.getGoodWithChildrenWeight() * 5 +
+                        pref.getEnergyWeight() * 5 +
+                        pref.getBarkingWeight() * 5 +
+                        pref.getLongevityWeight() * 5 +
+                        pref.getFoodCostWeight() * 5 +
+                        pref.getPopularityWeight() * 5;
     }
 
 
     private int calculateScore(UserPreferencesDTO pref, BreedProfile breed) {
         int score = 0;
 
-        score += pref.getIntelligenceWeight() * ((5 - Math.abs(pref.getTrainabilityLevel() - breed.getTrainabilityLevel())) +
-                (5 - Math.abs(pref.getMentalSimulationNeeds() - breed.getMentalSimulationNeeds())));
-        score += pref.getHygieneWeight() * ((5 - Math.abs(pref.getSheddingLevel() - breed.getSheddingLevel())) + (5 - Math.abs(pref.getDroolingLevel() - breed.getDroolingLevel())));
-        score += pref.getAdaptabilityWeight() * ((5 - Math.abs(pref.getGoodWithOtherDogs() - breed.getGoodWithOtherDogs())) +
-                (5 - Math.abs(pref.getGoodWithChildren() - breed.getGoodWithChildren())));
-        score += pref.getEnergyWeight() * ((5 - Math.abs(pref.getEnergyLevel() - breed.getEnergyLevel())) + (5 - Math.abs(pref.getBarkingLevel() - breed.getBarkingLevel())));
-        score += pref.getFriendlinessWeight() * ((5 - Math.abs(pref.getAffectionateWithFamily() -
-                breed.getAffectionateWithFamily())) + (5 - Math.abs(pref.getOpennessToStrangers() - breed.getOpennessToStrangers())) +
-                (5 - Math.abs(pref.getPlayfulnessLevel() - breed.getPlayfulnessLevel())));
-        score += pref.getPopularityWeight() * (5 - Math.abs(pref.getPopularity() - breed.getPopularity()));
-        score += pref.getLengevityWeight() * (5 - Math.abs(pref.getLongevity() - breed.getLongevity()));
+        // 🧠 Intelligence
+        score += pref.getTrainabilityWeight() * (5 - Math.abs(pref.getTrainabilityLevel() - breed.getTrainabilityLevel()));
+        score += pref.getMentalSimulationNeedsWeight() * (5 - Math.abs(pref.getMentalSimulationNeeds() - breed.getMentalSimulationNeeds()));
+
+        // 🧼 Hygiene
+        score += pref.getSheddingWeight() * (5 - Math.abs(pref.getSheddingLevel() - breed.getSheddingLevel()));
+        System.out.println(pref.getSheddingLevel());
+        score += pref.getDroolingWeight() * (5 - Math.abs(pref.getDroolingLevel() - breed.getDroolingLevel()));
+
+        // 😊 Friendliness
+        score += pref.getAffectionateWithFamilyWeight() * (5 - Math.abs(pref.getAffectionateWithFamily() - breed.getAffectionateWithFamily()));
+        score += pref.getOpennessToStrangersWeight() * (5 - Math.abs(pref.getOpennessToStrangers() - breed.getOpennessToStrangers()));
+        score += pref.getPlayfulnessWeight() * (5 - Math.abs(pref.getPlayfulnessLevel() - breed.getPlayfulnessLevel()));
+
+        // 🧒 Adaptability
+        score += pref.getGoodWithOtherDogsWeight() * (5 - Math.abs(pref.getGoodWithOtherDogs() - breed.getGoodWithOtherDogs()));
+        score += pref.getGoodWithChildrenWeight() * (5 - Math.abs(pref.getGoodWithChildren() - breed.getGoodWithChildren()));
+
+        // ⚡ Energy
+        score += pref.getEnergyWeight() * (5 - Math.abs(pref.getEnergyLevel() - breed.getEnergyLevel()));
+        score += pref.getBarkingWeight() * (5 - Math.abs(pref.getBarkingLevel() - breed.getBarkingLevel()));
+
+        // 🕒 Longevity
+        score += pref.getLongevityWeight() * (5 - Math.abs(pref.getLongevity() - breed.getLongevity()));
+
+        // 💰 Food Cost
         score += (int) (pref.getFoodCostWeight() * (5 - Math.abs(pref.getFoodCost() - breed.getFoodCost())));
 
+        // ⭐ Popularity (optional)
+        if (pref.getPopularityWeight() > 0) {
+            score += pref.getPopularityWeight() * (5 - Math.abs(pref.getPopularity() - breed.getPopularity()));
+        }
+        System.out.println(score);
         return score;
     }
+
 
     public void sendResultToEmail(String email, PreferencesAndResultsDTO data) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
@@ -230,6 +268,7 @@ public class DogService {
                     .append(result.getBreedProfile().getName())
                     .append("</strong> - Score: ")
                     .append(result.getCompatibiltyPercent())
+                    .append("%")
                     .append("</li>");
         }
         htmlContent.append("</ul>");
@@ -239,35 +278,36 @@ public class DogService {
         htmlContent.append("<h3 style='color:#D86B5C;'>📋 Your Preferences</h3>");
         htmlContent.append("<table border='1' cellpadding='8' cellspacing='0' style='border-collapse: collapse;'>");
 
-        UserPreferencesDTO prefs = data.getPreferences();
-        htmlContent.append("<tr><td><strong>Intelligence Weight</strong></td><td>").append(prefs.getIntelligenceWeight()).append("</td></tr>");
+        UserPreferencesForEmailDTO prefs = data.getPreferences();
+        //htmlContent.append("<tr><td><strong>Intelligence Weight</strong></td><td>").append(prefs.getIntelligenceWeight()).append("</td></tr>");
+        htmlContent.append("<tr><td>Size</td><td>").append(prefs.getSize()).append("</td></tr>");
         htmlContent.append("<tr><td>Trainability Level</td><td>").append(prefs.getTrainabilityLevel()).append("</td></tr>");
         htmlContent.append("<tr><td>Mental Simulation Needs</td><td>").append(prefs.getMentalSimulationNeeds()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Hygiene Weight</strong></td><td>").append(prefs.getHygieneWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Hygiene Weight</strong></td><td>").append(prefs.getHygieneWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Shedding Level</td><td>").append(prefs.getSheddingLevel()).append("</td></tr>");
         htmlContent.append("<tr><td>Drooling Level</td><td>").append(prefs.getDroolingLevel()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Friendliness Weight</strong></td><td>").append(prefs.getFriendlinessWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Friendliness Weight</strong></td><td>").append(prefs.getFriendlinessWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Affectionate with Family</td><td>").append(prefs.getAffectionateWithFamily()).append("</td></tr>");
         htmlContent.append("<tr><td>Openness to strangers</td><td>").append(prefs.getOpennessToStrangers()).append("</td></tr>");
         htmlContent.append("<tr><td>Playfulness Level</td><td>").append(prefs.getPlayfulnessLevel()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Adaptability Weight</strong></td><td>").append(prefs.getAdaptabilityWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Adaptability Weight</strong></td><td>").append(prefs.getAdaptabilityWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Good With Other Dogs</td><td>").append(prefs.getGoodWithOtherDogs()).append("</td></tr>");
         htmlContent.append("<tr><td>Good With Children</td><td>").append(prefs.getGoodWithChildren()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Energy Weight</strong></td><td>").append(prefs.getEnergyWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Energy Weight</strong></td><td>").append(prefs.getEnergyWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Energy Level</td><td>").append(prefs.getEnergyLevel()).append("</td></tr>");
         htmlContent.append("<tr><td>Barking Level</td><td>").append(prefs.getBarkingLevel()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Popularity Weight</strong></td><td>").append(prefs.getPopularityWeight()).append("</td></tr>");
-        htmlContent.append("<tr><td>Popularity</td><td>").append(prefs.getPopularity()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Popularity Weight</strong></td><td>").append(prefs.getPopularityWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td>Popularity</td><td>").append(prefs.getPopularity()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Longevity Weight</strong></td><td>").append(prefs.getLengevityWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Longevity Weight</strong></td><td>").append(prefs.getLengevityWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Longevity</td><td>").append(prefs.getLongevity()).append("</td></tr>");
 
-        htmlContent.append("<tr><td><strong>Food Cost Weight</strong></td><td>").append(prefs.getFoodCostWeight()).append("</td></tr>");
+        //htmlContent.append("<tr><td><strong>Food Cost Weight</strong></td><td>").append(prefs.getFoodCostWeight()).append("</td></tr>");
         htmlContent.append("<tr><td>Food Cost</td><td>").append(prefs.getFoodCost()).append("</td></tr>");
 
         htmlContent.append("</table>");

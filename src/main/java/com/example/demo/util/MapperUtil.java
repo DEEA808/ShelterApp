@@ -23,11 +23,17 @@ public class MapperUtil {
         shelter.setAvailableDogs(shelterDTO.getAvailableDogs());
         shelter.setTotalNumberOfDogs(shelterDTO.getTotalNumberOfDogs());
         shelter.setPhoneNumber(shelterDTO.getPhoneNumber());
-        if (shelterDTO.getImage() != null) {
-            String cleanedImage = shelterDTO.getImage().replaceAll("[\\n\\r]", "").trim();
+        if (shelterDTO.getImage1() != null) {
+            String cleanedImage = shelterDTO.getImage1().replaceAll("[\\n\\r]", "").trim();
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
-            shelter.setImage(decodedImage);
+            shelter.setImage1(decodedImage);
+        }
+        if (shelterDTO.getImage2() != null) {
+            String cleanedImage = shelterDTO.getImage2().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            shelter.setImage2(decodedImage);
         }
         List<Dog> shelters = shelterDTO.getDogs().stream()
                 .map(d -> MapperUtil.toDog(d, shelter))
@@ -37,18 +43,17 @@ public class MapperUtil {
         return shelter;
     }
 
-    public static DogDTO toDogDTO(Dog dog) {
-        DogDTO dogDTO = new DogDTO();
+    /*public static TryDogDTO toDogDTOForGetAll(Dog dog) {
+        TryDogDTO dogDTO = new TryDogDTO();
 
-        String base64Image = "";
-        if (dog.getImage() != null) {
-            base64Image = Base64.getEncoder().encodeToString(dog.getImage());
+        String base64Image1 = "";
+        if (dog.getImage1() != null) {
+            base64Image1 = Base64.getEncoder().encodeToString(dog.getImage1());
         }
-
         dogDTO.setId(dog.getId());
         dogDTO.setName(dog.getName());
         dogDTO.setDescription(dog.getDescription());
-        dogDTO.setAge(dog.getAge());
+        dogDTO.setAge((float)(Math.round(dog.getAge() * 10.0) / 10.0));
         dogDTO.setGender(dog.getGender());
         if (dog.getSize() != null) {
             dogDTO.setSize(dog.getSize().getDisplayName());
@@ -56,7 +61,45 @@ public class MapperUtil {
         dogDTO.setColor(dog.getColor());
         dogDTO.setBreed(dog.getBreed());
         dogDTO.setStory(dog.getStory());
-        dogDTO.setImage(base64Image);
+        dogDTO.setImage1(base64Image1);
+        dogDTO.setShelterName(dog.getShelter().getName());
+        dogDTO.setShelterCity(dog.getShelter().getCity());
+
+        return dogDTO;
+    }*/
+
+    public static DogDTO toDogDTO(Dog dog) {
+        DogDTO dogDTO = new DogDTO();
+
+        String base64Image1 = "";
+        if (dog.getImage1() != null) {
+            base64Image1 = Base64.getEncoder().encodeToString(dog.getImage1());
+        }
+
+        String base64Image2 = "";
+        if (dog.getImage2() != null) {
+            base64Image2 = Base64.getEncoder().encodeToString(dog.getImage2());
+        }
+
+        String base64Image3 = "";
+        if (dog.getImage3() != null) {
+            base64Image3 = Base64.getEncoder().encodeToString(dog.getImage3());
+        }
+
+        dogDTO.setId(dog.getId());
+        dogDTO.setName(dog.getName());
+        dogDTO.setDescription(dog.getDescription());
+        dogDTO.setAge((float)(Math.round(dog.getAge() * 10.0) / 10.0));
+        dogDTO.setGender(dog.getGender());
+        if (dog.getSize() != null) {
+            dogDTO.setSize(dog.getSize().getDisplayName());
+        }
+        dogDTO.setColor(dog.getColor());
+        dogDTO.setBreed(dog.getBreed());
+        dogDTO.setStory(dog.getStory());
+        dogDTO.setImage1(base64Image1);
+        dogDTO.setImage2(base64Image2);
+        dogDTO.setImage3(base64Image3);
         dogDTO.setShelterName(dog.getShelter().getName());
         dogDTO.setShelterCity(dog.getShelter().getCity());
 
@@ -86,11 +129,23 @@ public class MapperUtil {
         dog.setColor(dogDTO.getColor().toLowerCase());
         dog.setBreed(dogDTO.getBreed());
         dog.setStory(dogDTO.getStory());
-        if (dogDTO.getImage() != null) {
-            String cleanedImage = dogDTO.getImage().replaceAll("[\\n\\r]", "").trim();
+        if (dogDTO.getImage1() != null) {
+            String cleanedImage = dogDTO.getImage1().replaceAll("[\\n\\r]", "").trim();
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
-            dog.setImage(decodedImage);
+            dog.setImage1(decodedImage);
+        }
+        if (dogDTO.getImage2() != null) {
+            String cleanedImage = dogDTO.getImage2().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            dog.setImage2(decodedImage);
+        }
+        if (dogDTO.getImage3() != null) {
+            String cleanedImage = dogDTO.getImage3().replaceAll("[\\n\\r]", "").trim();
+            byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
+            System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
+            dog.setImage3(decodedImage);
         }
         dog.setShelter(shelter);
         return dog;
@@ -100,9 +155,13 @@ public class MapperUtil {
         ShelterDTO shelterDTO = new ShelterDTO();
 
         // Ensure image is loaded
-        String base64Image = "";
-        if (shelter.getImage() != null) {
-            base64Image = Base64.getEncoder().encodeToString(shelter.getImage());
+        String base64Image1 = "";
+        if (shelter.getImage1() != null) {
+            base64Image1 = Base64.getEncoder().encodeToString(shelter.getImage1());
+        }
+        String base64Image2 = "";
+        if (shelter.getImage2() != null) {
+            base64Image2 = Base64.getEncoder().encodeToString(shelter.getImage2());
         }
 
         shelterDTO.setId(shelter.getId());
@@ -116,7 +175,8 @@ public class MapperUtil {
         shelterDTO.setTotalNumberOfDogs(shelter.getTotalNumberOfDogs());
         shelterDTO.setPhoneNumber(shelter.getPhoneNumber());
         //shelterDTO.setDogs(shelter.getDogs().stream().map(MapperUtil::toDogDTO).toList());
-        shelterDTO.setImage(base64Image);
+        shelterDTO.setImage1(base64Image1);
+        shelterDTO.setImage2(base64Image2);
         /*List<DogDTO> dogsDTO = shelter.getDogs().stream()
                 .map(MapperUtil::toDogDTO)
                 .toList();

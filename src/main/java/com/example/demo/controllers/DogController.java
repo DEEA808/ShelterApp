@@ -153,7 +153,7 @@ public class DogController {
     }
 
     @PostMapping("/perfectMatch")
-    public ResponseEntity<List<BreedScoreResult>> getTop3BreedScoreResults(@RequestBody UserPreferencesDTO userPreferencesDTO) {
+    public ResponseEntity<List<BreedScoreResult>> getTop10BreedScoreResults(@RequestBody UserPreferencesDTO userPreferencesDTO) {
         try {
             List<BreedScoreResult> dogs = dogService.findBestMatchingDogs(userPreferencesDTO);
             if (dogs.isEmpty()) {

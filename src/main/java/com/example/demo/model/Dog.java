@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "dogs")
@@ -46,8 +49,18 @@ public class Dog {
 
     @Lob
     @Column(name = "image")
-    @Basic(fetch = FetchType.EAGER)
-    private byte[] image;
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image1;
+
+    @Lob
+    @Column(name = "image_2")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image2;
+
+    @Lob
+    @Column(name = "image_3")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image3;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id", nullable = false)
@@ -55,5 +68,9 @@ public class Dog {
 
     @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MedicalFile> medicalFiles;
+
+    @ManyToMany(mappedBy = "favoriteDogs",fetch = FetchType.LAZY)
+    private Set<User> favoritedByUsers = new HashSet<>();
+
 
 }

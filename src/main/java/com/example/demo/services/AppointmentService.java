@@ -75,7 +75,7 @@ public class AppointmentService {
         appointment.setStatus("confirmed");
         appointment.setShelterName(shelter.getName());
         appointmentRepository.save(appointment);
-        sendAppointmentEmail(user.getEmail(), appointment);
+        //sendAppointmentEmail(user.getEmail(), appointment);
         try {
             return MapperUtil.toAppointmentDTO(appointment);
         } catch (IllegalArgumentException ex) {

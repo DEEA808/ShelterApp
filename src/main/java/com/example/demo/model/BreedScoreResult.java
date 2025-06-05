@@ -12,4 +12,5 @@ import lombok.Setter;
 public class BreedScoreResult {
     private BreedProfile breedProfile;
     private double compatibiltyPercent;
+    private String image;
 }
