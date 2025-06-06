@@ -13,7 +13,9 @@ const AddDogPage: React.FC = () => {
     const [gender, setGender] = useState<string | null>(null);
     const [size, setSize] = useState<string | null>(null);
     const [color, setColor] = useState<string | null>(null);
-    const [image, setImage] = useState<string | null>(null);
+    const [image1, setImage1] = useState<string | null>(null);
+    const [image2, setImage2] = useState<string | null>(null);
+    const [image3, setImage3] = useState<string | null>(null);
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { selectedShelterId } = useShelter();
@@ -39,7 +41,7 @@ const AddDogPage: React.FC = () => {
                 const cleanedBase64 = base64String.split(",")[1];
                 console.log("Cleaned Base64:", cleanedBase64.substring(0, 100));
 
-                setImage(cleanedBase64);
+                setImage1(cleanedBase64);
                 setSelectedFile(file);
             } catch (error) {
                 console.error("Error converting image to Base64:", error);
@@ -58,6 +60,22 @@ const AddDogPage: React.FC = () => {
         }
 
         setUploading(true);
+        console.log({
+            name,
+            breed,
+            description,
+            age,
+            story,
+            gender,
+            size,
+            color,
+            image1: image1 ?? "",
+            image2: image2 ?? "",
+            image3: image3 ?? "",
+            shelterName: "",
+            selectedShelterId,
+        });
+
         try {
             await axios.post(`http://localhost:8005/dogs/add/${selectedShelterId}`, {
                 name,
@@ -68,9 +86,11 @@ const AddDogPage: React.FC = () => {
                 gender,
                 size,
                 color,
-                image,
-                shelterName:"",
-                shelterCity:""
+                image1: image1,
+                image2,
+                image3,
+                shelterName: "",
+                shelterCity: ""
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,

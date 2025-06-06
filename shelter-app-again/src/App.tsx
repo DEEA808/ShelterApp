@@ -16,6 +16,8 @@ import ShelterAppointmentPage from "./pages/ShelterAppointmentPage";
 import MedicalFilesPage from "./pages/MedicalFilesPage";
 import NewFormPage from "./pages/NewFormPage";
 import TraitPage from "./pages/TraitPage";
+import LanguageSwitcher from './utils/LanguageSwitcher';
+import FavoritesPage from "./pages/FavoritesPage";
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
         <Route path="/trait-detail/:trait" element={<TraitPage/>}/>
         <Route path="/topBreeds" element={<TopBreedsPage />} />
         <Route path="/breeds/:breedName" element={<DogsWithSameBreedPage/>}/>
+        <Route path="/favorites" element={<FavoritesPage/>}/>
       </Routes>
     </Router>
   );

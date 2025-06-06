@@ -17,6 +17,8 @@ import {
     IconButton,
     Box
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../utils/LanguageSwitcher";
 
 
 interface Appointment {
@@ -37,6 +39,7 @@ interface Appointment {
 const AppointmentPage: React.FC = () => {
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -103,12 +106,14 @@ const AppointmentPage: React.FC = () => {
                 }}
             />
             {/* Back Button */}
-            <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
-                <ArrowBackIcon />
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2,marginLeft:"-15px" }}>
+                <Button onClick={() => navigate(-1)} sx={{ fontSize: 18, color: "black", fontWeight: "bold" }}>
+                    ←
+                </Button>
+            </Box>
 
             {/* Title */}
-            <Typography fontFamily="serif" variant="h6" fontWeight="bold" color="black" gutterBottom>
+            <Typography  variant="h6" fontWeight="bold" color="black" marginLeft={0.5} gutterBottom>
                 Appointments
             </Typography>
 
@@ -117,8 +122,8 @@ const AppointmentPage: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Dog’s Name</TableCell>
-                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Shelter’s Name</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Dog's name</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Shelter's name</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Date</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Time</TableCell>
                             <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>Price</TableCell>
@@ -156,7 +161,7 @@ const AppointmentPage: React.FC = () => {
                                                 }
                                             }}
                                         >
-                                            Cancel
+                                          Cancel
                                         </Button>
                                     )}
                                 </TableCell>

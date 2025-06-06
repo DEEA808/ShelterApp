@@ -8,7 +8,7 @@ export interface Dog{
     gender:string,
     size:string,
     color:string,
-    image:string,
+    image1:string,
     shelterName:string
     shelterCity:string
 }

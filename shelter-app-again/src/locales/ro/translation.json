@@ -1,0 +1,110 @@
+{
+  "dogProfile": {
+    "searchPlaceholder": "Caută caini...",
+    "breed": "Rasă",
+    "description": "Descriere",
+    "story": "Poveste",
+    "gender": "Gen",
+    "age": "Vârstă",
+    "size": "Mărime",
+    "color": "Culoare",
+    "shelterName": "Numele adăpostului",
+    "shelterCity": "Orașul adăpostului",
+    "meet": "Cunoaște-l pe {{name}}!",
+    "medicalFiles": "Fișele medicale ale câinelui",
+    "loading": "Se încarcă...",
+    "noDogFound": "Niciun câine găsit.",
+    "noImage": "Fără imagine",
+    "months": "luni",
+    "filterAge": "Varsta",
+    "puppy": "Pui",
+    "adult": "Adult",
+    "addDog": "Adaugă un caine",
+    "uploadDogs": "Incarca cainii",
+    "adopt": "ADOPTA-MA",
+    "sureDelete": "Esti sigur ca vrei sa stergi acest caine?Aceasta actiune nu poate fi schimbata",
+    "delete": "Sterge",
+    "confirm": "Confirma Stergerea",
+    "cancel": "Anuleaza",
+    "find": "Gaseste cainele perfect pentru tine",
+    "noDogs": "Nu a fost gasit niciun caine",
+    "colorSearch": "Filtrează după culoare...",
+    "back": "Inapoi la pagina principala",
+    "med": "Adauga un document",
+    "open": "Deschide",
+    "medFiles": "Fisiere medicale",
+    "content": "Continutul fisierului",
+    "fName": "Numele fisierului",
+    "apps":"Programări",
+    "dogName":"Nume caine",
+    "sheltName":"Nume adapost",
+    "date":"Data",
+    "time":"Ora",
+    "price":"Pret",
+    "confirmed":"confirmata"
+  },
+  "colorValues": {
+    "black": "Negru",
+    "white": "Alb",
+    "brown": "Maro",
+    "golden": "Auriu",
+    "cream": "Crem",
+    "gray": "Gri",
+    "tan": "Bej",
+    "red": "Roșu",
+    "brindle": "Tigrat",
+    "merle": "Marmoră",
+    "blue": "Albastru"
+  },
+  "genderValues": {
+    "Male": "Mascul",
+    "Female": "Femelă"
+  },
+  "sizeValues": {
+    "Small": "Mic",
+    "Medium": "Mediu",
+    "Large": "Mare"
+  },
+  "descr": {
+    "Max is a sweet and loyal dog.": "Max este un câine dulce și loial."
+  },
+  "story": {
+    "Max was rescued and is looking for a loving home.": "Max a fost salvat și caută o casă iubitoare."
+  },
+  "shelterPage": {
+    "searchPlaceholder": "Caută adăposturi...",
+    "locationPlaceholder": "Filtrează după locație...",
+    "filterAll": "Toate",
+    "filterShelter": "Adăpost",
+    "filterKennel": "Canisă",
+    "checkDetails": "Vezi detalii despre adăpost",
+    "myAppointments": "Programările mele",
+    "noShelters": "Nu s-au găsit adăposturi",
+    "addShelter": "Adaugă adăpostul tău",
+    "type": "Tip",
+    "apps":"Programările adapostului"
+  },
+  "availableDogs": "Câini disponibili: {{count}}",
+  "common": {
+    "logout": "Deconectare"
+  },
+  "traitPage": {
+  "preferences": "✓ Preferințe",
+  "enterEmail": "Introdu adresa de email...",
+  "submit": "Trimite",
+  "invalidEmail": "Te rugăm să introduci o adresă de email validă.",
+  "authError": "Eroare de autentificare: Te rugăm să te conectezi.",
+  "submissionError": "Ceva nu a funcționat. Verifică consola."
+},
+"traits": {
+  "Intelligence": "Inteligență",
+  "Hygiene": "Igienă",
+  "Adaptability": "Adaptabilitate",
+  "Energy": "Energie",
+  "Longevity": "Longevitate",
+  "Size": "Mărime",
+  "FoodCost": "Cost cu hrana",
+  "Friendliness": "Prietenie"
+}
+
+}

@@ -9,6 +9,9 @@ import { useShelter } from "../utils/ShelterContext";
 import { getRolesFromToken } from "../utils/Auth";
 import logo from "../assets/app_logo-removebg.png"
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import LanguageSwitcher from "../utils/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
+import StarIcon from '@mui/icons-material/Star';
 
 
 const SheltersPage: React.FC = () => {
@@ -22,6 +25,7 @@ const SheltersPage: React.FC = () => {
   const [filterType, setFilterType] = useState<string>("All");
   const [filterLocation, setFilterLocation] = useState<string>("");
   const { selectedShelterId, setSelectedShelterId } = useShelter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios
@@ -99,9 +103,23 @@ const SheltersPage: React.FC = () => {
     <div className="shelter-page">
       <div className="sidebar">
         <button className="back-button" onClick={() => navigate("/login")}>←</button>
+
         <img src={logo} className="logo" alt="Logo" />
+        {userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length != 0) && (
+        <div className="welcome-section" style={{ padding: "20px", color: "#333", lineHeight: 1.5 }}>
+          <h3 style={{marginLeft:"10px",marginTop:"269px", marginBottom: "2px", fontSize: "20px", color: "#b46052" }}>Welcome!</h3>
+          <p style={{fontSize: "14px"}}>We're happy to see you exploring our shelters and kennels.</p>
+          <p style={{fontSize: "14px"}}>If you need help, feel free to reach out:</p>
+          <p style={{fontSize: "14px"}}><strong>Phone:</strong> 0741 123 456</p>
+          <p style={{fontSize: "14px"}}><strong>Email:</strong> help@adoptdog.ro</p>
+        </div>)}
         <div className="logout-button"><Logout /></div>
-        {(userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length === 0)) && (<button className="add-button" onClick={handleAddButtonClick}>Add your shelter</button>)}
+        {userRoles.includes("ROLE_ADMIN") && (!myShelter || Object.keys(myShelter).length === 0) && (
+          <button className="add-button" onClick={handleAddButtonClick}>
+            Add your shelter/kennel
+          </button>
+        )}
+
       </div>
 
       {/* Search Bar */}
@@ -117,7 +135,7 @@ const SheltersPage: React.FC = () => {
         <input
           type="text"
           className="search-location"
-          placeholder="Filter by location..."
+          placeholder="Search by location"
           value={filterLocation}
           onChange={(e) => setFilterLocation(e.target.value)}
           style={{ marginLeft: "10px" }}
@@ -137,9 +155,9 @@ const SheltersPage: React.FC = () => {
             }}
             renderValue={(selected) => {
               if (!selected || selected === "All") {
-                return <span style={{ color: "black" }}>Type</span>; // 👈 custom placeholder color
+                return <span style={{ color: "black" }}>Type</span>;
               }
-              return selected;
+              return t(`shelterPage.filter${selected}`);
             }}
           >
             <MenuItem value="All">All</MenuItem>
@@ -148,29 +166,95 @@ const SheltersPage: React.FC = () => {
           </Select>
         </FormControl>
 
-
-
+        <StarIcon
+          onClick={() => navigate("/favorites")}
+          sx={{
+            position: "absolute",
+            top: 10, // adjust as needed
+            left: 590,
+            cursor: "pointer",
+            color: "gold",
+            fontSize: 30,
+            zIndex: 3
+          }}
+        />
       </div>
 
       {/* Shelter Grid */}
       <div className="shelter-grid">
         {filterByLocation.length > 0 ? (
           filterByLocation.map((shelter) => {
-            const imageType: "png" | "jpeg" = shelter.image.includes("/9j/") ? "jpeg" : "png";
-            const imageSrc = shelter.image ? addDataUrlPrefix(shelter.image, imageType) : null;
+            const imageType: "png" | "jpeg" = shelter.image1.includes("/9j/") ? "jpeg" : "png";
+            const imageSrc = shelter.image1 ? addDataUrlPrefix(shelter.image1, imageType) : null;
 
             return (
               <div
                 key={shelter.id}
                 className="shelter-card"
-                style={{ cursor: "pointer" }}
+                style={{ position: "relative", cursor: "pointer" }}
               >
-                {imageSrc && <img key={shelter.id} src={imageSrc} alt={shelter.name} className="shelter-image" onClick={() => handleShelterImageClick(shelter.id)} />}
-                <h3 onClick={() => handleShelterClick(shelter.id)}>{shelter.name}</h3>
-                <h5>{shelter.type}</h5>
-                <p>Available Dogs: {shelter.availableDogs}</p>
+
+                {imageSrc && (
+                  <img
+                    src={imageSrc}
+                    alt={shelter.name}
+                    className="shelter-image"
+                    onClick={() => handleShelterImageClick(shelter.id)}
+                  />
+                )}
+                <h3>{shelter.name}</h3>
+                <h5 style={{ marginTop: "-5px" }}>{shelter.type}</h5>
+                <p style={{ marginTop: "-10px" }}>Available dogs:{shelter.availableDogs}</p>
+
+                {/* Arrow and Message in top-left corner */}
+                <div
+
+                  style={{
+                    position: "absolute",
+                    top: "200px",
+                    left: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+
+                    padding: "4px 8px",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    zIndex: 1,
+                  }}
+                >
+                  <span style={{ fontSize: "18px" }}>{/* Arrow and Message in top-left corner */}
+                    <div
+                      className="shelter-detail-link"
+                      onClick={() => handleShelterClick(shelter.id)}
+                      style={{
+                        position: "absolute",
+                        top: "20px",
+                        left: "10px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        backgroundColor: '#f8f8f8',
+                        // padding: "14px 16px",            // Increased padding
+                        borderRadius: "10px",           // Slightly more rounded
+                        cursor: "pointer",
+                        zIndex: 1,
+                        fontWeight: "bold",             // Makes text and arrow bolder
+                        minWidth: "130px",              // Forces a longer appearance
+
+                      }}
+
+                    >
+                      <span style={{ fontSize: "10px" }}>Check shelter's details</span>
+                      <span style={{ fontSize: "18px" }}>→</span>
+                    </div></span>
+
+                </div>
+
               </div>
+
             );
+
           })
         ) : (
           <p>No shelters found</p>

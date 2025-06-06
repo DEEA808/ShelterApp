@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useShelter } from "./ShelterContext";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface CSVUploadProperties{
     onSuccessUpl:()=>void;
@@ -12,6 +13,7 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
     const [status,setStatus]=useState<string |null>(null);
     const {selectedShelterId}=useShelter();
     const navigate=useNavigate();
+    const { t } = useTranslation();
 
     const handleFileChange=(event:React.ChangeEvent<HTMLInputElement>)=>{
         if(event.target.files && event.target.files.length>0){
@@ -78,7 +80,7 @@ const CsvUploader:React.FC<CSVUploadProperties>=({onSuccessUpl})=>{
       
             {/* Upload Button */}
             <button onClick={handleUpload} style={{ fontSize: "13px", width: "110px" }}>
-              Upload Dogs
+              Upload dogs
             </button>
           </div>
       

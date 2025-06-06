@@ -139,9 +139,9 @@
     /* Align items vertically */
     justify-content: space-between;
     /* Ensures spacing */
-    margin-top: 60px;
-    margin-right: 40px;
-    margin-left: 1154px;
+    margin-top: -10px;
+    margin-right: 60px;
+    margin-left: 1150px;
   
   }
 

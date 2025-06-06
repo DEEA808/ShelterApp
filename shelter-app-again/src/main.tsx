@@ -4,6 +4,7 @@ import './index.css'
 import App from './App.tsx'
 import { ShelterProvider } from './utils/ShelterContext.tsx'
 import { PreferencesProvider } from './utils/PreferencesContext.tsx'
+import './i18n';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

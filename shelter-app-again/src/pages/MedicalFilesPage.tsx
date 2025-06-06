@@ -20,6 +20,8 @@ import {
 import { getRolesFromToken } from "../utils/Auth";
 import { useShelter } from "../utils/ShelterContext";
 import { fetchShelterDetails } from "../utils/ShelterUtils";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../utils/LanguageSwitcher";
 
 
 interface MedicalFile {
@@ -39,6 +41,7 @@ const MedicalFilesPage: React.FC = () => {
     const { selectedShelterId, setSelectedShelterId } = useShelter();
     const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
     const [uploadMessage, setUploadMessage] = useState<string | null>(null);
+    const { t } = useTranslation();
 
     console.log(userShelterId);
     console.log(selectedShelterId);
@@ -125,7 +128,7 @@ const MedicalFilesPage: React.FC = () => {
                 alt="Logo"
                 sx={{
                     position: "absolute",
-                    top: -5,
+                    top: 10,
                     right: 20,
                     width: "100px",
                     height: "auto",
@@ -134,16 +137,17 @@ const MedicalFilesPage: React.FC = () => {
                     borderRadius: 0        // no rounding if you want it completely sharp
                 }}
             />
-            {/* Back Button */}
-            <IconButton onClick={() => navigate(-1)} sx={{ mb: 2 }}>
-                <ArrowBackIcon />
-            </IconButton>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                <Button onClick={() => navigate(-1)} sx={{ fontSize: 18, color: "black", fontWeight: "bold" }}>
+                    ←
+                </Button>
+            </Box>
 
             {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
                 <div
                     style={{
                         marginRight: "10px",
-                        marginTop: "0px",
+                        marginTop: "23px",
                         marginLeft: "1150px",
                         display: "flex",
                         flexDirection: "column", // 👈 makes elements stack vertically
@@ -172,7 +176,7 @@ const MedicalFilesPage: React.FC = () => {
                         }}
                         onClick={handleFileUpload}
                     >
-                        Upload Medical Files
+                        Medical files
                     </Button>
 
                     {uploadMessage && (
@@ -191,8 +195,8 @@ const MedicalFilesPage: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>File’s Name</TableCell>
-                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>File’s content</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>File's name</TableCell>
+                            <TableCell sx={{ fontWeight: "bold", fontSize: "16px" }}>File's content</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>

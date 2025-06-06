@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -26,8 +26,10 @@ const traits = [
 const TraitSelectionPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { preferences, updatePreferences } = usePreferences(); // global preferences
+  const { preferences, updatePreferences } = usePreferences();
   const navigate = useNavigate();
+  
+
 
   const handleTraitClick = (trait: string) => {
     navigate(`/trait-detail/${trait}`);
@@ -35,28 +37,10 @@ const TraitSelectionPage: React.FC = () => {
 
   const weightMapping: Record<string, number> = {
     "I don't care": 0,
-    "Not important": 1,
-    "Important": 2,
-    "Really important": 3,
+    'Not important': 1,
+    'Important': 2,
+    'Really important': 3,
   };
-
-  const scoreMapping: Record<string, number> = {
-    "Very Low": 1,
-    "Low": 2,
-    "Moderate": 3,
-    "High": 4,
-    "Very High": 5,
-  };
-
-  const reversedScoreMapping: Record<string, number> = {
-    "Very Low": 5,
-    "Low": 4,
-    "Moderate": 3,
-    "High": 2,
-    "Very High": 1,
-  };
-
-  const reversedKeys = new Set(["sheddingLevel", "droolingLevel", "barkingLevel", "foodCost"]);
 
   const handleSubmit = async () => {
     const backendData: Record<string, string | number> = {};
@@ -68,37 +52,25 @@ const TraitSelectionPage: React.FC = () => {
 
     const expectedKeys = [
       'size',
-      'intelligenceWeight', 'trainabilityLevel', 'mentalSimulationNeeds',
-
-      'hygieneWeight', 'sheddingLevel', 'droolingLevel',
-      'friendlinessWeight', 'affectionateWithFamily', 'opennessToStrangers', 'playfulnessLevel',
-      'adaptabilityWeight', 'goodWithOtherDogs', 'goodWithChildren'
-      , 'energyWeight', 'energyLevel', 'barkingLevel'
-      , 'popularityWeight', 'popularity',
-      'lengevityWeight',
-      'longevity', 'foodCostWeight', 'foodCost'
+      'trainabilityLevel', 'trainabilityWeight',
+      'mentalSimulationNeeds', 'mentalSimulationNeedsWeight',
+      'sheddingLevel', 'sheddingWeight',
+      'droolingLevel', 'droolingWeight',
+      'affectionateWithFamily', 'affectionateWithFamilyWeight',
+      'opennessToStrangers', 'opennessToStrangersWeight',
+      'playfulnessLevel', 'playfulnessWeight',
+      'goodWithOtherDogs', 'goodWithOtherDogsWeight',
+      'goodWithChildren', 'goodWithChildrenWeight',
+      'energyLevel', 'energyWeight',
+      'barkingLevel', 'barkingWeight',
+      'longevity', 'longevityWeight',
+      'foodCost', 'foodCostWeight',
+      'popularity', 'popularityWeight'
     ];
-
-
 
     for (const key of expectedKeys) {
       const value = preferences[key];
-
-      if (typeof value === 'string') {
-        if (weightMapping[value] !== undefined) {
-          backendData[key] = weightMapping[value];
-        } else if (scoreMapping[value] !== undefined) {
-          backendData[key] = reversedKeys.has(key)
-            ? reversedScoreMapping[value]
-            : scoreMapping[value];
-        } else {
-          backendData[key] = value; // likely "size"
-        }
-      } else if (typeof value === 'number') {
-        backendData[key] = value;
-      } else {
-        backendData[key] = 0; // default fallback
-      }
+      backendData[key] = typeof value === 'number' || typeof value === 'string' ? value : 0;
     }
 
     const token = localStorage.getItem('token');
@@ -108,7 +80,6 @@ const TraitSelectionPage: React.FC = () => {
     }
 
     try {
-      console.log(backendData)
       const matchResponse = await axios.post(
         'http://localhost:8005/dogs/perfectMatch',
         backendData,
@@ -121,24 +92,29 @@ const TraitSelectionPage: React.FC = () => {
       );
 
       const matchResults = matchResponse.data;
-      console.log(matchResponse.data)
-      await axios.post(
-        `http://localhost:8005/dogs/preferencesAndResults/${email}`,
-        {
-          preferences: backendData,
-          results: matchResults,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+
+      /* await axios.post(
+         `http://localhost:8005/dogs/preferencesAndResults/${email}`,
+         {
+           preferences: backendData,
+           results: matchResults,
+         },
+         {
+           headers: {
+             Authorization: `Bearer ${token}`,
+             'Content-Type': 'application/json',
+           },
+         }
+       );*/
+
+      //navigate('/topBreeds', { state: { topBreeds: matchResults } });
+      navigate('/topBreeds', {
+        state: {
+          topBreeds: matchResults,
+          email,
+          rawPreferences: backendData
         }
-      );
-
-      console.log(matchResponse.data)
-      navigate('/topBreeds', { state: { topBreeds: matchResponse.data } });
-
+      });
     } catch (err) {
       console.error('❌ Submission failed:', err);
       setError('Something went wrong. Check the console.');
@@ -147,116 +123,74 @@ const TraitSelectionPage: React.FC = () => {
 
   const tagLabelMap: Record<string, Record<number | string, string>> = {
     trainabilityLevel: {
-      1: 'Not easily trainable',
-      2: 'Somewhat trainable',
-      3: 'Moderately trainable',
-      4: 'Trainable',
-      5: 'Easily trainable'
+      1: 'Not easily trainable', 2: 'Somewhat trainable', 3: 'Moderately trainable', 4: 'Trainable', 5: 'Easily trainable'
     },
     mentalSimulationNeeds: {
-      1: 'Home alone 8+ hrs', 2: 'Home alone 5–8 hrs', 3: 'Home alone 3–5 hrs', 4: 'Home alone 1–3 hrs', 5: 'Rarely home alone',
+      0: 'Does not matter', 1: 'Home alone 8+ hrs', 2: 'Home alone 5–8 hrs', 3: 'Home alone 3–5 hrs', 4: 'Home alone 1–3 hrs', 5: 'Rarely home alone',
     },
     sheddingLevel: {
-      1: 'Very heavy shedding', 2: 'Heavy shedding', 3: 'Moderate shedding', 4: 'Light shedding', 5: 'Minimal shedding'
+      0: 'Does not matter', 1: 'Very heavy shedding', 2: 'Heavy shedding', 3: 'Moderate shedding', 4: 'Light shedding', 5: 'Minimal shedding'
     },
     droolingLevel: {
-      1: 'Heavy drooler', 2: 'Frequent drool', 3: 'Some drool', 4: 'Occasional drool', 5: 'Minimal drool'
+      0: 'Does not matter', 1: 'Heavy drooler', 2: 'Frequent drool', 3: 'Some drool', 4: 'Occasional drool', 5: 'Minimal drool'
     },
     barkingLevel: {
-      1: 'Very vocal', 2: 'Quite vocal', 3: 'Moderate barking', 4: 'Mostly quiet', 5: 'Very quiet'
+      0: 'Does not matter', 1: 'Very vocal', 2: 'Quite vocal', 3: 'Moderate barking', 4: 'Mostly quiet', 5: 'Very quiet'
     },
     affectionateWithFamily: {
-      1: 'Independent', 2: 'Slightly affectionate with family', 3: 'Moderately affectionate with family', 4: 'Very affectionate with family', 5: 'Extremely affectionate with family'
+      0: 'Does not matter', 1: 'Independent', 2: 'Slightly affectionate', 3: 'Moderately affectionate', 4: 'Very affectionate', 5: 'Extremely affectionate'
     },
     opennessToStrangers: {
-      1: 'Reserved with strangers', 2: 'Cautious with strangers', 3: 'Neutral with strangers', 4: 'Friendly with strangers', 5: 'Very outgoing with strangers'
+      0: 'Does not matter', 1: 'Reserved', 2: 'Cautious', 3: 'Neutral', 4: 'Friendly', 5: 'Very outgoing'
     },
     playfulnessLevel: {
-      1: 'Not playful', 2: 'Somewhat playful', 3: 'Moderately playful', 4: 'Playful', 5: 'Very playful'
+      0: 'Does not matter', 1: 'Not playful', 2: 'Somewhat playful', 3: 'Moderately playful', 4: 'Playful', 5: 'Very playful'
     },
     goodWithChildren: {
-      1: 'Not good with kids', 2: 'Not usually good with kids', 3: 'Sometimes good with kids', 4: 'Usually good with kids', 5: 'Great with kids'
+      0: 'Does not matter', 1: 'Not good', 2: 'Rarely good', 3: 'Sometimes good', 4: 'Usually good', 5: 'Great with kids'
     },
     goodWithOtherDogs: {
-      1: 'Not social with other dogs', 2: 'Rarely social with other dogs', 3: 'Sometimes social with other dogs', 4: 'Good with dogs', 5: 'Great with dogs'
+      0: 'Does not matter', 1: 'Not social', 2: 'Rarely social', 3: 'Sometimes social', 4: 'Good with dogs', 5: 'Great with dogs'
     },
     energyLevel: {
-      1: 'Very calm', 2: 'Calm', 3: 'Moderate energy', 4: 'Active', 5: 'Very energetic'
+      0: 'Does not matter', 1: 'Very calm', 2: 'Calm', 3: 'Moderate', 4: 'Active', 5: 'Very energetic'
     },
     size: {
       "doesn't matter": 'Any size', 'small': 'Small', 'medium': 'Medium', 'large': 'Large'
     },
     foodCost: {
-      1: 'Very high food cost', 2: 'High food cost', 3: 'Moderate food cost', 4: 'Low food cost', 5: 'Very low food cost'
+      0: 'Does not matter', 1: 'Very high', 2: 'High', 3: 'Moderate', 4: 'Low', 5: 'Very low'
     },
     longevity: {
-      1: '<9 years of life', 2: '9–12 years of life', 3: '>12 years of life'
+      0: 'Does not matter', 1: '<9 years', 2: '9–12 years', 3: '>12 years'
     },
   };
 
-  const preferenceChips = Object.entries(preferences)
-  .map(([key, value]) => {
-    if (typeof value === 'number') {
-      const label = tagLabelMap[key]?.[value];
-      return label ? { key, label } : null;
-    }
-
-    if (key === 'size' && typeof value === 'string') {
-      const normalized = value.toLowerCase();
-      const label = tagLabelMap[key]?.[normalized];
-      return label ? { key, label } : null;
-    }
-
-    return null;
-  })
-  .filter((chip): chip is { key: string; label: string } => chip !== null);
-
-
+  var preferenceChips = Object.entries(preferences)
+    .filter(([_, value]) => value !== '' && value !== 0)
+    .map(([key, value]) => {
+      if (typeof value === 'number') {
+        const label = tagLabelMap[key]?.[value];
+        return label ? { key, label } : null;
+      }
+      if (key === 'size' && typeof value === 'string') {
+        const normalized = value.toLowerCase();
+        const label = tagLabelMap[key]?.[normalized];
+        return label ? { key, label } : null;
+      }
+      return null;
+    })
+    .filter((chip): chip is { key: string; label: string } => chip !== null);
 
   const handleRemove = (keyToRemove: string) => {
     const updated = { ...preferences };
-
-    // Reset numeric traits to 0 (neutral)
     updated[keyToRemove] = typeof updated[keyToRemove] === 'number' ? 0 : '';
-
-    // Also reset associated weight if it's a known trait group
-    const traitWeights: Record<string, string> = {
-      trainabilityLevel: 'intelligenceWeight',
-      mentalSimulationNeeds: 'intelligenceWeight',
-      sheddingLevel: 'hygieneWeight',
-      droolingLevel: 'hygieneWeight',
-      barkingLevel: 'energyWeight',
-      energyLevel: 'energyWeight',
-      affectionateWithFamily: 'friendlinessWeight',
-      opennessToStrangers: 'friendlinessWeight',
-      playfulnessLevel: 'friendlinessWeight',
-      goodWithChildren: 'adaptabilityWeight',
-      goodWithOtherDogs: 'adaptabilityWeight',
-      foodCost: 'foodCostWeight',
-      longevity: 'lengevityWeight'
-    };
-
-    const weightKey = traitWeights[keyToRemove];
-    if (weightKey) {
-      updated[weightKey] = 0;
-    }
-
     updatePreferences(updated);
   };
 
-
   return (
-    <Box
-      sx={{
-        backgroundColor: '#dcc5a4',
-        maxHeight: '89.6vh',
-        padding: '40px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2, justifyContent: 'center' }}>
+    <Box sx={{ backgroundColor: '#dcc5a4', maxHeight: '89.6vh', padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3.5, justifyContent: 'center' }}>
         <Chip label="✓ Preferences" sx={{ backgroundColor: '#2d2d2d', color: 'white' }} />
         {preferenceChips.map((chip) => (
           <Chip
@@ -264,11 +198,7 @@ const TraitSelectionPage: React.FC = () => {
             label={chip.label}
             onDelete={() => handleRemove(chip.key)}
             deleteIcon={<CloseIcon sx={{ color: 'white' }} />}
-            sx={{
-              backgroundColor: '#2d2d2d',
-              color: 'white',
-              '& .MuiChip-deleteIcon': { color: 'white' }
-            }}
+            sx={{ backgroundColor: '#2d2d2d', color: 'white', '& .MuiChip-deleteIcon': { color: 'white' } }}
           />
         ))}
       </Box>
@@ -300,14 +230,7 @@ const TraitSelectionPage: React.FC = () => {
         ))}
       </Grid>
 
-      <Box
-        sx={{
-          marginRight: '232px',
-          marginTop: '40px',
-          gap: 2,
-          width: '900px',
-        }}
-      >
+      <Box sx={{ marginRight: '232px', marginTop: '40px', gap: 2, width: '900px' }}>
         <input
           type="email"
           placeholder="Enter your email..."

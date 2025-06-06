@@ -1,0 +1,109 @@
+{
+    "dogProfile": {
+        "searchPlaceholder": "Search dogs...",
+        "breed": "Breed",
+        "description": "Description",
+        "story": "Story",
+        "gender": "Gender",
+        "age": "Age",
+        "size": "Size",
+        "color": "Color",
+        "shelterName": "Shelter's name",
+        "shelterCity": "Shelter's city",
+        "meet": "Meet {{name}}!",
+        "medicalFiles": "Dog's medical files",
+        "loading": "Loading...",
+        "noDogFound": "No dog found.",
+        "noImage": "No image",
+        "months": "months",
+        "filterAge": "Age",
+        "puppy": "Puppy",
+        "adult": "Adult",
+        "addDog": "Add one dog",
+        "uploadDogs": "Upload dogs",
+        "adopt": "ADOPT ME",
+        "sureDelete": "Are you sure you want to delete this dog? This action cannot be undone.",
+        "delete": "Delete",
+        "confirm": "Confirm Deletion",
+        "cancel": "Cancel",
+        "find": "Find your perfect dog",
+        "noDogs": "No dogs found",
+        "colorSearch": "Search by color...",
+        "back": "Back to main page",
+        "med": "Upload Medical Files",
+        "open": "Open",
+        "medFiles": "Medical Files",
+        "content": "File's content",
+        "fName": "File's name",
+        "apps": "Appointments",
+        "dogName": "Dog's name",
+        "sheltName": "Shelter's name",
+        "date": "Date",
+        "time": "Time",
+        "price": "Price",
+        "confirmed": "confirmed"
+    },
+    "colorValues": {
+        "Black": "Black",
+        "White": "White",
+        "Brown": "Brown",
+        "Golden": "Golden",
+        "Cream": "Cream",
+        "Gray": "Gray",
+        "Tan": "Tan",
+        "Red": "Red",
+        "Brindle": "Brindle",
+        "Merle": "Merle",
+        "Blue": "Blue"
+    },
+    "genderValues": {
+        "Male": "Male",
+        "Female": "Female"
+    },
+    "sizeValues": {
+        "Small": "Small",
+        "Medium": "Medium",
+        "Large": "Large"
+    },
+    "descr": {
+        "Max is a sweet and loyal dog.": "Max is a sweet and loyal dog."
+    },
+    "story": {
+        "Max was rescued and is looking for a loving home.": "Max was rescued and is looking for a loving home."
+    },
+    "shelterPage": {
+        "searchPlaceholder": "Search shelters...",
+        "locationPlaceholder": "Filter by location...",
+        "filterAll": "All",
+        "filterShelter": "Shelter",
+        "filterKennel": "Kennel",
+        "checkDetails": "Check shelter's details",
+        "myAppointments": "My Appointments",
+        "noShelters": "No shelters found",
+        "addShelter": "Add your shelter",
+        "type": "Type",
+        "apps": "Shelter's Appointments"
+    },
+    "availableDogs": "Available Dogs: {{count}}",
+    "common": {
+        "logout": "Logout"
+    },
+    "traitPage": {
+        "preferences": "✓ Preferences",
+        "enterEmail": "Enter your email...",
+        "submit": "Submit",
+        "invalidEmail": "Please enter a valid email address.",
+        "authError": "Authentication error: Please log in.",
+        "submissionError": "Something went wrong. Check the console."
+    },
+    "traits": {
+        "Intelligence": "Intelligence",
+        "Hygiene": "Hygiene",
+        "Adaptability": "Adaptability",
+        "Energy": "Energy",
+        "Longevity": "Longevity",
+        "Size": "Size",
+        "FoodCost": "Food Cost",
+        "Friendliness": "Friendliness"
+    }
+}

@@ -11,6 +11,7 @@ export interface Shelter {
     availableDogs:number,
     phoneNumber:string,
     email:string,
-    image:string,
+    image1:string,
+    image2:string,
     dogs:Dog[]
 }

@@ -10,7 +10,8 @@ const AddShelterPage: React.FC = () => {
     const [address, setAddress] = useState<string | null>(null);
     const [phoneNumber, setPhone] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
-    const [image, setImage] = useState<string | null>(null);
+    const [image1, setImage1] = useState<string | null>(null);
+    const [image2, setImage2] = useState<string | null>(null);
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ const AddShelterPage: React.FC = () => {
         });
     };
 
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange1 = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
 
@@ -35,7 +36,25 @@ const AddShelterPage: React.FC = () => {
                 const cleanedBase64 = base64String.split(",")[1]; 
                 console.log("Cleaned Base64:", cleanedBase64.substring(0, 100)); 
 
-                setImage(cleanedBase64); 
+                setImage1(cleanedBase64); 
+                setSelectedFile(file);
+            } catch (error) {
+                console.error("Error converting image to Base64:", error);
+                setError("Failed to process image.");
+            }
+        }
+    };
+
+    const handleFileChange2 = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+
+            try {
+                const base64String = await convertToBase64(file);
+                const cleanedBase64 = base64String.split(",")[1]; 
+                console.log("Cleaned Base64:", cleanedBase64.substring(0, 100)); 
+
+                setImage2(cleanedBase64); 
                 setSelectedFile(file);
             } catch (error) {
                 console.error("Error converting image to Base64:", error);
@@ -64,7 +83,8 @@ const AddShelterPage: React.FC = () => {
                 availableDogs:0,
                 phoneNumber,
                 email,
-                image,
+                image1,
+                image2,
                 dogs:[]
             }, {
                 headers: {
@@ -92,7 +112,8 @@ const AddShelterPage: React.FC = () => {
                 <input type="text" onChange={(e) => setPhone(e.target.value)} placeholder="Enter a phone number..." />
                 <input type="text" onChange={(e) => setEmail(e.target.value)} placeholder="Enter an email..." />
 
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+                <input type="file" accept="image/*" onChange={handleFileChange1} />
+                <input type="file" accept="image/*" onChange={handleFileChange2} />
 
                 <button className="save-button1" onClick={handleShelterAdd} disabled={uploading}>
                     {uploading ? "Saving..." : "Save Changes"}

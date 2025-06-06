@@ -12,6 +12,7 @@ import { fetchShelterById, fetchShelterDetails } from "../utils/ShelterUtils";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, MenuItem, Select, FormControl, SelectChangeEvent } from "@mui/material";
 import pawIcon from "../assets/paw.png"
 import logo from "../assets/app_logo-removebg.png"
+import StarIcon from '@mui/icons-material/Star';
 
 const DogsPage: React.FC = () => {
   const [dogs, setDogs] = useState<Dog[]>([]); // ✅ Ensure `dogs` is an array
@@ -28,12 +29,64 @@ const DogsPage: React.FC = () => {
   const [filterType, setFilterType] = useState<string>("All");
   const [filterSize, setFilterSize] = useState<string>("All");
   const [selectedShelterType, setSelectedShelterType] = useState<string | null>(null);
+  const [selectedShelterDescr, setSelectedShelterDescr] = useState<string | null>(null);
+  const [selectedShelterName, setSelectedShelterName] = useState<string | null>(null);
+  const [favoriteDogIds, setFavoriteDogIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!token) return;
+
+      try {
+        const res = await axios.get(`http://localhost:8005/users/favorites/all`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const ids = Array.isArray(res.data) ? res.data : [].map((dog: Dog) => dog.id);
+        setFavoriteDogIds(ids);
+      } catch (e) {
+        console.error("Could not fetch favorites", e);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
+
+  // Toggle favorite handler:
+  const toggleFavorite = async (dogId: number) => {
+    if (!token) return;
+
+    const isFav = favoriteDogIds.includes(dogId);
+    try {
+      if (isFav) {
+        await axios.delete(`http://localhost:8005/users/favorites/delete/${dogId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteDogIds(prev => prev.filter(id => id !== dogId));
+      } else {
+        await axios.post(`http://localhost:8005/users/favorites/add/${dogId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteDogIds(prev => [...prev, dogId]);
+      }
+    } catch (e) {
+      console.error("Error toggling favorite", e);
+    }
+  };
+
 
   useEffect(() => {
     const fetchType = async () => {
       if (selectedShelterId && token) {
         const res = await fetchShelterById(selectedShelterId, token);
-        if (res) setSelectedShelterType(res.type);
+        if (res) {
+          setSelectedShelterType(res.type);
+          setSelectedShelterDescr(res.description);
+          setSelectedShelterName(res.name);
+        }
       }
     };
     fetchType();
@@ -156,13 +209,32 @@ const DogsPage: React.FC = () => {
           ←
         </button>
         <img src={logo} className="logo" onClick={() => navigate("/shelters")} alt="Logo" />
+        {selectedShelterName && (
+          <div className="welcome-section" style={{
+            padding: "20px",
+            marginTop: "200px",
+            lineHeight: 1.5,
+            backgroundColor: "#e5ceb0",
+            borderRadius: "10px",
+            fontSize: "14px",
+            color: "#333",
+          }}>
+            <h3 style={{marginLeft:"11px", fontSize: "18px", marginBottom: "5px", color: "#b46052" }}>Welcome!</h3>
+            <p style={{ }}>
+              {selectedShelterDescr ? selectedShelterDescr : "We're happy to have you here!"}
+            </p>
+            <p>If you need help:</p>
+            <p><strong></strong> 0741 123 456</p>
+          </div>
+        )}
+
         <button className="add-button-d" onClick={handleAddButtonClickD}>Find your perfect dog
           <img src={pawIcon} className="paw-icon" alt="Paw Icon" />
         </button>
       </div>
 
       <div>
-        {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<button className="add-dog-button" onClick={handleAddDogButtonClick}>Add your dog +</button>)}
+        {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (<button className="add-dog-button" onClick={handleAddDogButtonClick}>Add one dog +</button>)}
         {/* Search Bar */}
         <div className="search-container">
           <input
@@ -223,8 +295,35 @@ const DogsPage: React.FC = () => {
               <MenuItem value="Large">Large</MenuItem>
             </Select>
           </FormControl>
-
         </div>
+        {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
+          <StarIcon
+            onClick={() => navigate("/favorites")}
+            sx={{
+              position: "absolute",
+              top: 63, // adjust as needed
+              right: 946,
+              cursor: "pointer",
+              color: "gold",
+              fontSize: 30,
+              zIndex: 3
+            }}
+          />)}
+
+        {((userShelterId != selectedShelterId)) && (
+          <StarIcon
+            onClick={() => navigate("/favorites")}
+            sx={{
+              position: "absolute",
+              top: 64, // adjust as needed
+              right: 300,
+              cursor: "pointer",
+              color: "gold",
+              fontSize: 30,
+              zIndex: 3
+            }}
+          />)}
+
         {/* ✅ CSV Upload Section */}
         {(userRoles.includes("ROLE_ADMIN") && (userShelterId == selectedShelterId)) && (
           <div className="upload">
@@ -232,20 +331,34 @@ const DogsPage: React.FC = () => {
           </div>
         )}
       </div>
-
       {/*  Grid */}
       <div className="shelter-grid">
         {filterDogsBySize.length > 0 ? (
           filterDogsBySize.map((dog) => {
-            const imageType: "png" | "jpeg" = dog.image.includes("/9j/")
+            const imageType: "png" | "jpeg" = dog.image1.includes("/9j/")
               ? "jpeg"
               : "png";
-            const imageSrc = dog.image
-              ? addDataUrlPrefix(dog.image, imageType)
+            const imageSrc = dog.image1
+              ? addDataUrlPrefix(dog.image1, imageType)
               : null;
 
             return (
               <div key={dog.id} className="shelter-card" >
+                <StarIcon
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent triggering handleDogClick
+                    toggleFavorite(dog.id);
+                  }}
+                  sx={{
+                    position: "absolute",
+                    marginTop: "-230px",
+                    marginLeft: "128px",
+                    cursor: "pointer",
+                    color: favoriteDogIds.includes(dog.id) ? "gold" : "lightgray",
+                    fontSize: 23,
+                    zIndex: 2
+                  }}
+                />
                 {imageSrc && (
                   <img key={dog.id} src={imageSrc} alt={dog.name} className="shelter-image" onClick={() => handleDogClick(dog.id)} />
                 )}
@@ -278,7 +391,7 @@ const DogsPage: React.FC = () => {
             );
           })
         ) : (
-          <p>No dogs found</p>
+          <p>No dog found</p>
         )}
       </div>
       <div className="header-container">
@@ -292,7 +405,7 @@ const DogsPage: React.FC = () => {
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
       >
-        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogTitle>Confirm deletion</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete this dog? This action cannot be undone.
