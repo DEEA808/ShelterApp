@@ -49,12 +49,13 @@ public class DogService {
         observers.add(observer);
     }
 
+    @Transactional
     public DogDTO getDogById(Long id) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
         if (optionalDog.isEmpty()) {
             throw new ResourceNotFoundException("Dog with id " + id + " not found");
         }
-        return MapperUtil.toDogDTO(optionalDog.get());
+        return MapperUtil.toDogDTOForProfile(optionalDog.get());
     }
 
     @Transactional(readOnly = true)
@@ -93,6 +94,7 @@ public class DogService {
     }
 
 
+    @Transactional
     public DogDTO updateDog(Long id, DogDTO dogDTO, Shelter shelter) {
         Optional<Dog> optionalDog = dogRepository.findById(id);
         if (optionalDog.isEmpty()) {
@@ -116,7 +118,7 @@ public class DogService {
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
             dog.setImage1(decodedImage);
         }
-        if (dogDTO.getImage2() != null) {
+       /* if (dogDTO.getImage2() != null) {
             String cleanedImage = dogDTO.getImage2().replaceAll("[\\n\\r]", "").trim();
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
@@ -127,8 +129,8 @@ public class DogService {
             byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
             System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
             dog.setImage3(decodedImage);
-        }
-        return MapperUtil.toDogDTO(dogRepository.save(dog));
+        }*/
+        return MapperUtil.toDogDTOForProfile(dogRepository.save(dog));
     }
 
     public void deleteDog(Long id, Long shelterId) {

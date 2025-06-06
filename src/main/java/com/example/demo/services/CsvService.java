@@ -89,7 +89,7 @@ public class CsvService {
                     System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
                     dog.setImage1(decodedImage);
                 }
-                if (csvRecord.get(7) != null) {
+                /*if (csvRecord.get(7) != null) {
                     String cleanedImage = csvRecord.get(7).replaceAll("[\\n\\r]", "").trim();
                     byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
                     System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
@@ -100,7 +100,7 @@ public class CsvService {
                     byte[] decodedImage = Base64.getDecoder().decode(cleanedImage);
                     System.out.println("Decoded Image Byte Array Size: " + decodedImage.length);
                     dog.setImage3(decodedImage);
-                }
+                }*/
                 dogs.add(dog);
             }
         } catch (Exception e) {

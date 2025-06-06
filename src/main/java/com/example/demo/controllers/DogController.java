@@ -8,6 +8,7 @@ import com.example.demo.exceptions.SaveInfoException;
 import com.example.demo.model.BreedScoreResult;
 import com.example.demo.model.Shelter;
 import com.example.demo.services.CsvService;
+import com.example.demo.services.DogImagesService;
 import com.example.demo.services.DogService;
 import com.example.demo.services.ShelterService;
 import com.example.demo.util.MapperUtil;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/dogs")
 @RestController
@@ -26,12 +28,14 @@ public class DogController {
     private final DogService dogService;
     private final ShelterService shelterService;
     private final CsvService csvService;
+    private final DogImagesService dogImagesService;
 
-    public DogController(DogService dogService,ShelterService shelterService,CsvService csvService) {
+    public DogController(DogService dogService, ShelterService shelterService, CsvService csvService, DogImagesService dogImagesService) {
         this.dogService = dogService;
         this.shelterService = shelterService;
         this.csvService = csvService;
 
+        this.dogImagesService = dogImagesService;
     }
 
     @GetMapping("/all")
@@ -49,13 +53,13 @@ public class DogController {
 
     @GetMapping("/byBreed/{breed}")
     public ResponseEntity<List<DogDTO>> getDogsByBreed(@PathVariable String breed) {
-        try{
-            List<DogDTO> dogs=dogService.findDogByBreed(breed);
-            if(dogs.isEmpty()){
+        try {
+            List<DogDTO> dogs = dogService.findDogByBreed(breed);
+            if (dogs.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
             }
             return ResponseEntity.status(HttpStatus.OK).body(dogs);
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
         }
     }
@@ -140,9 +144,9 @@ public class DogController {
     }
 
     @DeleteMapping("/delete/{id}/{idS}")
-    public ResponseEntity<String> deleteDog(@PathVariable Long id,@PathVariable Long idS) {
+    public ResponseEntity<String> deleteDog(@PathVariable Long id, @PathVariable Long idS) {
         try {
-            dogService.deleteDog(id,idS);
+            dogService.deleteDog(id, idS);
             //shelterService.updateAvailableAndTotalNumberOfDogs(idS, OperationType.DELETE);
             return ResponseEntity.status(HttpStatus.OK).body("Dog with id " + id + " was deleted successfully");
         } catch (ResourceNotFoundException ex) {
@@ -168,7 +172,7 @@ public class DogController {
     @PostMapping("/preferencesAndResults/{email}")
     public ResponseEntity<Object> receivePreferencesAndSendResults(@RequestBody PreferencesAndResultsDTO data, @PathVariable String email) {
         try {
-            dogService.sendResultToEmail(email,data);
+            dogService.sendResultToEmail(email, data);
             return ResponseEntity.ok("Reset password completed");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password reset email sent unsuccessfully.");
@@ -176,4 +180,23 @@ public class DogController {
             throw new RuntimeException(e);
         }
     }
+/*
+    @PostMapping("/extra-images/{id}")
+    public ResponseEntity<?> uploadExtraImages(@RequestParam("images") List<MultipartFile> images,@PathVariable Long id) {
+        dogImagesService.saveOrUpdateImages(id, images);
+        return ResponseEntity.ok().build();
+    }*/
+
+    @PostMapping("/extra-images/{id}")
+    public ResponseEntity<?> uploadExtraImage(
+            @RequestBody Map<String, Object> payload, @PathVariable Long id
+    ) {
+        String base64Image = (String) payload.get("image");
+        int position = (int) payload.get("position");
+
+        dogImagesService.saveSingleBase64Image(id, base64Image, position);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,18 +50,22 @@ public class Dog {
 
     @Lob
     @Column(name = "image")
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
+    //@Basic(fetch = FetchType.LAZY)
     private byte[] image1;
 
-    @Lob
+    /*@Lob
     @Column(name = "image_2")
-    @Basic(fetch = FetchType.LAZY)
+    //@Basic(fetch = FetchType.LAZY)
     private byte[] image2;
 
     @Lob
     @Column(name = "image_3")
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] image3;
+    //@Basic(fetch = FetchType.LAZY)
+    private byte[] image3;*/
+
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DogImage> extraImages = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "shelter_id", nullable = false)

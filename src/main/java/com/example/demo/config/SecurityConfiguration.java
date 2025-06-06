@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/appointments/**").permitAll()
                         .requestMatchers("/shelters/all").permitAll()
                         .requestMatchers("/dogs/all").permitAll()
+                        .requestMatchers("dogs/extra-images/{id}").permitAll()
                         .requestMatchers("dogs/myDogs/{id}").permitAll()
                         .requestMatchers(("/shelters/add")).hasRole("ADMIN")
                         .requestMatchers(("/shelters/delete/{id}")).hasRole("ADMIN")
